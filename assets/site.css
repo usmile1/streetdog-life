@@ -1,0 +1,63 @@
+/* streetdog.life — one stylesheet, shared by every section.
+ *
+ * Deliberately no framework and no build step. This is a personal site of a few hand-written pages;
+ * a toolchain here would be something that rots between the times anyone looks at it, and the whole
+ * point of plain CSS is that it still works in five years without being fed. */
+
+:root {
+  --ink:    #2f2a24;   /* warm near-black, not #000 — softer to read at length */
+  --paper:  #f4efe6;
+  --warm:   #8a7a5e;   /* muted secondary text */
+  --accent: #4a6b4f;   /* the green of the game's grass */
+  --rule:   #ded4c4;
+  --measure: 34rem;    /* one comfortable reading column, used everywhere */
+}
+@media (prefers-color-scheme: dark) {
+  :root { --ink: #ece5d8; --paper: #1c1a17; --warm: #a3927a; --accent: #8fb894; --rule: #35302a; }
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 17px/1.65 ui-serif, Georgia, "Times New Roman", serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap { max-width: var(--measure); margin: 0 auto; padding: 3.5rem 1.25rem 4rem; }
+
+/* Masthead — the same on every page, so a section always tells you where you are */
+.masthead { margin-bottom: 2.5rem; }
+.masthead a.home {
+  font-size: .95rem; letter-spacing: .04em; text-transform: lowercase;
+  color: var(--warm); text-decoration: none;
+}
+.masthead a.home:hover { color: var(--accent); }
+
+h1 { font-size: clamp(1.9rem, 6vw, 2.5rem); line-height: 1.2; margin: 0 0 .3rem; font-weight: 600; letter-spacing: -.01em; }
+h2 { font-size: 1.25rem; margin: 2.5rem 0 .75rem; font-weight: 600; }
+.tagline { font-size: 1.1rem; font-style: italic; color: var(--accent); margin: 0 0 1.75rem; }
+p { margin: 0 0 1.1rem; }
+.quiet { color: var(--warm); font-size: .95rem; }
+
+a { color: inherit; text-decoration-color: color-mix(in srgb, var(--accent) 55%, transparent); text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--accent); }
+
+hr { border: 0; border-top: 1px solid var(--rule); margin: 2.5rem 0; }
+
+/* Section list on the home page. A section only appears here once it EXISTS —
+ * a greyed-out "coming soon" is a promise, and promises are what this site is trying not to make. */
+.sections { list-style: none; padding: 0; margin: 0; }
+.sections li { border-top: 1px solid var(--rule); }
+.sections li:last-child { border-bottom: 1px solid var(--rule); }
+.sections a { display: flex; gap: 1rem; align-items: center; padding: 1.1rem .25rem; text-decoration: none; }
+.sections a:hover { background: color-mix(in srgb, var(--accent) 7%, transparent); }
+.sections img { width: 52px; height: 52px; border-radius: 12px; flex: 0 0 auto; }
+.sections .t { font-weight: 600; }
+.sections .d { color: var(--warm); font-size: .95rem; }
+
+img.mark { width: 120px; height: 120px; border-radius: 26px; box-shadow: 0 6px 24px rgb(0 0 0 / .18); }
+
+footer { margin-top: 3.5rem; padding-top: 1.25rem; border-top: 1px solid var(--rule); color: var(--warm); font-size: .85rem; }

@@ -1,0 +1,13 @@
+# Secrets NEVER go in this repo — it is PUBLIC.
+# A Cloudflare API token, if one is ever needed, belongs in the macOS Keychain:
+#   store: security add-generic-password -a "$USER" -s streetdog-cf-token -w
+#   use:   export CLOUDFLARE_API_TOKEN=$(security find-generic-password -a "$USER" -s streetdog-cf-token -w)
+# Wrangler writes .dev.vars by default and reaching for a .env is everyone's reflex, so both are blocked.
+.env
+.env.*
+.dev.vars
+.dev.vars.*
+.wrangler/
+
+node_modules/
+.DS_Store
