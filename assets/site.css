@@ -247,6 +247,17 @@ h2.year .count { font-family: var(--body); font-style: italic; font-size: .85rem
 .post ul { padding-left: 1.15rem; }
 .post li { margin-bottom: .4rem; }
 
+/* ── a game's heading: icon, name, tagline as one unit ─────────────────────────────────────────────
+ * The layout every store listing uses, because it works — the mark identifies the thing and the words
+ * sit with it rather than under it. Wraps on narrow screens so the tagline never gets squeezed into a
+ * one-word-per-line column beside a 104px square. */
+.gamehead {
+  display: flex; align-items: center; gap: 1.1rem; flex-wrap: wrap;
+  margin: 2rem 0 1.6rem;
+}
+.gamehead h2 { margin: 0; }
+.gamehead .tagline { margin: .25rem 0 0; }
+
 /* ── a screenshot ──────────────────────────────────────────────────────────────────────────────────
  * The one thing on the games page that argues for the game better than any sentence, so it is allowed
  * to break out of the reading measure — but only as far as the viewport actually has room for, so it
@@ -297,6 +308,8 @@ dl.credits dd { margin: .15rem 0 1rem; color: var(--deck); font-size: .95rem; }
 }
 .formcard textarea { resize: vertical; min-height: 6.5rem; line-height: 1.6; }
 .formcard .hint { font-size: .85rem; color: var(--deck); margin: .45rem 0 0; line-height: 1.5; }
+/* "(optional)" inside a label — quieter than the field name, but still part of it. */
+.formcard .opt { color: var(--deck); font-size: .85em; }
 
 .formcard button {
   justify-self: start;

@@ -13,7 +13,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/assets/sandy-arc9-180.png">
 <link rel="apple-touch-icon" href="/assets/sandy-arc9-180.png">
-<link rel="stylesheet" href="/assets/site.css?v=c00b7fda">
+<link rel="stylesheet" href="/assets/site.css?v=91fd2499">
 </head>
 <body>
 <div class="wrap">
@@ -31,18 +31,33 @@
 
   <hr>
 
-  <img class="mark" src="/assets/sandy-arc9-512.png" alt="">
-
-  <h2>Sandy and ARC9</h2>
-  <p class="tagline">Relax. Wander an interesting world. Help dogs.</p>
+  <!-- Icon, name and tagline as one unit — the way a game is listed anywhere else. -->
+  <div class="gamehead">
+    <img class="mark" src="/assets/sandy-arc9-512.png" alt="">
+    <div>
+      <h2>Sandy and ARC9</h2>
+      <p class="tagline">Relax. Wander an interesting world. Help dogs.</p>
+    </div>
+  </div>
 
   <p>
     An open-world exploration game where you find stray dogs and give them treats. That’s it.
   </p>
 
-  <!-- The screenshot earns the widest thing on the page: it argues for the game better than the
-       paragraphs around it. The caption credits the art in the frame; the full terms are under
-       Credits below, which is where LimeZu's required link lives. -->
+  <p>
+    Have fifteen minutes between meetings? Help a dog. Sitting on the train commuting? Help a dog.
+    Procrastinating from doing the dishes? Help a dog. No combat, no frustrating puzzles.
+  </p>
+
+  <p>
+    The game is nearing a proper alpha release, with an open beta hopefully ready by the end of 2026.
+  </p>
+
+  <!-- The screenshot comes AFTER the description: the words say what the game is, then the picture
+       shows it. The caption credits the art in the frame; the full terms are under Credits below,
+       which is where LimeZu's required link lives. -->
+  <h2>Screen shot from pre-release build</h2>
+
   <figure class="shot">
     <img src="/assets/screenshot-town.jpg" width="1434" height="660" loading="lazy"
          alt="A town street seen from above. ARC9, a small white robot, stands on the grass beside a
@@ -55,23 +70,11 @@
     </figcaption>
   </figure>
 
-  <p>
-    Have fifteen minutes between meetings? Help a dog. Sitting on the train commuting? Help a dog.
-    Procrastinating from doing the dishes? Help a dog. No combat, no frustrating puzzles.
-  </p>
-
-  <p>
-    The game is nearing a proper alpha release, with an open beta hopefully ready by the end of 2026.
-  </p>
-
   <hr>
 
-  <h2 id="interest">Want to help test it?</h2>
-
-  <p>
-    Testing happens through TestFlight, on iPhone, and invitations go out by hand a few at a time.
-    Leave your details and I will get in touch when there is a build worth your time.
-  </p>
+  <!-- Deliberately open-ended: testers are wanted, but so are artists, animators and help of kinds
+       not thought of yet. Naming only testing narrows who thinks the question is for them. -->
+  <h2 id="interest">Want to help?</h2>
 
   <!-- class="formcard" is load-bearing, not decoration: the layout is grid+gap on this element, so
        without it every label and input reflows onto one line. -->
@@ -105,11 +108,8 @@
     </div>
 
     <div class="field">
-      <label for="f-why">Why would you like to help?</label>
+      <label for="f-why">How would you like to help?</label>
       <textarea id="f-why" name="why" rows="4" required maxlength="2000"></textarea>
-      <p class="hint">
-        This is the useful one. It tells me what people think the game is before they have played it.
-      </p>
     </div>
 
     <!-- Turnstile renders here. Explicit rather than auto so the widget cannot appear before the
@@ -120,9 +120,9 @@
     <button type="submit">Send</button>
 
     <p class="privacy">
-      Your name, email and message go to me and no one else. I use them only to contact you about
-      testing this game. They are not passed on, sold, or added to any mailing list, and I will delete
-      them if you ask — send that request through this form and I will confirm by reply.
+      Your name, email and message go to me and no one else. They will not be passed on, sold or
+      added to any external mailing list. If you desire to have your information removed, please
+      <a href="/support/">contact support</a>.
     </p>
   </form>
 

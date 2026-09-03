@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Support — streetdog.life</title>
+<meta name="description" content="Report a problem with a Sandy and ARC9 build, or ask for your information to be removed.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="/assets/sandy-arc9-180.png">
+<link rel="apple-touch-icon" href="/assets/sandy-arc9-180.png">
+<link rel="stylesheet" href="/assets/site.css?v=91fd2499">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="masthead"><a class="home" href="/">← streetdog.life</a></div>
+
+  <h1>Support</h1>
+
+  <p>
+    Something wrong with a build, or want your information removed? Tell me here and I will sort it
+    out.
+  </p>
+
+  <!-- ⚠ NO EMAIL FIELD, as specified. Worth knowing what that costs: a removal request arrives with
+       a name and nothing to match it against, and there is no way to reply and confirm it is done.
+       If removal requests need to be actioned reliably, add an email field here and to the SPEC in
+       functions/api/support.js. -->
+  <form id="support-form" class="formcard" novalidate>
+    <!-- HONEYPOT. Not display:none — the better bots skip hidden fields, but they do not compute
+         layout, so an off-screen input still looks like a normal one to them. The name is
+         deliberately NON-SEMANTIC so no password manager will ever autofill it; see _lib.js. -->
+    <div class="hp" aria-hidden="true">
+      <label for="s-hp">Leave this field empty</label>
+      <input id="s-hp" name="hp_field" type="text" tabindex="-1" autocomplete="off">
+    </div>
+
+    <div class="field">
+      <label for="s-name">Name</label>
+      <input id="s-name" name="name" type="text" autocomplete="name" required maxlength="120">
+    </div>
+
+    <div class="field">
+      <label for="s-build">Build number <span class="opt">(optional)</span></label>
+      <input id="s-build" name="build" type="text" maxlength="60" inputmode="numeric">
+      <p class="hint">On the TestFlight build screen, if you have it to hand.</p>
+    </div>
+
+    <div class="field">
+      <label for="s-issue">Issue</label>
+      <textarea id="s-issue" name="issue" rows="6" required maxlength="4000"></textarea>
+    </div>
+
+    <!-- Turnstile renders here. The site key is public by design; the secret is a Pages environment
+         variable and never appears in this repo. -->
+    <div class="cf-turnstile" data-sitekey="TURNSTILE_SITE_KEY" data-theme="auto"></div>
+
+    <button type="submit">Send</button>
+
+    <p class="privacy">
+      What you send here goes to me and no one else, and is used only to answer you.
+    </p>
+  </form>
+
+  <p id="form-status" role="status" aria-live="polite"></p>
+
+  <footer>
+    <a href="/">streetdog.life</a> · <a href="/games/">Games</a> · <a href="/stories/">Stories</a>
+  </footer>
+
+</div>
+
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<script>
+(function () {
+  var form = document.getElementById('support-form');
+  var status = document.getElementById('form-status');
+  var loadedAt = Date.now();
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    status.className = '';
+    status.textContent = '';
+
+    // Validate here as well as in the Function. The client check is for a fast, kind error message;
+    // the server check is the one that counts, because anything here can be bypassed.
+    var data = Object.fromEntries(new FormData(form).entries());
+    // How long the form was open. Bots post the instant they parse the page. Forgeable, which is why
+    // it only ever rejects and is stacked behind Turnstile rather than trusted alone.
+    data.elapsed_ms = String(Date.now() - loadedAt);
+
+    if (!data.name || !data.issue) {
+      status.className = 'err';
+      status.textContent = 'Please give a name and describe the issue.';
+      return;
+    }
+
+    var button = form.querySelector('button');
+    button.disabled = true;
+    button.textContent = 'Sending…';
+
+    try {
+      var res = await fetch('/api/support', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      var out = await res.json().catch(function () { return {}; });
+
+      if (res.ok) {
+        form.style.display = 'none';
+        status.className = 'ok';
+        status.textContent = 'Thank you — I have got it, and I will be in touch.';
+      } else {
+        status.className = 'err';
+        status.textContent = out.error || 'Something went wrong. Please try again in a moment.';
+        button.disabled = false;
+        button.textContent = 'Send';
+        if (window.turnstile) window.turnstile.reset();
+      }
+    } catch (err) {
+      // A network failure must not look like a submission that worked.
+      status.className = 'err';
+      status.textContent = 'Could not reach the server. Please try again in a moment.';
+      button.disabled = false;
+      button.textContent = 'Send';
+      if (window.turnstile) window.turnstile.reset();
+    }
+  });
+})();
+</script>
+</body>
+</html>

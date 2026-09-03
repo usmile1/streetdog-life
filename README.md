@@ -11,7 +11,8 @@ not need a toolchain, and a toolchain is the part that rots between the times an
 ```
 index.html              the front door — Dan, the wordmark, two doors
 stories/index.html      254 #vss365 stories        ← GENERATED, do not hand-edit
-games/index.html        the game, the tester form, the CREDITS
+games/index.html        the game, the offer-of-help form, the CREDITS
+support/index.html      report a build problem / ask for your info to be removed
 news/index.html         release notes and posts    ← GENERATED, do not hand-edit
 news/posts/*.md         write posts here
 data/stories.json       the Sandy & ARC9 archive   ← GENERATED from the vss365 archive
@@ -20,7 +21,9 @@ tools/build_stories.py   data/stories.json  -> stories/index.html
 tools/build_news.py      news/posts/*.md    -> news/index.html
 tools/build_wordmark.py  Optima             -> assets/wordmark.png (the kerb stone)
 tools/stamp_css.py       hashes site.css into every page's <link>  ← RUN LAST
-functions/api/interest.js   the tester form endpoint (Pages Function)
+functions/api/_lib.js       shared form handling — honeypot, timing, Turnstile, Resend
+functions/api/interest.js   the offer-of-help form endpoint  (Pages Function)
+functions/api/support.js    the support form endpoint        (Pages Function)
 assets/site.css         one stylesheet, shared by every page
 _redirects              /sandy-and-arc9/ -> /games/
 ```
@@ -148,15 +151,28 @@ Planned but not written. When it happens: **hand-written, one entry per release,
 commits.** The game repo's commit messages name licensed asset packs and their terms, internal file
 paths, unreleased plans and debugging notes. A release is not a commit.
 
-## The tester form — BUILT, but needs configuring before it works
+## The two forms — BUILT, but need configuring before they work
 
-`/games/#interest` posts to `functions/api/interest.js`, a Pages Function. Until the steps below are
-done it **fails visibly** rather than silently accepting and discarding submissions — which is the
-right way round, but it does mean the form is broken until you finish.
+- `/games/#interest` → `functions/api/interest.js` — offers of help
+- `/support/` → `functions/api/support.js` — build problems, and information-removal requests
+
+Both share `functions/api/_lib.js`, which holds every defence (honeypot, timing floor, Turnstile,
+validation, sending) so the two cannot drift apart. **The leading underscore matters** — Pages does
+not route files starting with `_`, so it stays a module rather than becoming a public URL.
+
+One Turnstile widget and one set of environment variables covers both. Until the steps below are done
+they **fail visibly** rather than silently accepting and discarding submissions — which is the right
+way round, but it does mean both forms are broken until you finish.
+
+⚠ **The support form collects no email address**, as specified. A removal request therefore arrives
+with a name and nothing to match it against, and there is no way to reply and confirm it was done. If
+those requests need to be actioned reliably, add an email field to `support/index.html` and to the
+`SPEC` in `functions/api/support.js`.
 
 **1. Turnstile** (dashboard → Turnstile → Add widget, hostname `streetdog.life`). It gives a **site
-key** and a **secret key**. Put the *site* key into `games/index.html`, replacing
-`TURNSTILE_SITE_KEY` — it is public by design and belongs in the repo. The *secret* does not.
+key** and a **secret key**. Put the *site* key into **both** `games/index.html` and
+`support/index.html`, replacing `TURNSTILE_SITE_KEY` — it is public by design and belongs in the
+repo. The *secret* does not.
 
 **2. Resend** (resend.com) — verify `streetdog.life` as a sending domain, which means adding the DKIM
 and SPF records it gives you to Cloudflare DNS. Then create an API key.
