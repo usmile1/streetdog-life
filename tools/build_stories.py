@@ -13,7 +13,6 @@ already filtered to that series and sorted by date. 254 stories, 2021-06-06 to 2
 """
 import json
 import os
-import re
 from collections import OrderedDict
 from html import escape
 
@@ -32,14 +31,19 @@ def pretty_date(iso):
 
 
 def render_text(text):
-    """Escape, then mark up the #prompt hashtags and keep the line breaks.
+    """Escape and keep the line breaks. Nothing else — the text arrives clean.
 
-    The hashtag is not decoration: #vss365 gives you one word a day and the story has to contain it,
-    so the tag IS the constraint the piece was written against. Highlighting it shows the shape of
-    the form rather than hiding a stray character.
+    There is deliberately NO hashtag markup here. data/stories.json carries the archive's *untagged*
+    text (see import_stories.py), because the prompt is the entry's headword in the margin; repeating
+    it as "#word" inside the prose states it twice and leaves a stray "#" mid-sentence.
+
+    quote=False is load-bearing rather than a preference: escape() with quotes on turns an apostrophe
+    into the numeric entity &#x27;, and any later pass that looks for "#..." will match the "#x27"
+    inside the entity it just created. That is precisely the bug this file used to have, and it put a
+    literal "&#x27;" into 73 of the 254 stories. Quotes and apostrophes need no escaping in text
+    content, so the safest fix is not to create the entity at all.
     """
-    safe = escape(text).strip()
-    safe = re.sub(r"(?<!\w)#(\w+)", r'<span class="tag">#\1</span>', safe)
+    safe = escape(text, quote=False).strip()
     return "<br>".join(line.strip() for line in safe.split("\n") if line.strip())
 
 
@@ -54,13 +58,23 @@ def main():
 
     parts = []
     for y in years:
-        parts.append(f'\n<h2 id="y{y}">{y} <span class="count">{len(by_year[y])} stories</span></h2>\n')
+        # class="year" is what site.css styles — without it the count runs into the year as plain bold.
+        parts.append(f'\n<h2 class="year" id="y{y}">{y} '
+                     f'<span class="count">{len(by_year[y])} stories</span></h2>\n')
         for s in by_year[y]:
-            prompt = (f'<span class="tag">#{escape(s["prompt"])}</span>'
-                      if s.get("prompt") else '<span class="noprompt">no prompt recorded</span>')
+            # The prompt is the HEADWORD and the date is its citation — see the lexicon note in
+            # site.css. The "#" is added by CSS (.entry .word::before) so it stays presentation and
+            # does not end up in anyone's clipboard when they copy a word.
+            head = (f'<span class="word">{escape(s["prompt"])}</span>'
+                    if s.get("prompt") else '<span class="noprompt">no prompt recorded</span>')
+            # Each entry gets the archive's own id as an anchor, so a single story out of 254 can be
+            # linked to directly. Stable across rebuilds because the id comes from the data, not the
+            # loop counter.
+            anchor = f' id="{escape(s["id"])}"' if s.get("id") else ""
             parts.append(
-                '<article class="vss">\n'
-                f'  <header><time datetime="{s["date"]}">{pretty_date(s["date"])}</time> {prompt}</header>\n'
+                f'<article class="entry"{anchor}>\n'
+                f'  <div class="head">{head}'
+                f'<time datetime="{s["date"]}">{pretty_date(s["date"])}</time></div>\n'
                 f'  <p>{render_text(s["text"])}</p>\n'
                 '</article>\n'
             )
@@ -105,6 +119,18 @@ def main():
     I am no longer on Twitter, so I have harvested the stories here. Each one was written to the day's
     one-word prompt, which appears in the story itself. Enjoy.
   </p>
+
+  <p>The site is named for my own street dog.</p>
+
+  <!-- Greg's, verbatim. Set as verse rather than a paragraph because the line breaks ARE the poem.
+       It lived on the home page until that page became two doors and nothing else; it belongs with
+       the writing rather than in a footer. -->
+  <blockquote class="verse">
+    I have a dog named Dan<br>
+    His fur is the color of sand<br>
+    He’s afraid of the ceiling fan<br>
+    Sleeps on the bed whenever he can
+  </blockquote>
 
   <p class="quiet">
     {len(stories)} stories · {pretty_date(stories[0]['date'])} – {pretty_date(stories[-1]['date'])}

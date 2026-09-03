@@ -40,6 +40,21 @@
     An open-world exploration game where you find stray dogs and give them treats. That’s it.
   </p>
 
+  <!-- The screenshot earns the widest thing on the page: it argues for the game better than the
+       paragraphs around it. The caption credits the art in the frame; the full terms are under
+       Credits below, which is where LimeZu's required link lives. -->
+  <figure class="shot">
+    <img src="/assets/screenshot-town.jpg" width="1434" height="660" loading="lazy"
+         alt="A town street seen from above. ARC9, a small white robot, stands on the grass beside a
+              road; a stray dog trots along the kerb a little way off, keeping its distance. A large
+              green Victorian house with a mansard roof fills the left of the frame, and autumn trees
+              show at the bottom edge.">
+    <figcaption>
+      ARC9 on a residential street, with a stray keeping its distance. Buildings and trees by LimeZu,
+      dog by Synty Studios — <a href="#credits">full credits below</a>.
+    </figcaption>
+  </figure>
+
   <p>
     Have fifteen minutes between meetings? Help a dog. Sitting on the train commuting? Help a dog.
     Procrastinating from doing the dishes? Help a dog. No combat, no frustrating puzzles.
@@ -58,7 +73,9 @@
     Leave your details and I will get in touch when there is a build worth your time.
   </p>
 
-  <form id="interest-form" novalidate>
+  <!-- class="formcard" is load-bearing, not decoration: the layout is grid+gap on this element, so
+       without it every label and input reflows onto one line. -->
+  <form id="interest-form" class="formcard" novalidate>
     <!-- HONEYPOT. Not display:none — the better bots skip hidden fields, but they do not compute
          layout, so an off-screen input still looks like a normal one to them.
 
@@ -74,17 +91,26 @@
       <input id="f-hp" name="hp_field" type="text" tabindex="-1" autocomplete="off">
     </div>
 
-    <label for="f-name">Name</label>
-    <input id="f-name" name="name" type="text" autocomplete="name" required maxlength="120">
+    <!-- Each label+control is wrapped, so the form's grid gap separates FIELDS while the much smaller
+         label margin keeps each label tight to the control it names. Unwrapped, every label and input
+         is its own grid row and a label floats as far from its input as from the next field. -->
+    <div class="field">
+      <label for="f-name">Name</label>
+      <input id="f-name" name="name" type="text" autocomplete="name" required maxlength="120">
+    </div>
 
-    <label for="f-email">Email</label>
-    <input id="f-email" name="email" type="email" autocomplete="email" required maxlength="200">
+    <div class="field">
+      <label for="f-email">Email</label>
+      <input id="f-email" name="email" type="email" autocomplete="email" required maxlength="200">
+    </div>
 
-    <label for="f-why">Why would you like to help?</label>
-    <textarea id="f-why" name="why" rows="4" required maxlength="2000"></textarea>
-    <p class="hint">
-      This is the useful one. It tells me what people think the game is before they have played it.
-    </p>
+    <div class="field">
+      <label for="f-why">Why would you like to help?</label>
+      <textarea id="f-why" name="why" rows="4" required maxlength="2000"></textarea>
+      <p class="hint">
+        This is the useful one. It tells me what people think the game is before they have played it.
+      </p>
+    </div>
 
     <!-- Turnstile renders here. Explicit rather than auto so the widget cannot appear before the
          rest of the form has laid out. The site key is public by design; the secret is a Pages
@@ -101,6 +127,46 @@
   </form>
 
   <p id="form-status" role="status" aria-live="polite"></p>
+
+  <hr>
+
+  <!-- CREDITS. Two of these are obligations rather than courtesies, so do not quietly trim this block:
+         • LimeZu's licence REQUIRES a credit with a working link.
+         • The street layout is OpenStreetMap data under ODbL 1.0, which requires "© OpenStreetMap
+           contributors" and a link to the licence.
+       The rest are here because Greg wanted them here. Synty does not require a credit; being clear
+       about what is theirs is the thing their terms actually care about. -->
+  <h2 id="credits">Credits</h2>
+
+  <p>
+    Sandy and ARC9 is built on other people’s work, and this is where they get named.
+  </p>
+
+  <dl class="credits">
+    <dt><a href="https://limezu.itch.io/modernexteriors" rel="noopener">LimeZu — Modern Exteriors</a></dt>
+    <dd>Every building, tree and prop in the town.</dd>
+
+    <dt><a href="https://syntystore.com/" rel="noopener">Synty Studios — Simple Dogs</a></dt>
+    <dd>The stray dogs themselves.</dd>
+
+    <dt><a href="https://www.openstreetmap.org/copyright" rel="noopener">OpenStreetMap contributors</a></dt>
+    <dd>
+      The street layout, which is real. Map data ©&nbsp;OpenStreetMap contributors, available under the
+      <a href="https://opendatacommons.org/licenses/odbl/" rel="noopener">Open Database Licence</a>.
+    </dd>
+
+    <dt><a href="https://www.usgs.gov/" rel="noopener">U.S. Geological Survey</a></dt>
+    <dd>Elevation data, which is what puts the hills and the coastline where they are.</dd>
+
+    <dt>Epidemic Sound</dt>
+    <dd>The music.</dd>
+  </dl>
+
+  <p class="quiet">
+    ARC9’s model, the terrain and shoreline rendering, the interface, and the map tools are mine. So are
+    the barks — those are my own voice, pitched about a bit. The street name-stones you find on kerbs
+    are generated from the map data rather than drawn.
+  </p>
 
   <footer>
     <a href="/">streetdog.life</a> · <a href="/stories/">Stories</a> · <a href="/news/">News</a>

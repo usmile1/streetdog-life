@@ -1,142 +1,312 @@
-/* streetdog.life — one stylesheet, shared by every section.
+/* streetdog.life — one stylesheet, shared by every page.
  *
- * Deliberately no framework and no build step. This is a personal site of a few hand-written pages;
- * a toolchain here would be something that rots between the times anyone looks at it, and the whole
- * point of plain CSS is that it still works in five years without being fed. */
+ * No framework, no build step, no webfont. A few hand-written pages do not need a toolchain, and the
+ * toolchain is the part that rots between the times anyone looks at it.
+ *
+ * ── THE IDEA: A LEXICON ────────────────────────────────────────────────────────────────────────────
+ * The stories were written to #vss365 — one word a day, and the story has to contain it. So each piece
+ * is in effect a definition of its word, and the archive is set like a dictionary: the prompt is the
+ * HEADWORD, the date is its citation, the story is the entry. That structure is true of the content
+ * rather than decoration laid over it.
+ *
+ * ── COLOUR: SAMPLED FROM THE PHOTOGRAPH ────────────────────────────────────────────────────────────
+ * Every value below was pulled out of the picture of Dan in assets/, not chosen from a palette:
+ *
+ *     #1c1720  his eye, almost black          #c6af9c  his coat  ← the accent
+ *     #74635b  the weathered deck boards      #846854  the shadow under his ear
+ *     #d5d0d1  the white blaze on his face    ← the light ground
+ *
+ * The light ground is a COOL grey off the blaze, deliberately not the warm cream that every generated
+ * page reaches for. The accent is a dog-coloured tan, which is not a colour anyone picks on purpose,
+ * which is rather the point.
+ *
+ * ── TYPE ───────────────────────────────────────────────────────────────────────────────────────────
+ * Display is a humanist sans with flared stems — Optima first, which is also the face the game cuts
+ * its street name-stones in, so the two halves of streetdog.life are lettered the same way. Body is a
+ * serif, because 254 stories is real reading. Dates get tabular figures so the archive lines up.
+ */
 
 :root {
-  --ink:    #2f2a24;   /* warm near-black, not #000 — softer to read at length */
-  --paper:  #f4efe6;
-  --warm:   #8a7a5e;   /* muted secondary text */
-  --accent: #4a6b4f;   /* the green of the game's grass */
-  --rule:   #ded4c4;
-  --measure: 34rem;    /* one comfortable reading column, used everywhere */
+  --ink:     #1c1720;
+  --deck:    #74635b;
+  --sand:    #c6af9c;
+  --ear:     #846854;
+
+  --paper:   #e9e5e0;   /* cool, off the blaze — a shade darker than the card so cards lift */
+  --card:    #f5f2ee;
+  --rule:    #d2cbc3;
+  --accent:  #7a5c3e;   /* the coat, taken down until it holds contrast on a light ground */
+  --err:     #a33b26;   /* the only colour that is NOT from the photograph — an error must read as one */
+
+  --display: Optima, Candara, "Gill Sans", "Gill Sans MT", "Trebuchet MS", system-ui, sans-serif;
+  --body:    ui-serif, Charter, "Iowan Old Style", Georgia, "Times New Roman", serif;
+
+  --measure: 34rem;
 }
+
+/* Both themes get the same care. Tokens only — nothing below this line restyles a component inside a
+   media query, so the two themes cannot drift apart. */
 @media (prefers-color-scheme: dark) {
-  :root { --ink: #ece5d8; --paper: #1c1a17; --warm: #a3927a; --accent: #8fb894; --rule: #35302a; }
+  :root {
+    --paper:  #17141a;   /* the eye, opened up just enough to read on */
+    --card:   #211d24;
+    --ink:    #e6e0d8;
+    --deck:   #a2907f;
+    --rule:   #322c34;
+    --accent: #c6af9c;   /* the coat, at full strength — it only needs taking down on light */
+    --err:    #e08a72;   /* lifted, or it reads as brown rather than as an error on a dark ground */
+  }
 }
 
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
+
 body {
   margin: 0;
   background: var(--paper);
   color: var(--ink);
-  font: 17px/1.65 ui-serif, Georgia, "Times New Roman", serif;
+  font: 17px/1.65 var(--body);
   -webkit-font-smoothing: antialiased;
 }
 
-.wrap { max-width: var(--measure); margin: 0 auto; padding: 3.5rem 1.25rem 4rem; }
+.wrap { max-width: var(--measure); margin: 0 auto; padding: 0 1.25rem 4rem; }
+.wrap.wide { max-width: 48rem; }
 
-/* Masthead — the same on every page, so a section always tells you where you are */
-.masthead { margin-bottom: 2.5rem; }
-.masthead a.home {
-  font-size: .95rem; letter-spacing: .04em; text-transform: lowercase;
-  color: var(--warm); text-decoration: none;
-}
-.masthead a.home:hover { color: var(--accent); }
-
-h1 { font-size: clamp(1.9rem, 6vw, 2.5rem); line-height: 1.2; margin: 0 0 .3rem; font-weight: 600; letter-spacing: -.01em; }
-h2 { font-size: 1.25rem; margin: 2.5rem 0 .75rem; font-weight: 600; }
-.tagline { font-size: 1.1rem; font-style: italic; color: var(--accent); margin: 0 0 1.75rem; }
-p { margin: 0 0 1.1rem; }
-.quiet { color: var(--warm); font-size: .95rem; }
-
-a { color: inherit; text-decoration-color: color-mix(in srgb, var(--accent) 55%, transparent); text-underline-offset: 3px; }
+a { color: inherit; text-decoration-color: color-mix(in srgb, var(--accent) 50%, transparent); text-underline-offset: 3px; }
 a:hover { text-decoration-color: var(--accent); }
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px;
+}
 
-hr { border: 0; border-top: 1px solid var(--rule); margin: 2.5rem 0; }
+/* ── masthead ──────────────────────────────────────────────────────────────────────────────────────
+ * Dan across the top, cropped tight on his eye. A photograph of the actual dog is the honest header
+ * for a site named after him and does more than any mark would. */
+.hero {
+  height: clamp(150px, 30vw, 300px);
+  background: url("/assets/dan-header.jpg") center 62% / cover no-repeat var(--sand);
+  border-bottom: 1px solid var(--rule);
+}
 
-/* Section list on the home page. A section only appears here once it EXISTS —
- * a greyed-out "coming soon" is a promise, and promises are what this site is trying not to make. */
-.sections { list-style: none; padding: 0; margin: 0; }
-.sections li { border-top: 1px solid var(--rule); }
-.sections li:last-child { border-bottom: 1px solid var(--rule); }
-.sections a { display: flex; gap: 1rem; align-items: center; padding: 1.1rem .25rem; text-decoration: none; }
-.sections a:hover { background: color-mix(in srgb, var(--accent) 7%, transparent); }
-.sections img { width: 52px; height: 52px; border-radius: 12px; flex: 0 0 auto; }
-.sections .t { font-weight: 600; }
-.sections .d { color: var(--warm); font-size: .95rem; }
+/* ── the wordmark: a kerb stone ────────────────────────────────────────────────────────────────────
+ * The name is not set in a typeface here — it is CUT INTO A STONE, the same way the game carves real
+ * street names into its kerbs. Generated by tools/build_wordmark.py; see that file for why the
+ * engraving is derived from the glyph rather than stamped three times.
+ *
+ * It overlaps the bottom of the photograph on purpose, so the stone meets the ground the way a kerb
+ * stone actually sits — set INTO the edge rather than floating above it. The shadow is what makes that
+ * read; without it the image looks pasted on.
+ *
+ * The <h1> keeps its text in the img's alt, so the page still has a real level-one heading for screen
+ * readers and search. Never replace this with a background-image and hidden text — the alt IS the
+ * heading. */
+h1.wordmark { margin: 0; padding: 0; line-height: 0; }
+h1.wordmark img {
+  display: block;
+  width: min(100%, 412px);
+  height: auto;
+  margin-top: -2.4rem;
+  border-radius: 3px;
+  box-shadow: 0 2px 5px rgb(0 0 0 / .28), 0 10px 24px rgb(0 0 0 / .16);
+}
 
-img.mark { width: 120px; height: 120px; border-radius: 26px; box-shadow: 0 6px 24px rgb(0 0 0 / .18); }
+/* The back-link every sub-page carries. Small, quiet, and out of the way of the page's own title —
+   this is a way back, not a second masthead. */
+.masthead { padding: 1.5rem 0 .25rem; }
+.home {
+  font-family: var(--display); font-size: .9rem; letter-spacing: .01em;
+  color: var(--deck); text-decoration: none;
+}
+.home:hover { color: var(--accent); }
 
-footer { margin-top: 3.5rem; padding-top: 1.25rem; border-top: 1px solid var(--rule); color: var(--warm); font-size: .85rem; }
+/* h1.wordmark zeroes its own margins so the stone can overlap the photo, which leaves whatever follows
+   sitting against it. Restore the gap here rather than on the image, so the overlap and the spacing
+   below it stay independent knobs. */
+h1.wordmark + p { margin-top: 1.6rem; }
 
-/* ── wider column for the story archive ─────────────────────────────────────────────────────────── */
-.wrap.wide { max-width: 42rem; }
+.brand { display: flex; align-items: center; gap: .8rem; padding: 1.4rem 0 0; }
+.brand img { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; flex: 0 0 auto; }
+.brand a { display: flex; align-items: center; gap: .8rem; text-decoration: none; color: var(--deck); }
+.brand a:hover { color: var(--accent); }
+.brand .name { font-family: var(--display); font-size: .95rem; letter-spacing: .01em; }
 
-/* ── the Dan poem ───────────────────────────────────────────────────────────────────────────────── */
+h1 {
+  font-family: var(--display);
+  font-size: clamp(2.1rem, 8vw, 3.1rem);
+  line-height: 1.08;
+  letter-spacing: -.015em;
+  text-wrap: balance;
+  margin: 1.75rem 0 .35rem;
+}
+h2 { font-family: var(--display); font-size: 1.4rem; letter-spacing: -.01em; text-wrap: balance; margin: 2.75rem 0 .8rem; }
+h3 { font-family: var(--display); font-size: 1.08rem; margin: 1.7rem 0 .5rem; }
+
+.tagline { font-size: 1.1rem; font-style: italic; color: var(--accent); margin: 0 0 1.6rem; }
+p { margin: 0 0 1.15rem; }
+.quiet { color: var(--deck); font-size: .95rem; }
+
+hr { border: 0; border-top: 1px solid var(--rule); margin: 2.75rem 0; }
+
+/* ── the two doors ─────────────────────────────────────────────────────────────────────────────────
+ * The front page is two doors and nothing else — the sections do the talking. Laid out with grid+gap
+ * so the spacing lives in one place and cannot collapse or double. */
+.doors { list-style: none; padding: 0; margin: 2.25rem 0 0; display: grid; gap: 1px; background: var(--rule); border-block: 1px solid var(--rule); }
+.doors li { background: var(--paper); }
+.doors a {
+  display: block; padding: 1.6rem .25rem;
+  text-decoration: none;
+  transition: background .15s, padding-left .15s;
+}
+.doors a:hover { background: var(--card); padding-left: .9rem; }
+.doors .t { display: block; font-family: var(--display); font-size: 1.5rem; letter-spacing: -.01em; }
+.doors .d { display: block; margin-top: .3rem; color: var(--deck); font-size: .95rem; line-height: 1.55; }
+.doors .n { display: block; margin-top: .45rem; font-family: var(--display); font-size: .78rem; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); }
+
+/* The doors already close with a rule, so the footer must not draw a second one directly beneath it —
+   two rules a few rem apart read as an empty third door. */
+.doors + footer { border-top: 0; margin-top: 2.25rem; }
+
+/* ── the Dan poem ──────────────────────────────────────────────────────────────────────────────── */
 .verse {
-  margin: 2rem 0;
-  padding: 0 0 0 1.25rem;
-  border-left: 3px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  margin: 2.25rem 0;
+  padding-left: 1.15rem;
+  border-left: 2px solid var(--sand);
   font-style: italic;
   color: var(--accent);
-  line-height: 1.9;
+  line-height: 2;
 }
 
-/* ── #vss365 stories ────────────────────────────────────────────────────────────────────────────── */
-nav.years { margin: 1.5rem 0 2.5rem; display: flex; gap: .9rem; flex-wrap: wrap; }
-nav.years a { text-decoration: none; color: var(--warm); font-variant-numeric: tabular-nums; }
+/* ── the archive, set as a lexicon ─────────────────────────────────────────────────────────────────
+ * Headword left, entry right. The prompt gets the weight because the prompt is the thing the story
+ * was grown from; the date is a citation and sets in small tabular figures beneath it. */
+nav.years {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; gap: 1.15rem; flex-wrap: wrap;
+  margin: 1.75rem 0 .5rem; padding: .7rem 0;
+  background: color-mix(in srgb, var(--paper) 90%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--display);
+}
+nav.years a { text-decoration: none; color: var(--deck); font-size: .95rem; font-variant-numeric: tabular-nums; }
 nav.years a:hover { color: var(--accent); }
 
-h2 .count { font-weight: 400; font-size: .8rem; color: var(--warm); margin-left: .5rem; }
+h2.year { display: flex; align-items: baseline; gap: .65rem; margin: 3rem 0 .25rem; }
+h2.year .count { font-family: var(--body); font-style: italic; font-size: .85rem; color: var(--deck); }
 
-.vss { border-top: 1px solid var(--rule); padding: 1.4rem 0; }
-.vss header { font-size: .85rem; color: var(--warm); margin-bottom: .5rem; }
-.vss header time { font-variant-numeric: tabular-nums; }
-.vss p { margin: 0; }
+.entry { padding: 1.5rem 0; border-top: 1px solid var(--rule); }
+.entry .head { margin-bottom: .5rem; }
+.entry .word {
+  font-family: var(--display); font-size: 1.15rem; color: var(--accent);
+  letter-spacing: -.005em;
+}
+.entry .word::before { content: "#"; opacity: .45; }
+.entry time { display: block; font-family: var(--display); font-size: .76rem; color: var(--deck); font-variant-numeric: tabular-nums; letter-spacing: .03em; }
+.entry p { margin: 0; line-height: 1.78; }
 
-/* The prompt word IS the constraint each story was written against, so it is marked rather than
-   left to look like a stray character. */
+@media (min-width: 48rem) {
+  .entry { display: grid; grid-template-columns: 10rem 1fr; gap: 2rem; align-items: start; }
+  .entry .head { margin: 0; text-align: right; }
+  .entry .word { display: block; }
+  .entry time { margin-top: .2rem; }
+}
+
+/* The prompt word where it appears inside the story. #vss365 hands you one word a day and the piece
+   has to contain it, so the tag is the constraint made visible, not a stray character. */
 .tag { color: var(--accent); font-style: normal; }
-.noprompt { font-style: italic; opacity: .7; }
 
-/* ── news posts ─────────────────────────────────────────────────────────────────────────────────── */
-.post { border-top: 1px solid var(--rule); padding: 1.75rem 0 .5rem; }
-.post header { font-size: .85rem; color: var(--warm); }
-.post h2 { margin: .3rem 0 .9rem; font-size: 1.3rem; }
-.post h3 { font-size: 1.05rem; margin: 1.5rem 0 .6rem; }
-.post code { font: .9em/1 ui-monospace, SFMono-Regular, Menlo, monospace;
-             background: color-mix(in srgb, var(--warm) 18%, transparent);
-             padding: .1em .35em; border-radius: 4px; }
+/* A handful of entries came out of the archive without their prompt recorded. Said plainly and set
+   quietly, rather than left as a blank that reads like a rendering bug. */
+.noprompt { color: var(--deck); font-style: italic; font-size: .9em; }
 
-/* ── the tester form ────────────────────────────────────────────────────────────────────────────── */
-form { margin: 1.5rem 0 0; }
-form label { display: block; margin: 1.1rem 0 .35rem; font-size: .95rem; font-weight: 600; }
-form input, form textarea {
-  width: 100%; padding: .6rem .7rem;
-  font: inherit; font-size: 1rem;
-  color: var(--ink); background: color-mix(in srgb, var(--paper) 88%, var(--warm));
-  border: 1px solid var(--rule); border-radius: 8px;
+/* ── news ──────────────────────────────────────────────────────────────────────────────────────── */
+.post { border-top: 1px solid var(--rule); padding: 2rem 0 .5rem; }
+.post > header { font-family: var(--display); font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--deck); }
+.post h2 { margin: .4rem 0 1rem; font-size: 1.45rem; }
+.post code { font: .88em/1 ui-monospace, SFMono-Regular, Menlo, monospace; background: color-mix(in srgb, var(--deck) 16%, transparent); padding: .12em .38em; border-radius: 4px; }
+.post ul { padding-left: 1.15rem; }
+.post li { margin-bottom: .4rem; }
+
+/* ── a screenshot ──────────────────────────────────────────────────────────────────────────────────
+ * The one thing on the games page that argues for the game better than any sentence, so it is allowed
+ * to break out of the reading measure — but only as far as the viewport actually has room for, so it
+ * can never push the body into a sideways scroll. At narrow widths the clamp lands on 0 and the figure
+ * simply sits in the column. */
+.shot { margin: 2rem calc(-1 * clamp(0rem, (100vw - var(--measure)) / 2 - 1.25rem, 6rem)); }
+.shot img { display: block; width: 100%; height: auto; border: 1px solid var(--rule); }
+.shot figcaption {
+  margin: .65rem .25rem 0;
+  font-size: .85rem; color: var(--deck); line-height: 1.55;
 }
-form input:focus, form textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
-form textarea { resize: vertical; }
-form .hint { font-size: .85rem; color: var(--warm); margin: .4rem 0 0; }
-form button {
-  margin-top: 1.4rem; padding: .65rem 1.4rem;
-  font: inherit; font-size: 1rem; font-weight: 600;
-  color: var(--paper); background: var(--accent);
-  border: 0; border-radius: 8px; cursor: pointer;
+
+/* ── credits ───────────────────────────────────────────────────────────────────────────────────────
+ * Set as a description list because that is what it is: a thing, and what it did. LimeZu's licence
+ * REQUIRES credit with a working link, so the anchors here are a licence term, not decoration — if you
+ * restyle this block, do not let the links stop looking like links. */
+dl.credits { margin: 1.5rem 0; display: grid; gap: 0 1.5rem; }
+dl.credits dt { font-family: var(--display); font-size: 1rem; }
+dl.credits dd { margin: .15rem 0 1rem; color: var(--deck); font-size: .95rem; }
+
+@media (min-width: 40rem) {
+  dl.credits { grid-template-columns: 14rem 1fr; align-items: baseline; }
+  dl.credits dt { text-align: right; }
+  dl.credits dd { margin: 0 0 1rem; }
 }
-form button:hover { filter: brightness(1.1); }
-form button:disabled { opacity: .6; cursor: default; }
-.cf-turnstile { margin-top: 1.4rem; }
 
-/* Personal data deserves a visible statement, not small print buried elsewhere. */
-.privacy { margin-top: 1.4rem; font-size: .85rem; color: var(--warm); line-height: 1.55; }
+/* ── the form ──────────────────────────────────────────────────────────────────────────────────── */
+.formcard {
+  background: var(--card);
+  border: 1px solid var(--rule);
+  padding: 1.6rem 1.5rem 1.7rem;
+  margin-top: 1.75rem;
+  display: grid; gap: 1.15rem;
+}
+.formcard .field { display: block; }
+.formcard label { display: block; margin-bottom: .4rem; font-family: var(--display); font-size: .95rem; }
+.formcard input, .formcard textarea {
+  width: 100%; padding: .7rem .8rem;
+  font-family: var(--body); font-size: 1rem; color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--rule); border-radius: 2px;
+  transition: border-color .15s, box-shadow .15s;
+}
+.formcard input:hover, .formcard textarea:hover { border-color: var(--deck); }
+.formcard input:focus, .formcard textarea:focus {
+  outline: none; border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 16%, transparent);
+}
+.formcard textarea { resize: vertical; min-height: 6.5rem; line-height: 1.6; }
+.formcard .hint { font-size: .85rem; color: var(--deck); margin: .45rem 0 0; line-height: 1.5; }
 
-#form-status { margin-top: 1rem; font-size: .95rem; }
-#form-status.ok  { color: var(--accent); font-weight: 600; }
-#form-status.err { color: #b4472f; font-weight: 600; }
-@media (prefers-color-scheme: dark) { #form-status.err { color: #e08a72; } }
+.formcard button {
+  justify-self: start;
+  padding: .7rem 1.7rem;
+  font-family: var(--display); font-size: 1rem;
+  color: var(--card); background: var(--accent);
+  border: 0; border-radius: 2px; cursor: pointer;
+  transition: filter .15s;
+}
+.formcard button:hover { filter: brightness(1.15); }
+.formcard button:disabled { opacity: .5; cursor: default; }
 
-/* Honeypot. OFF-SCREEN rather than display:none — better bots skip hidden fields but do not compute
-   layout, so this still reads as an ordinary input to them while being invisible to people. */
-.hp {
-  position: absolute;
-  left: -9999px;
-  top: auto;
-  width: 1px; height: 1px;
-  overflow: hidden;
+.privacy { padding-top: 1.15rem; border-top: 1px solid var(--rule); margin: 0; font-size: .84rem; color: var(--deck); line-height: 1.6; }
+
+/* Honeypot. OFF-SCREEN rather than display:none — the better bots skip hidden fields but do not
+   compute layout, so this still reads as an ordinary input to them while being invisible to people. */
+.hp { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+
+#form-status { margin-top: 1rem; font-family: var(--display); font-size: .95rem; }
+#form-status.ok  { color: var(--accent); }
+#form-status.err { color: var(--err); }
+
+img.mark { width: 104px; height: 104px; border-radius: 50%; object-fit: cover; }
+
+footer {
+  margin-top: 4rem; padding-top: 1.25rem;
+  border-top: 1px solid var(--rule);
+  font-family: var(--display); font-size: .87rem; color: var(--deck);
+  display: flex; flex-wrap: wrap; gap: .35rem 1rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
 }

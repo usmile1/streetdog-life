@@ -9,25 +9,36 @@ Static HTML, one stylesheet, no build step, no `package.json`. A handful of hand
 not need a toolchain, and a toolchain is the part that rots between the times anyone looks at it.
 
 ```
-index.html              the front door — Dan, the poem, the sections
+index.html              the front door — Dan, the wordmark, two doors
 stories/index.html      254 #vss365 stories        ← GENERATED, do not hand-edit
-games/index.html        the game + the tester form
+games/index.html        the game, the tester form, the CREDITS
 news/index.html         release notes and posts    ← GENERATED, do not hand-edit
 news/posts/*.md         write posts here
-data/stories.json       the Sandy & ARC9 archive
-tools/build_stories.py  data/stories.json  -> stories/index.html
-tools/build_news.py     news/posts/*.md    -> news/index.html
+data/stories.json       the Sandy & ARC9 archive   ← GENERATED from the vss365 archive
+tools/import_stories.py  ~/vss365-archive   -> data/stories.json
+tools/build_stories.py   data/stories.json  -> stories/index.html
+tools/build_news.py      news/posts/*.md    -> news/index.html
+tools/build_wordmark.py  Optima             -> assets/wordmark.png (the kerb stone)
 functions/api/interest.js   the tester form endpoint (Pages Function)
 assets/site.css         one stylesheet, shared by every page
 _redirects              /sandy-and-arc9/ -> /games/
 ```
 
-**Two pages are generated and committed.** Edit the source, re-run the tool, commit the output:
+**Everything generated is committed.** Edit the source, re-run the tool, commit the output:
 
 ```sh
+tools/import_stories.py   # after the vss365 archive changes  (then build_stories)
 tools/build_stories.py    # after changing data/stories.json
 tools/build_news.py       # after adding a post to news/posts/
+tools/build_wordmark.py   # only if the wordmark itself changes — needs Pillow, see the file
 ```
+
+⚠ `build_wordmark.py` needs Pillow, and `~/Sites` has no `.python-version`, so plain `python3` here is
+the system one and has none. Run it with a pyenv interpreter. The other three are stdlib-only.
+
+**The stories carry the archive's *untagged* text.** The prompt is the headword in the margin of each
+entry, so the story itself does not repeat it as `#word` — `import_stories.py` explains why that is a
+curated field rather than a regex.
 
 The site itself still has **no build step** — Cloudflare serves the committed HTML. Generating locally
 and committing the artifact is the same trade the game makes with its offline emitters.
@@ -83,6 +94,22 @@ GoDaddy's DNS page open alongside and compare line by line — the scan is a sca
 
 Each record has a **Proxied** (orange cloud) / **DNS only** (grey cloud) toggle. Proxied is right for
 the site. **Any MX record must be DNS only** — mail cannot be proxied.
+
+## Credits are a licence term, not a courtesy
+
+The credits block on `/games/` exists because two of its entries are **obligations**:
+
+| | requires |
+|---|---|
+| **LimeZu — Modern Exteriors** | a credit **with a working link**. The game may not be distributed without it. |
+| **OpenStreetMap** | the street layout is OSM data under **ODbL 1.0** — "© OpenStreetMap contributors" plus a link to the licence. |
+| Synty — Simple Dogs | no credit required; the terms care that the work is never passed off as ours. Credited anyway. |
+| USGS | public domain. Credited anyway. |
+| Epidemic Sound | credit expected. |
+
+Do not trim that block or let the links stop being links. The game screenshot is fine to publish here —
+a screenshot is a derivative work showing the game, which is what both art licences are for — but the
+**source art must never be committed to any repo**, public or private.
 
 ## Adding a section
 
