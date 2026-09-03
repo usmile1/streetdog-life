@@ -19,6 +19,7 @@ tools/import_stories.py  ~/vss365-archive   -> data/stories.json
 tools/build_stories.py   data/stories.json  -> stories/index.html
 tools/build_news.py      news/posts/*.md    -> news/index.html
 tools/build_wordmark.py  Optima             -> assets/wordmark.png (the kerb stone)
+tools/stamp_css.py       hashes site.css into every page's <link>  ← RUN LAST
 functions/api/interest.js   the tester form endpoint (Pages Function)
 assets/site.css         one stylesheet, shared by every page
 _redirects              /sandy-and-arc9/ -> /games/
@@ -31,7 +32,28 @@ tools/import_stories.py   # after the vss365 archive changes  (then build_storie
 tools/build_stories.py    # after changing data/stories.json
 tools/build_news.py       # after adding a post to news/posts/
 tools/build_wordmark.py   # only if the wordmark itself changes — needs Pillow, see the file
+tools/stamp_css.py        # ALWAYS LAST — after any CSS edit, and after the two generators
 ```
+
+## ⚠ The stylesheet must be cache-busted, and `_headers` cannot do it
+
+Pages serves `/assets/*` with `Cache-Control: max-age=14400` (four hours) while HTML revalidates every
+request. So a deploy that **renames a CSS class** hands new HTML to browsers still holding the old
+stylesheet: the element gets a class nothing styles and renders as an empty div. This already
+happened — renaming `.hero` to `.portrait` made the masthead photo vanish for anyone who had visited
+earlier that day, while a fresh browser looked perfect. It is invisible to whoever deploys it.
+
+**`_headers` does not fix this, and it was measured, not assumed.** Pages *does* read the file — a
+probe header added next to the rule came back on the response — but it overrides `Cache-Control` on
+static assets anyway:
+
+```
+x-sdl-headers-applied: yes                              ← our header, applied
+cache-control: public, max-age=14400, must-revalidate   ← our Cache-Control, ignored
+```
+
+So the URL is the only lever. `tools/stamp_css.py` writes a hash of `site.css` into every page's
+`<link>`, which changes exactly when the file does. **Run it last, always.** It is idempotent.
 
 ⚠ `build_wordmark.py` needs Pillow, and `~/Sites` has no `.python-version`, so plain `python3` here is
 the system one and has none. Run it with a pyenv interpreter. The other three are stdlib-only.

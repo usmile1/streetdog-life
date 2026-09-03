@@ -319,9 +319,13 @@ dl.credits dd { margin: .15rem 0 1rem; color: var(--deck); font-size: .95rem; }
 #form-status.ok  { color: var(--accent); }
 #form-status.err { color: var(--err); }
 
-/* The round photo of Dan. Same size in the front-page masthead and on the games page, so it reads as
-   one mark rather than two. flex-shrink:0 keeps it round when the masthead runs out of room. */
-img.mark { width: 104px; height: 104px; flex: 0 0 auto; border-radius: 50%; object-fit: cover; }
+/* The app-icon mark. Same size and shape in the front-page masthead and on the games page, so it
+   reads as one mark rather than two.
+   ⚠ border-radius is 22.4%, NOT 50%. The source is the actual app icon, which is a rounded square —
+   clipping it to a circle cuts off the corners the icon keeps, so the site and the app showed Dan
+   cropped differently. 22.4% is iOS's own corner ratio, so this is the same silhouette.
+   flex-shrink:0 stops it deforming when the masthead runs out of room. */
+img.mark { width: 104px; height: 104px; flex: 0 0 auto; border-radius: 22.4%; object-fit: cover; }
 
 footer {
   margin-top: 4rem; padding-top: 1.25rem;
