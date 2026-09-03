@@ -171,10 +171,6 @@ way round, but it does mean all three forms are broken until you finish.
 
 Until a real site key replaces the `TURNSTILE_SITE_KEY` placeholder, the widget renders Cloudflare's own error box with a **"Troubleshoot"** link. That is the widget correctly reporting an invalid key, not a bug in the markup.
 
-⚠ **The support form collects no email address**, as specified. A removal request therefore arrives
-with a name and nothing to match it against, and there is no way to reply and confirm it was done. If
-those requests need to be actioned reliably, add an email field to `support/index.html` and to the
-`SPEC` in `functions/api/support.js`.
 
 **1. Turnstile** (dashboard → Turnstile → Add widget, hostname `streetdog.life`). It gives a **site
 key** and a **secret key**. Put the *site* key into **all three** of `games/index.html`,

@@ -4,12 +4,11 @@
  * Two jobs: reporting a problem with a build, and requesting removal of personal information (the
  * privacy note on /games/ points here for that).
  *
- * ⚠ THIS FORM COLLECTS NO EMAIL ADDRESS, which has a consequence worth knowing before relying on it:
- * a removal request arrives with a name and nothing to match against, and there is no way to reply
- * and confirm. If removal requests are meant to be actioned reliably, this form needs an email field
- * — see the note in /support/index.html. Left as specified for now, deliberately.
+ * Email is REQUIRED, and that is load-bearing for the second job: a removal request needs an address
+ * both to match the stored record against and to confirm the deletion back to. Without one the
+ * request arrives as a name and nothing else, and cannot be actioned or answered.
  *
- * Every defence and the environment variables it needs live in ./_lib.js, shared with /api/interest.
+ * Every defence and the environment variables it needs live in ./_lib.js, shared with the others.
  */
 import { json, submitForm } from "./_lib.js";
 
@@ -17,9 +16,11 @@ const SPEC = {
   name: "support",
   fields: [
     { key: "name", label: "Name", max: 120, required: true },
+    { key: "email", label: "Email", max: 200, required: true, email: true },
     { key: "build", label: "Build number", max: 60, required: false },
     { key: "issue", label: "Issue", max: 4000, required: true },
   ],
+  replyTo: "email",
   source: "https://streetdog.life/support/",
   subject: (v) => `streetdog.life support — ${v.name}${v.build ? ` (build ${v.build})` : ""}`,
 };

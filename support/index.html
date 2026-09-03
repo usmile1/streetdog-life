@@ -22,10 +22,6 @@
     out.
   </p>
 
-  <!-- ⚠ NO EMAIL FIELD, as specified. Worth knowing what that costs: a removal request arrives with
-       a name and nothing to match it against, and there is no way to reply and confirm it is done.
-       If removal requests need to be actioned reliably, add an email field here and to the SPEC in
-       functions/api/support.js. -->
   <form id="support-form" class="formcard" novalidate>
     <!-- HONEYPOT. Not display:none — the better bots skip hidden fields, but they do not compute
          layout, so an off-screen input still looks like a normal one to them. The name is
@@ -38,6 +34,13 @@
     <div class="field">
       <label for="s-name">Name</label>
       <input id="s-name" name="name" type="text" autocomplete="name" required maxlength="120">
+    </div>
+
+    <!-- Required, not optional: this is the only way to answer a question, and a removal request
+         needs an address both to match the record against and to confirm the deletion back to. -->
+    <div class="field">
+      <label for="s-email">Email</label>
+      <input id="s-email" name="email" type="email" autocomplete="email" required maxlength="200">
     </div>
 
     <div class="field">
@@ -90,9 +93,9 @@
     // it only ever rejects and is stacked behind Turnstile rather than trusted alone.
     data.elapsed_ms = String(Date.now() - loadedAt);
 
-    if (!data.name || !data.issue) {
+    if (!data.name || !data.email || !data.issue) {
       status.className = 'err';
-      status.textContent = 'Please give a name and describe the issue.';
+      status.textContent = 'Please give a name, an email address, and describe the issue.';
       return;
     }
 
