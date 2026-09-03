@@ -14,3 +14,4 @@
 # URLs change when their content does.
 /assets/site.css
   Cache-Control: public, max-age=0, must-revalidate
+  X-Sdl-Headers-Applied: yes
