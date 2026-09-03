@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Street Dog Games — streetdog.life</title>
+<meta name="description" content="Sandy and ARC9 — an open-world exploration game where you find stray dogs and give them treats. No combat, no puzzles. Relax, wander, help dogs.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Sandy and ARC9">
+<meta property="og:description" content="Wander an interesting world. Help dogs. No combat, no frustrating puzzles.">
+<meta property="og:image" content="https://streetdog.life/assets/sandy-arc9-512.png">
+<meta property="og:url" content="https://streetdog.life/games/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/assets/sandy-arc9-180.png">
+<link rel="apple-touch-icon" href="/assets/sandy-arc9-180.png">
+<link rel="stylesheet" href="/assets/site.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="masthead"><a class="home" href="/">← streetdog.life</a></div>
+
+  <h1>Street Dog Games</h1>
+
+  <p>
+    In early 2024 I had an idea for a game. The <em>real world</em> is a challenging place, full of
+    things that can get you down. I wanted a game where I could spend fifteen minutes a day doing
+    something that lifted me up. I love dogs. Helping dogs lifts me up. So I started learning Unity,
+    and began working on the idea.
+  </p>
+
+  <hr>
+
+  <img class="mark" src="/assets/sandy-arc9-512.png" alt="">
+
+  <h2>Sandy and ARC9</h2>
+  <p class="tagline">Relax. Wander an interesting world. Help dogs.</p>
+
+  <p>
+    An open-world exploration game where you find stray dogs and give them treats. That’s it.
+  </p>
+
+  <p>
+    Have fifteen minutes between meetings? Help a dog. Sitting on the train commuting? Help a dog.
+    Procrastinating from doing the dishes? Help a dog. No combat, no frustrating puzzles.
+  </p>
+
+  <p>
+    The game is nearing a proper alpha release, with an open beta hopefully ready by the end of 2026.
+  </p>
+
+  <hr>
+
+  <h2 id="interest">Want to help test it?</h2>
+
+  <p>
+    Testing happens through TestFlight, on iPhone, and invitations go out by hand a few at a time.
+    Leave your details and I will get in touch when there is a build worth your time.
+  </p>
+
+  <form id="interest-form" novalidate>
+    <label for="f-name">Name</label>
+    <input id="f-name" name="name" type="text" autocomplete="name" required maxlength="120">
+
+    <label for="f-email">Email</label>
+    <input id="f-email" name="email" type="email" autocomplete="email" required maxlength="200">
+
+    <label for="f-why">Why would you like to help?</label>
+    <textarea id="f-why" name="why" rows="4" required maxlength="2000"></textarea>
+    <p class="hint">
+      This is the useful one. It tells me what people think the game is before they have played it.
+    </p>
+
+    <!-- Turnstile renders here. Explicit rather than auto so the widget cannot appear before the
+         rest of the form has laid out. The site key is public by design; the secret is a Pages
+         environment variable and never appears in this repo. -->
+    <div class="cf-turnstile" data-sitekey="TURNSTILE_SITE_KEY" data-theme="auto"></div>
+
+    <button type="submit">Send</button>
+
+    <p class="privacy">
+      Your name, email and message go to me and no one else. I use them only to contact you about
+      testing this game. They are not passed on, sold, or added to any mailing list, and I will delete
+      them if you ask — <a href="mailto:wardeng@gmail.com">wardeng@gmail.com</a>.
+    </p>
+  </form>
+
+  <p id="form-status" role="status" aria-live="polite"></p>
+
+  <footer>
+    <a href="/">streetdog.life</a> · <a href="/stories/">Stories</a> · <a href="/news/">News</a>
+  </footer>
+
+</div>
+
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<script>
+(function () {
+  var form = document.getElementById('interest-form');
+  var status = document.getElementById('form-status');
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    status.className = '';
+    status.textContent = '';
+
+    // Validate here as well as in the Function. The client check is for a fast, kind error message;
+    // the server check is the one that actually matters, because anything here can be bypassed.
+    var data = Object.fromEntries(new FormData(form).entries());
+    if (!data.name || !data.email || !data.why) {
+      status.className = 'err';
+      status.textContent = 'Please fill in all three fields.';
+      return;
+    }
+
+    var button = form.querySelector('button');
+    button.disabled = true;
+    button.textContent = 'Sending…';
+
+    try {
+      var res = await fetch('/api/interest', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      var out = await res.json().catch(function () { return {}; });
+
+      if (res.ok) {
+        form.style.display = 'none';
+        status.className = 'ok';
+        status.textContent = 'Thank you — I have got it, and I will be in touch.';
+      } else {
+        status.className = 'err';
+        status.textContent = out.error || 'Something went wrong. Please try again, or email me directly.';
+        button.disabled = false;
+        button.textContent = 'Send';
+        if (window.turnstile) window.turnstile.reset();
+      }
+    } catch (err) {
+      // A network failure must not look like a submission that worked.
+      status.className = 'err';
+      status.textContent = 'Could not reach the server. Please try again, or email me directly.';
+      button.disabled = false;
+      button.textContent = 'Send';
+      if (window.turnstile) window.turnstile.reset();
+    }
+  });
+})();
+</script>
+</body>
+</html>

@@ -9,11 +9,28 @@ Static HTML, one stylesheet, no build step, no `package.json`. A handful of hand
 not need a toolchain, and a toolchain is the part that rots between the times anyone looks at it.
 
 ```
-index.html              the front door — lists the sections that exist
-sandy-and-arc9/         the game
+index.html              the front door — Dan, the poem, the sections
+stories/index.html      254 #vss365 stories        ← GENERATED, do not hand-edit
+games/index.html        the game + the tester form
+news/index.html         release notes and posts    ← GENERATED, do not hand-edit
+news/posts/*.md         write posts here
+data/stories.json       the Sandy & ARC9 archive
+tools/build_stories.py  data/stories.json  -> stories/index.html
+tools/build_news.py     news/posts/*.md    -> news/index.html
+functions/api/interest.js   the tester form endpoint (Pages Function)
 assets/site.css         one stylesheet, shared by every page
-assets/*.png            images
+_redirects              /sandy-and-arc9/ -> /games/
 ```
+
+**Two pages are generated and committed.** Edit the source, re-run the tool, commit the output:
+
+```sh
+tools/build_stories.py    # after changing data/stories.json
+tools/build_news.py       # after adding a post to news/posts/
+```
+
+The site itself still has **no build step** — Cloudflare serves the committed HTML. Generating locally
+and committing the artifact is the same trade the game makes with its offline emitters.
 
 ## ⚠ This repo is PUBLIC
 
@@ -82,10 +99,33 @@ Planned but not written. When it happens: **hand-written, one entry per release,
 commits.** The game repo's commit messages name licensed asset packs and their terms, internal file
 paths, unreleased plans and debugging notes. A release is not a commit.
 
-## The tester form
+## The tester form — BUILT, but needs configuring before it works
 
-Also planned. It needs a Cloudflare Pages Function plus an email API (Resend or MailChannels), since a
-static page cannot send mail, and Cloudflare Turnstile, because any public form collects bots within
-days. It handles **personal data** — name, email, and why someone wants to help — so it needs a line
-saying what that is used for and that it is not passed on, and that line has to agree with the game's
-App Store privacy answers.
+`/games/#interest` posts to `functions/api/interest.js`, a Pages Function. Until the steps below are
+done it **fails visibly** rather than silently accepting and discarding submissions — which is the
+right way round, but it does mean the form is broken until you finish.
+
+**1. Turnstile** (dashboard → Turnstile → Add widget, hostname `streetdog.life`). It gives a **site
+key** and a **secret key**. Put the *site* key into `games/index.html`, replacing
+`TURNSTILE_SITE_KEY` — it is public by design and belongs in the repo. The *secret* does not.
+
+**2. Resend** (resend.com) — verify `streetdog.life` as a sending domain, which means adding the DKIM
+and SPF records it gives you to Cloudflare DNS. Then create an API key.
+
+**3. Pages environment variables** — Workers & Pages → streetdog-life → Settings → Variables and
+Secrets. Mark the first two **encrypted**; once encrypted they cannot be read back out, which is the
+point.
+
+| Variable | Value |
+|---|---|
+| `TURNSTILE_SECRET` | the secret half of the Turnstile widget — **encrypt** |
+| `RESEND_API_KEY` | from Resend — **encrypt** |
+| `NOTIFY_TO` | `wardeng@gmail.com` |
+| `NOTIFY_FROM` | a verified sender, e.g. `forms@streetdog.life` |
+
+⚠ **MailChannels is not an option** — it ended free Workers sending in 2024. Resend's free tier is
+ample for a form nobody has found yet.
+
+**Personal data.** The form collects a name, an email and a reason. The page says outright what that
+is used for, that it goes nowhere else, and that it will be deleted on request. That statement has to
+stay true — and has to agree with the game's App Store privacy answers.

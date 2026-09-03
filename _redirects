@@ -1,0 +1,3 @@
+# The game page moved to /games/ when the site gained sections. Kept because the old path was live
+# briefly and may be in a link somewhere; costs one line and never expires.
+/sandy-and-arc9/*  /games/  301

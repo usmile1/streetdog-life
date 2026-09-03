@@ -61,3 +61,72 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 2.5rem 0; }
 img.mark { width: 120px; height: 120px; border-radius: 26px; box-shadow: 0 6px 24px rgb(0 0 0 / .18); }
 
 footer { margin-top: 3.5rem; padding-top: 1.25rem; border-top: 1px solid var(--rule); color: var(--warm); font-size: .85rem; }
+
+/* ── wider column for the story archive ─────────────────────────────────────────────────────────── */
+.wrap.wide { max-width: 42rem; }
+
+/* ── the Dan poem ───────────────────────────────────────────────────────────────────────────────── */
+.verse {
+  margin: 2rem 0;
+  padding: 0 0 0 1.25rem;
+  border-left: 3px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  font-style: italic;
+  color: var(--accent);
+  line-height: 1.9;
+}
+
+/* ── #vss365 stories ────────────────────────────────────────────────────────────────────────────── */
+nav.years { margin: 1.5rem 0 2.5rem; display: flex; gap: .9rem; flex-wrap: wrap; }
+nav.years a { text-decoration: none; color: var(--warm); font-variant-numeric: tabular-nums; }
+nav.years a:hover { color: var(--accent); }
+
+h2 .count { font-weight: 400; font-size: .8rem; color: var(--warm); margin-left: .5rem; }
+
+.vss { border-top: 1px solid var(--rule); padding: 1.4rem 0; }
+.vss header { font-size: .85rem; color: var(--warm); margin-bottom: .5rem; }
+.vss header time { font-variant-numeric: tabular-nums; }
+.vss p { margin: 0; }
+
+/* The prompt word IS the constraint each story was written against, so it is marked rather than
+   left to look like a stray character. */
+.tag { color: var(--accent); font-style: normal; }
+.noprompt { font-style: italic; opacity: .7; }
+
+/* ── news posts ─────────────────────────────────────────────────────────────────────────────────── */
+.post { border-top: 1px solid var(--rule); padding: 1.75rem 0 .5rem; }
+.post header { font-size: .85rem; color: var(--warm); }
+.post h2 { margin: .3rem 0 .9rem; font-size: 1.3rem; }
+.post h3 { font-size: 1.05rem; margin: 1.5rem 0 .6rem; }
+.post code { font: .9em/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+             background: color-mix(in srgb, var(--warm) 18%, transparent);
+             padding: .1em .35em; border-radius: 4px; }
+
+/* ── the tester form ────────────────────────────────────────────────────────────────────────────── */
+form { margin: 1.5rem 0 0; }
+form label { display: block; margin: 1.1rem 0 .35rem; font-size: .95rem; font-weight: 600; }
+form input, form textarea {
+  width: 100%; padding: .6rem .7rem;
+  font: inherit; font-size: 1rem;
+  color: var(--ink); background: color-mix(in srgb, var(--paper) 88%, var(--warm));
+  border: 1px solid var(--rule); border-radius: 8px;
+}
+form input:focus, form textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+form textarea { resize: vertical; }
+form .hint { font-size: .85rem; color: var(--warm); margin: .4rem 0 0; }
+form button {
+  margin-top: 1.4rem; padding: .65rem 1.4rem;
+  font: inherit; font-size: 1rem; font-weight: 600;
+  color: var(--paper); background: var(--accent);
+  border: 0; border-radius: 8px; cursor: pointer;
+}
+form button:hover { filter: brightness(1.1); }
+form button:disabled { opacity: .6; cursor: default; }
+.cf-turnstile { margin-top: 1.4rem; }
+
+/* Personal data deserves a visible statement, not small print buried elsewhere. */
+.privacy { margin-top: 1.4rem; font-size: .85rem; color: var(--warm); line-height: 1.55; }
+
+#form-status { margin-top: 1rem; font-size: .95rem; }
+#form-status.ok  { color: var(--accent); font-weight: 600; }
+#form-status.err { color: #b4472f; font-weight: 600; }
+@media (prefers-color-scheme: dark) { #form-status.err { color: #e08a72; } }
