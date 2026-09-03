@@ -79,12 +79,18 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 
 /* ── masthead ──────────────────────────────────────────────────────────────────────────────────────
- * Dan across the top, cropped tight on his eye. A photograph of the actual dog is the honest header
- * for a site named after him and does more than any mark would. */
-.hero {
-  height: clamp(150px, 30vw, 300px);
+ * Dan and the name-stone are ONE unit, sharing the content column's left edge — not a full-bleed band
+ * with a mark floating on top of it. A photograph of the actual dog is the honest header for a site
+ * named after him, and the stone laps over its bottom edge the way a kerb stone sits into the ground.
+ *
+ * The photo is a div with role="img" rather than an <img>: it is cropped by `cover` at every viewport
+ * width, which background-position does cleanly and object-fit would need a wrapper for. The
+ * aria-label carries the description, so it is not invisible to a screen reader. */
+.banner { margin: 1.75rem 0 1.7rem; }
+.portrait {
+  height: clamp(150px, 30vw, 280px);
   background: url("/assets/dan-header.jpg") center 62% / cover no-repeat var(--sand);
-  border-bottom: 1px solid var(--rule);
+  border-radius: 2px;
 }
 
 /* ── the wordmark: a kerb stone ────────────────────────────────────────────────────────────────────
@@ -104,7 +110,9 @@ h1.wordmark img {
   display: block;
   width: min(100%, 412px);
   height: auto;
-  margin-top: -2.4rem;
+  /* Laps over the photo above it, and sits on the same left edge as the links and the poem below —
+     .25rem, matching .doors a's inset. One column, one edge, all the way down. */
+  margin: -2.4rem 0 0 .25rem;
   border-radius: 3px;
   box-shadow: 0 2px 5px rgb(0 0 0 / .28), 0 10px 24px rgb(0 0 0 / .16);
 }
@@ -117,17 +125,6 @@ h1.wordmark img {
   color: var(--deck); text-decoration: none;
 }
 .home:hover { color: var(--accent); }
-
-/* h1.wordmark zeroes its own margins so the stone can overlap the photo, which leaves whatever follows
-   sitting against it. Restore the gap here rather than on the image, so the overlap and the spacing
-   below it stay independent knobs. */
-h1.wordmark + p { margin-top: 1.6rem; }
-
-.brand { display: flex; align-items: center; gap: .8rem; padding: 1.4rem 0 0; }
-.brand img { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; flex: 0 0 auto; }
-.brand a { display: flex; align-items: center; gap: .8rem; text-decoration: none; color: var(--deck); }
-.brand a:hover { color: var(--accent); }
-.brand .name { font-family: var(--display); font-size: .95rem; letter-spacing: .01em; }
 
 h1 {
   font-family: var(--display);
@@ -157,19 +154,24 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 2.75rem 0; }
   transition: background .15s, padding-left .15s;
 }
 .doors a:hover { background: var(--card); padding-left: .9rem; }
+/* The links carry NO description. The page's opening line already says what the site is, and a
+   sentence under each link would say it a second time — the sub-pages do that work. What stays is a
+   count and a date range, which is a fact about the thing rather than a pitch for it. */
 .doors .t { display: block; font-family: var(--display); font-size: 1.5rem; letter-spacing: -.01em; }
-.doors .d { display: block; margin-top: .3rem; color: var(--deck); font-size: .95rem; line-height: 1.55; }
 .doors .n { display: block; margin-top: .45rem; font-family: var(--display); font-size: .78rem; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); }
 
 /* The doors already close with a rule, so the footer must not draw a second one directly beneath it —
    two rules a few rem apart read as an empty third door. */
 .doors + footer { border-top: 0; margin-top: 2.25rem; }
+/* The poem ends the front page; 4rem after it leaves a band of nothing above the footer rule. */
+.verse + footer { margin-top: 2.5rem; }
 
-/* ── the Dan poem ──────────────────────────────────────────────────────────────────────────────── */
+/* ── the Dan poem ──────────────────────────────────────────────────────────────────────────────────
+ * On the front page it sits directly under the two links and shares their left edge (.25rem), so the
+ * whole column lines up. Deliberately NO left border rule: a quote bar would push the text off that
+ * edge, and the italic and the colour already mark it as verse. */
 .verse {
-  margin: 2.25rem 0;
-  padding-left: 1.15rem;
-  border-left: 2px solid var(--sand);
+  margin: 2.25rem 0 0 .25rem;
   font-style: italic;
   color: var(--accent);
   line-height: 2;

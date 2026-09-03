@@ -120,17 +120,6 @@ def main():
     one-word prompt, which appears in the story itself. Enjoy.
   </p>
 
-  <p>The site is named for my own street dog.</p>
-
-  <!-- Greg's, verbatim. Set as verse rather than a paragraph because the line breaks ARE the poem.
-       It lived on the home page until that page became two doors and nothing else; it belongs with
-       the writing rather than in a footer. -->
-  <blockquote class="verse">
-    I have a dog named Dan<br>
-    His fur is the color of sand<br>
-    He’s afraid of the ceiling fan<br>
-    Sleeps on the bed whenever he can
-  </blockquote>
 
   <p class="quiet">
     {len(stories)} stories · {pretty_date(stories[0]['date'])} – {pretty_date(stories[-1]['date'])}
