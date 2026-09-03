@@ -128,7 +128,12 @@ def main():
   {''.join(parts)}
 
   <footer>
-    <a href="/">streetdog.life</a> · <a href="/games/">Street Dog Games</a> · <a href="/support/">Support</a>
+    <a href="/">streetdog.life</a>
+    <a href="/stories/">Stories</a>
+    <a href="/games/">Games</a>
+    <a href="/news/">News</a>
+    <a href="/games/#interest">Contact</a>
+    <a href="/support/">Support</a>
   </footer>
 
 </div>
