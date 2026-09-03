@@ -3,9 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Support — streetdog.life</title>
-<meta name="description" content="Report a problem with a Sandy and ARC9 build, or ask for your information to be removed.">
-<meta name="robots" content="noindex">
+<title>Contact — streetdog.life</title>
+<meta name="description" content="Get in touch with Greg Warden about streetdog.life — the stories, the game, or anything else.">
 <link rel="icon" href="/assets/sandy-arc9-180.png">
 <link rel="apple-touch-icon" href="/assets/sandy-arc9-180.png">
 <link rel="stylesheet" href="/assets/site.css?v=91fd2499">
@@ -15,44 +14,39 @@
 
   <div class="masthead"><a class="home" href="/">← streetdog.life</a></div>
 
-  <h1>Support</h1>
+  <h1>Contact</h1>
 
   <p>
-    Something wrong with a build, or want your information removed? Tell me here and I will sort it
-    out.
+    Anything at all — the stories, the game, or something else entirely.
   </p>
 
-  <!-- ⚠ NO EMAIL FIELD, as specified. Worth knowing what that costs: a removal request arrives with
-       a name and nothing to match it against, and there is no way to reply and confirm it is done.
-       If removal requests need to be actioned reliably, add an email field here and to the SPEC in
-       functions/api/support.js. -->
-  <form id="support-form" class="formcard" novalidate>
+  <form id="contact-form" class="formcard" novalidate>
     <!-- HONEYPOT. Not display:none — the better bots skip hidden fields, but they do not compute
          layout, so an off-screen input still looks like a normal one to them. The name is
          deliberately NON-SEMANTIC so no password manager will ever autofill it; see _lib.js. -->
     <div class="hp" aria-hidden="true">
-      <label for="s-hp">Leave this field empty</label>
-      <input id="s-hp" name="hp_field" type="text" tabindex="-1" autocomplete="off">
+      <label for="c-hp">Leave this field empty</label>
+      <input id="c-hp" name="hp_field" type="text" tabindex="-1" autocomplete="off">
     </div>
 
     <div class="field">
-      <label for="s-name">Name</label>
-      <input id="s-name" name="name" type="text" autocomplete="name" required maxlength="120">
+      <label for="c-name">Name</label>
+      <input id="c-name" name="name" type="text" autocomplete="name" required maxlength="120">
     </div>
 
     <div class="field">
-      <label for="s-build">Build number <span class="opt">(optional)</span></label>
-      <input id="s-build" name="build" type="text" maxlength="60" inputmode="numeric">
-      <p class="hint">On the TestFlight build screen, if you have it to hand.</p>
+      <label for="c-email">Email</label>
+      <input id="c-email" name="email" type="email" autocomplete="email" required maxlength="200">
     </div>
 
     <div class="field">
-      <label for="s-issue">Issue</label>
-      <textarea id="s-issue" name="issue" rows="6" required maxlength="4000"></textarea>
+      <label for="c-message">What’s on your mind?</label>
+      <textarea id="c-message" name="message" rows="6" required maxlength="4000"></textarea>
     </div>
 
     <!-- Turnstile renders here. The site key is public by design; the secret is a Pages environment
-         variable and never appears in this repo. -->
+         variable and never appears in this repo. ⚠ Until a real key replaces the placeholder the
+         widget renders Cloudflare's own error UI, complete with a "Troubleshoot" link. -->
     <div class="cf-turnstile" data-sitekey="TURNSTILE_SITE_KEY" data-theme="auto"></div>
 
     <button type="submit">Send</button>
@@ -74,7 +68,7 @@
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <script>
 (function () {
-  var form = document.getElementById('support-form');
+  var form = document.getElementById('contact-form');
   var status = document.getElementById('form-status');
   var loadedAt = Date.now();
 
@@ -90,9 +84,9 @@
     // it only ever rejects and is stacked behind Turnstile rather than trusted alone.
     data.elapsed_ms = String(Date.now() - loadedAt);
 
-    if (!data.name || !data.issue) {
+    if (!data.name || !data.email || !data.message) {
       status.className = 'err';
-      status.textContent = 'Please give a name and describe the issue.';
+      status.textContent = 'Please fill in all three fields.';
       return;
     }
 
@@ -101,7 +95,7 @@
     button.textContent = 'Sending…';
 
     try {
-      var res = await fetch('/api/support', {
+      var res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)

@@ -132,7 +132,7 @@ def main():
     <a href="/stories/">Stories</a>
     <a href="/games/">Games</a>
     <a href="/news/">News</a>
-    <a href="/games/#interest">Contact</a>
+    <a href="/contact/">Contact</a>
     <a href="/support/">Support</a>
   </footer>
 

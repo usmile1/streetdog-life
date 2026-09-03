@@ -12,6 +12,7 @@ not need a toolchain, and a toolchain is the part that rots between the times an
 index.html              the front door — Dan, the wordmark, two doors
 stories/index.html      254 #vss365 stories        ← GENERATED, do not hand-edit
 games/index.html        the game, the offer-of-help form, the CREDITS
+contact/index.html      the general contact form — anything at all
 support/index.html      report a build problem / ask for your info to be removed
 news/index.html         release notes and posts    ← GENERATED, do not hand-edit
 news/posts/*.md         write posts here
@@ -24,6 +25,7 @@ tools/stamp_css.py       hashes site.css into every page's <link>  ← RUN LAST
 functions/api/_lib.js       shared form handling — honeypot, timing, Turnstile, Resend
 functions/api/interest.js   the offer-of-help form endpoint  (Pages Function)
 functions/api/support.js    the support form endpoint        (Pages Function)
+functions/api/contact.js    the contact form endpoint        (Pages Function)
 assets/site.css         one stylesheet, shared by every page
 _redirects              /sandy-and-arc9/ -> /games/
 ```
@@ -151,18 +153,23 @@ Planned but not written. When it happens: **hand-written, one entry per release,
 commits.** The game repo's commit messages name licensed asset packs and their terms, internal file
 paths, unreleased plans and debugging notes. A release is not a commit.
 
-## The two forms — BUILT, but need configuring before they work
+## The three forms — BUILT, but need configuring before they work
 
-- `/games/#interest` → `functions/api/interest.js` — offers of help
+Three narrow forms rather than one broad one, because the question you ask shapes the answer you get:
+
+- `/games/#interest` → `functions/api/interest.js` — offers of help **with the game**
+- `/contact/` → `functions/api/contact.js` — anything at all
 - `/support/` → `functions/api/support.js` — build problems, and information-removal requests
 
 Both share `functions/api/_lib.js`, which holds every defence (honeypot, timing floor, Turnstile,
 validation, sending) so the two cannot drift apart. **The leading underscore matters** — Pages does
 not route files starting with `_`, so it stays a module rather than becoming a public URL.
 
-One Turnstile widget and one set of environment variables covers both. Until the steps below are done
+One Turnstile widget and one set of environment variables covers all three. Until the steps below are done
 they **fail visibly** rather than silently accepting and discarding submissions — which is the right
-way round, but it does mean both forms are broken until you finish.
+way round, but it does mean all three forms are broken until you finish.
+
+Until a real site key replaces the `TURNSTILE_SITE_KEY` placeholder, the widget renders Cloudflare's own error box with a **"Troubleshoot"** link. That is the widget correctly reporting an invalid key, not a bug in the markup.
 
 ⚠ **The support form collects no email address**, as specified. A removal request therefore arrives
 with a name and nothing to match it against, and there is no way to reply and confirm it was done. If
@@ -170,9 +177,12 @@ those requests need to be actioned reliably, add an email field to `support/inde
 `SPEC` in `functions/api/support.js`.
 
 **1. Turnstile** (dashboard → Turnstile → Add widget, hostname `streetdog.life`). It gives a **site
-key** and a **secret key**. Put the *site* key into **both** `games/index.html` and
-`support/index.html`, replacing `TURNSTILE_SITE_KEY` — it is public by design and belongs in the
-repo. The *secret* does not.
+key** and a **secret key**. Put the *site* key into **all three** of `games/index.html`,
+`contact/index.html` and `support/index.html`, replacing `TURNSTILE_SITE_KEY` — it is public by
+design and belongs in the repo. The *secret* does not.
+
+⚠ Do NOT use Cloudflare's published test site keys to make the widget look right. They always
+pass, so shipping one is the same as having no spam protection at all.
 
 **2. Resend** (resend.com) — verify `streetdog.life` as a sending domain, which means adding the DKIM
 and SPF records it gives you to Cloudflare DNS. Then create an API key.
