@@ -59,6 +59,21 @@
   </p>
 
   <form id="interest-form" novalidate>
+    <!-- HONEYPOT. Not display:none — the better bots skip hidden fields, but they do not compute
+         layout, so an off-screen input still looks like a normal one to them.
+
+         The name is deliberately NON-SEMANTIC. "website", "company", "url" and friends are exactly
+         what password managers autofill, and an autofilled honeypot silently eats a real person's
+         message. Nothing matches "hp_field", so no manager will touch it, while a naive bot that
+         fills every input it finds trips it immediately.
+
+         aria-hidden + tabindex=-1 keep it away from screen readers and the tab order, so it is
+         invisible to assistive tech as well as to sighted users. -->
+    <div class="hp" aria-hidden="true">
+      <label for="f-hp">Leave this field empty</label>
+      <input id="f-hp" name="hp_field" type="text" tabindex="-1" autocomplete="off">
+    </div>
+
     <label for="f-name">Name</label>
     <input id="f-name" name="name" type="text" autocomplete="name" required maxlength="120">
 
@@ -81,7 +96,7 @@
     <p class="privacy">
       Your name, email and message go to me and no one else. I use them only to contact you about
       testing this game. They are not passed on, sold, or added to any mailing list, and I will delete
-      them if you ask — <a href="mailto:wardeng@gmail.com">wardeng@gmail.com</a>.
+      them if you ask — send that request through this form and I will confirm by reply.
     </p>
   </form>
 
@@ -98,6 +113,7 @@
 (function () {
   var form = document.getElementById('interest-form');
   var status = document.getElementById('form-status');
+  var loadedAt = Date.now();
 
   form.addEventListener('submit', async function (e) {
     e.preventDefault();
@@ -107,6 +123,11 @@
     // Validate here as well as in the Function. The client check is for a fast, kind error message;
     // the server check is the one that actually matters, because anything here can be bypassed.
     var data = Object.fromEntries(new FormData(form).entries());
+    // How long the form was open. Bots post the instant they parse the page; a person cannot type
+    // three fields in under a couple of seconds. Client-supplied and therefore forgeable — it is a
+    // cheap filter stacked on Turnstile, not a defence on its own.
+    data.elapsed_ms = String(Date.now() - loadedAt);
+
     if (!data.name || !data.email || !data.why) {
       status.className = 'err';
       status.textContent = 'Please fill in all three fields.';
@@ -131,7 +152,7 @@
         status.textContent = 'Thank you — I have got it, and I will be in touch.';
       } else {
         status.className = 'err';
-        status.textContent = out.error || 'Something went wrong. Please try again, or email me directly.';
+        status.textContent = out.error || 'Something went wrong. Please try again in a moment.';
         button.disabled = false;
         button.textContent = 'Send';
         if (window.turnstile) window.turnstile.reset();
@@ -139,7 +160,7 @@
     } catch (err) {
       // A network failure must not look like a submission that worked.
       status.className = 'err';
-      status.textContent = 'Could not reach the server. Please try again, or email me directly.';
+      status.textContent = 'Could not reach the server. Please try again in a moment.';
       button.disabled = false;
       button.textContent = 'Send';
       if (window.turnstile) window.turnstile.reset();

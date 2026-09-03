@@ -34,7 +34,7 @@ export async function onRequestPost({ request, env }) {
     .filter((k) => !env[k]);
   if (missing.length) {
     console.error("interest: missing env vars:", missing.join(", "));
-    return json({ error: "The form is not configured yet. Please email me directly." }, 500);
+    return json({ error: "The form is not working just now. Please try again later." }, 500);
   }
 
   // --- parse ----------------------------------------------------------------------------------
@@ -49,6 +49,36 @@ export async function onRequestPost({ request, env }) {
   const email = String(body.email ?? "").trim();
   const why = String(body.why ?? "").trim();
   const token = String(body["cf-turnstile-response"] ?? "");
+
+  // --- honeypot ---------------------------------------------------------------------------------
+  // An off-screen input no person can see or tab to. If it has anything in it, whatever filled it
+  // walked the DOM rather than read the page.
+  //
+  // ⚠ THIS IS THE ONE PLACE THAT DELIBERATELY LIES: it returns success without sending anything, so
+  // a bot cannot tell it was caught and cannot adapt. Everywhere else in this file, saying "sent"
+  // when nothing was sent would be the worst possible behaviour.
+  //
+  // Safe here only because the field name is non-semantic (`hp_field`), so no password manager will
+  // autofill it. Rename it to anything resembling "website", "company" or "url" and this stops being
+  // a bot trap and starts silently eating real messages from people with autofill.
+  if (String(body.hp_field ?? "").trim() !== "") {
+    console.warn("interest: honeypot tripped", {
+      ip: request.headers.get("CF-Connecting-IP"),
+      ua: request.headers.get("User-Agent"),
+    });
+    return json({ ok: true });
+  }
+
+  // --- how fast was it submitted ----------------------------------------------------------------
+  // Bots post the moment they parse the page. Nobody types three fields in under two seconds.
+  // Client-supplied and therefore forgeable, which is exactly why it only ever REJECTS and is
+  // stacked behind Turnstile rather than trusted on its own. Missing is treated as fine — an older
+  // browser or a blocked script should not lock someone out of the form.
+  const elapsed = Number(body.elapsed_ms);
+  if (Number.isFinite(elapsed) && elapsed >= 0 && elapsed < 2000) {
+    console.warn("interest: submitted in", elapsed, "ms — too fast");
+    return json({ error: "That was quick — please try once more." }, 400);
+  }
 
   // --- validate. The client checks too, for a kinder message; this is the check that counts ------
   if (!name || !email || !why) return json({ error: "Please fill in all three fields." }, 400);
@@ -101,7 +131,7 @@ export async function onRequestPost({ request, env }) {
   if (!sent.ok) {
     // Log the reason but never return it: provider errors can carry account details.
     console.error("interest: resend failed", sent.status, await sent.text().catch(() => ""));
-    return json({ error: "Could not send just now. Please try again, or email me directly." }, 502);
+    return json({ error: "Could not send just now. Please try again in a moment." }, 502);
   }
 
   return json({ ok: true });
