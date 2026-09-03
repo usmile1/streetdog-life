@@ -47,17 +47,25 @@ needed, which was the reason the site left the game's repo.
 
 Cloudflare must be **authoritative for DNS**; it does not need to be the registrar.
 
-1. Cloudflare → **Add a site** → `streetdog.life`. It scans the existing records.
-2. Cloudflare gives you **two nameservers**.
-3. GoDaddy → domain → **Nameservers → Change → Custom** → enter both. Registration, renewal and billing
-   stay at GoDaddy.
-4. Wait for propagation — usually under an hour, occasionally 24–48.
-5. Pages project → **Custom domains** → add `streetdog.life` and `www.streetdog.life`.
+The dashboard calls this **"Onboard a domain"**, under **Domains**. It used to be "Add a site" and
+that label is gone — if you go looking for it you will not find it.
 
-⚠ **Check what GoDaddy is serving before you switch.** Any existing MX (mail) or TXT (verification)
-records must be recreated in Cloudflare *first*, or moving the nameservers takes them down.
-Cloudflare's scan usually catches them — but it is a scan, not a guarantee. Compare against GoDaddy's
-DNS page by eye.
+1. Dashboard → **Domains** → **Onboard a domain**.
+2. Enter the apex domain `streetdog.life`, choose how to add DNS records → **Continue**.
+3. Choose a plan — **Free**.
+4. **Review the scanned DNS records.** See the warning below; this is the step that matters.
+5. Cloudflare gives you **two nameservers**. GoDaddy → domain → **Nameservers → Change → Custom** →
+   enter both. Registration, renewal and billing stay at GoDaddy.
+6. Wait for propagation — usually under an hour, occasionally 24–48.
+7. Pages project → **Custom domains** → add `streetdog.life` and `www.streetdog.life`.
+
+⚠ **Check what GoDaddy is serving before you switch.** Cloudflare's own docs say to verify the scan by
+hand, specifically for apex records, subdomains, and **email: MX, TXT, SPF, DKIM, DMARC**. Any of those
+that exist and do not get recreated in Cloudflare go down the moment the nameservers move. Keep
+GoDaddy's DNS page open alongside and compare line by line — the scan is a scan, not a guarantee.
+
+Each record has a **Proxied** (orange cloud) / **DNS only** (grey cloud) toggle. Proxied is right for
+the site. **Any MX record must be DNS only** — mail cannot be proxied.
 
 ## Adding a section
 
