@@ -111,7 +111,7 @@ def main():
 
   <p>
     Believing I had stories of my own trapped in my head, I started joining in. A few days later two
-    recurring characters had emerged: <strong>Sandy</strong> the street dog, and <strong>ARC9</strong>,
+    recurring characters emerged: <strong>Sandy</strong> the street dog, and <strong>ARC9</strong>
     his robot companion.
   </p>
 
