@@ -141,7 +141,7 @@ def main():
   {articles}
 
   <footer>
-    <a href="/">streetdog.life</a> · <a href="/games/">Games</a> · <a href="/stories/">Stories</a>
+    <a href="/">streetdog.life</a> · <a href="/games/">Games</a> · <a href="/stories/">Stories</a> · <a href="/support/">Support</a>
   </footer>
 
 </div>
