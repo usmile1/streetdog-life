@@ -13,12 +13,26 @@
  * Every value below was pulled out of the picture of Dan in assets/, not chosen from a palette:
  *
  *     #1c1720  his eye, almost black          #c6af9c  his coat  ← the accent
- *     #74635b  the weathered deck boards      #846854  the shadow under his ear
- *     #d5d0d1  the white blaze on his face    ← the light ground
+ *     #70727c  the weathered deck boards      ← THE GROUND
+ *     #846854  the shadow under his ear
  *
- * The light ground is a COOL grey off the blaze, deliberately not the warm cream that every generated
- * page reaches for. The accent is a dog-coloured tan, which is not a colour anyone picks on purpose,
- * which is rather the point.
+ * ⚠ THE GROUND IS THE DECK, AND THAT IS THE WHOLE POINT. The first version of this palette used
+ * #e9e5e0 while claiming in this very comment to be "a cool grey, deliberately not the warm cream
+ * every generated page reaches for". It was measured afterwards and it was not cool at all — hue 33°,
+ * R>G>B, which is the SAME warm family as the #F4F1EA cream that is the house style of AI-generated
+ * pages (hue 42°). The comment was aspiration; the value was the cliché.
+ *
+ * The deck boards were then measured properly off the photograph — 43,289 low-saturation pixels in
+ * the upper-left of the frame — and came back **#70727c, hue 230°, B>G>R**: a genuinely cool blue-
+ * grey, and the one thing in the picture that is not dog-coloured. Every neutral here is that hue at
+ * ~8% saturation with only the lightness moved, so the greys are all one grey.
+ *
+ * It also puts the ground OPPOSITE the accent on the wheel rather than alongside it, which is what
+ * makes a tan dog and a warm brown link read as warm at all. On a cream ground they simply blend.
+ *
+ * (--deck is the same grey a shade darker, #686a76 rather than #70727c, because the true value gave
+ * 4.02:1 on the light ground and it is used for 0.85rem captions. 4.50:1 is the smallest change that
+ * clears AA.)
  *
  * ── TYPE ───────────────────────────────────────────────────────────────────────────────────────────
  * Display is a humanist sans with flared stems — Optima first, which is also the face the game cuts
@@ -27,14 +41,14 @@
  */
 
 :root {
-  --ink:     #1c1720;
-  --deck:    #74635b;
-  --sand:    #c6af9c;
-  --ear:     #846854;
+  --ink:     #1c1720;   /* his eye */
+  --deck:    #686a76;   /* the deck boards, one shade down so 0.85rem captions clear AA — 4.50:1 */
+  --sand:    #c6af9c;   /* his coat */
+  --ear:     #846854;   /* the shadow under his ear */
 
-  --paper:   #e9e5e0;   /* cool, off the blaze — a shade darker than the card so cards lift */
-  --card:    #f5f2ee;
-  --rule:    #d2cbc3;
+  --paper:   #eaebee;   /* the deck boards, lightened — hue 230°, COOL. see the note above. */
+  --card:    #f7f7f8;
+  --rule:    #d1d3d9;
   --accent:  #7a5c3e;   /* the coat, taken down until it holds contrast on a light ground */
   --err:     #a33b26;   /* the only colour that is NOT from the photograph — an error must read as one */
 
@@ -48,11 +62,11 @@
    media query, so the two themes cannot drift apart. */
 @media (prefers-color-scheme: dark) {
   :root {
-    --paper:  #17141a;   /* the eye, opened up just enough to read on */
-    --card:   #211d24;
+    --paper:  #17181b;   /* the same deck grey, taken right down — not a different hue */
+    --card:   #222328;
     --ink:    #e6e0d8;
-    --deck:   #a2907f;
-    --rule:   #322c34;
+    --deck:   #9b9daa;
+    --rule:   #373941;
     --accent: #c6af9c;   /* the coat, at full strength — it only needs taking down on light */
     --err:    #e08a72;   /* lifted, or it reads as brown rather than as an error on a dark ground */
   }
@@ -79,18 +93,25 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 
 /* ── masthead ──────────────────────────────────────────────────────────────────────────────────────
- * Dan and the name-stone are ONE unit, sharing the content column's left edge — not a full-bleed band
- * with a mark floating on top of it. A photograph of the actual dog is the honest header for a site
- * named after him, and the stone laps over its bottom edge the way a kerb stone sits into the ground.
+ * One row: the name-stone upper left, Dan upper right. Nothing else.
  *
- * The photo is a div with role="img" rather than an <img>: it is cropped by `cover` at every viewport
- * width, which background-position does cleanly and object-fit would need a wrapper for. The
- * aria-label carries the description, so it is not invisible to a screen reader. */
-.banner { margin: 1.75rem 0 1.7rem; }
-.portrait {
-  height: clamp(150px, 30vw, 280px);
-  background: url("/assets/dan-header.jpg") center 62% / cover no-repeat var(--sand);
-  border-radius: 2px;
+ * The stone is allowed to SHRINK (flex 0 1 auto, width 100% up to its natural 412px) while the round
+ * mark holds its size — so on a narrow screen the stone gives up width rather than the two colliding
+ * or the mark being squashed out of round. */
+.banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  margin: 1.75rem 0 1.7rem;
+}
+
+/* On a phone the stone is the thing that gives up width, and at 104px the round mark was taking so
+   much of it that the stone rendered 53px tall against a 104px circle — the site's own name, half the
+   height of the photo beside it. The stone is ~4:1, so the two only balance when the mark is about a
+   quarter of the stone's width; 64px is that point at 375px wide. */
+@media (max-width: 30rem) {
+  .banner img.mark { width: 64px; height: 64px; }
 }
 
 /* ── the wordmark: a kerb stone ────────────────────────────────────────────────────────────────────
@@ -105,16 +126,14 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
  * The <h1> keeps its text in the img's alt, so the page still has a real level-one heading for screen
  * readers and search. Never replace this with a background-image and hidden text — the alt IS the
  * heading. */
-h1.wordmark { margin: 0; padding: 0; line-height: 0; }
+h1.wordmark { margin: 0; padding: 0; line-height: 0; flex: 0 1 auto; min-width: 0; }
 h1.wordmark img {
   display: block;
-  width: min(100%, 412px);
+  width: 100%;
+  max-width: 412px;      /* its cut size — never scaled UP, or the engraving goes soft */
   height: auto;
-  /* Laps over the photo above it, and sits on the same left edge as the links and the poem below —
-     .25rem, matching .doors a's inset. One column, one edge, all the way down. */
-  margin: -2.4rem 0 0 .25rem;
   border-radius: 3px;
-  box-shadow: 0 2px 5px rgb(0 0 0 / .28), 0 10px 24px rgb(0 0 0 / .16);
+  box-shadow: 0 1px 3px rgb(0 0 0 / .22), 0 6px 16px rgb(0 0 0 / .12);
 }
 
 /* The back-link every sub-page carries. Small, quiet, and out of the way of the page's own title —
@@ -160,16 +179,19 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 2.75rem 0; }
 /* The doors already close with a rule, so the footer must not draw a second one directly beneath it —
    two rules a few rem apart read as an empty third door. */
 .doors + footer { border-top: 0; margin-top: 2.25rem; }
-/* The poem ends the front page; 4rem after it leaves a band of nothing above the footer rule. */
-.verse + footer { margin-top: 2.5rem; }
 
 /* ── the Dan poem ──────────────────────────────────────────────────────────────────────────────────
- * On the front page it sits directly under the two links and shares their left edge (.25rem), so the
- * whole column lines up. Deliberately NO left border rule: a quote bar would push the text off that
- * edge, and the italic and the colour already mark it as verse. */
+ * Sits above the two links and shares their left edge (.25rem), so the whole column lines up.
+ * Deliberately NO left border rule: a quote bar would push the text off that edge.
+ *
+ * Set in the body serif's ITALIC, a size up, on a loose line — the closest thing to a sung line that
+ * a system font gives you. A script or "music" face would mean shipping a webfont, which this site
+ * deliberately does not do (see the top of this file); a fallback that silently lands on Times would
+ * look worse than choosing the italic on purpose. */
 .verse {
-  margin: 2.25rem 0 0 .25rem;
+  margin: 2rem 0 2.25rem .25rem;
   font-style: italic;
+  font-size: 1.12rem;
   color: var(--accent);
   line-height: 2;
 }
@@ -297,7 +319,9 @@ dl.credits dd { margin: .15rem 0 1rem; color: var(--deck); font-size: .95rem; }
 #form-status.ok  { color: var(--accent); }
 #form-status.err { color: var(--err); }
 
-img.mark { width: 104px; height: 104px; border-radius: 50%; object-fit: cover; }
+/* The round photo of Dan. Same size in the front-page masthead and on the games page, so it reads as
+   one mark rather than two. flex-shrink:0 keeps it round when the masthead runs out of room. */
+img.mark { width: 104px; height: 104px; flex: 0 0 auto; border-radius: 50%; object-fit: cover; }
 
 footer {
   margin-top: 4rem; padding-top: 1.25rem;
