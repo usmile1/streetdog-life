@@ -154,11 +154,8 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 2.75rem 0; }
   transition: background .15s, padding-left .15s;
 }
 .doors a:hover { background: var(--card); padding-left: .9rem; }
-/* The links carry NO description. The page's opening line already says what the site is, and a
-   sentence under each link would say it a second time — the sub-pages do that work. What stays is a
-   count and a date range, which is a fact about the thing rather than a pitch for it. */
+/* Each link is the sub-page's header and nothing else — no description, no count. */
 .doors .t { display: block; font-family: var(--display); font-size: 1.5rem; letter-spacing: -.01em; }
-.doors .n { display: block; margin-top: .45rem; font-family: var(--display); font-size: .78rem; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); }
 
 /* The doors already close with a rule, so the footer must not draw a second one directly beneath it —
    two rules a few rem apart read as an empty third door. */
