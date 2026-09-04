@@ -1,18 +1,13 @@
 ---
 layout: page
-title: News
+title: "News From the Street"
 description: Release notes and occasional writing about Sandy and ARC9, and about streetdog.life.
 ---
-
-<p>
-  Release notes, and whatever else seems worth writing down. Do not expect a schedule.
-</p>
 
 {% for post in site.posts %}
 <article class="entry postlink">
   <div class="head">
-    <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%-d %B %Y" }}</time>
-    {%- if post.author %}<span class="by">{{ post.author }}</span>{% endif %}
+    {% include byline.html post=post %}
   </div>
   <div>
     <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>

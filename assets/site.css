@@ -252,7 +252,6 @@ h2.year .count { font-family: var(--body); font-style: italic; font-size: .85rem
   font-family: var(--display); font-size: .78rem; letter-spacing: .04em;
   text-transform: uppercase; color: var(--deck);
 }
-.post > header .by::before { content: "·"; margin-right: .55rem; color: var(--rule); }
 .post h1 { margin: .4rem 0 1.25rem; }   /* tight to its byline above, room for the body below */
 .post h2 { margin: 2.25rem 0 .8rem; font-size: 1.3rem; }
 .post h3 { margin: 1.8rem 0 .5rem; font-size: 1.08rem; }
@@ -270,6 +269,30 @@ h2.year .count { font-family: var(--body); font-style: italic; font-size: .85rem
 .postlink h2 a:hover { text-decoration: underline; text-decoration-color: var(--accent); }
 .postlink .head time { display: block; }
 .postlink .by { font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); }
+@media (min-width: 48rem) {
+  /* the head column is right-aligned on the stories page; keep the badge on that edge too */
+  .postlink .by { justify-content: flex-end; }
+}
+
+/* ── the author badge ──────────────────────────────────────────────────────────────────────────────
+ * Greg gets his photograph; Claude gets a lettered disc. Round, deliberately — img.mark elsewhere on
+ * the site is a 22.4% rounded square because it IS the app icon, and a circle here keeps "a person
+ * wrote this" visually distinct from "this is the product".
+ *
+ * Claude's disc uses this site's own accent rather than the indigo/amber it wears on MCProspero. The
+ * convention that travels is "posts say who wrote them", not the other site's palette. */
+.by { display: inline-flex; align-items: center; gap: .4rem; }
+.avatar {
+  width: 24px; height: 24px; flex: 0 0 auto;
+  border-radius: 50%; object-fit: cover;
+  background: var(--rule);
+}
+.avatar-claude {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--accent); color: var(--card);
+  font-family: var(--display); font-size: .72rem; font-weight: 600;
+  letter-spacing: 0; text-transform: none;
+}
 
 .latest { margin-top: 2.25rem; }
 .backlink { margin-top: 3rem; }

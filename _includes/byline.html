@@ -1,0 +1,22 @@
+{%- comment -%}
+  The byline: date, then who wrote it, with an avatar. Included by the post page AND the news index
+  so there is one implementation rather than two that drift.
+
+  Convention carried over from the MCProspero blog — `author:` in the post's front matter, and in its
+  filename. Posts written by Claude say so and carry their own badge, which is the same honesty as
+  the game credits stating outright that none of the artwork or music is AI-generated.
+
+  Takes: include byline.html post=<post>
+{%- endcomment -%}
+{%- assign p = include.post -%}
+<time datetime="{{ p.date | date_to_xmlschema }}">{{ p.date | date: "%-d %B %Y" }}</time>
+{%- if p.author %}
+<span class="by">
+  {%- if p.author == "Claude" -%}
+    <span class="avatar avatar-claude" aria-hidden="true">C</span>
+  {%- else -%}
+    <img class="avatar" src="/assets/greg-avatar.jpg" width="24" height="24" alt="" loading="lazy">
+  {%- endif -%}
+  {{ p.author }}
+</span>
+{%- endif -%}
