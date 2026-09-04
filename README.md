@@ -225,13 +225,20 @@ way round, but it does mean all three forms are broken until you finish.
 Until a real site key replaces the `TURNSTILE_SITE_KEY` placeholder, the widget renders Cloudflare's own error box with a **"Troubleshoot"** link. That is the widget correctly reporting an invalid key, not a bug in the markup.
 
 
-**1. Turnstile** (dashboard → Turnstile → Add widget, hostname `streetdog.life`). It gives a **site
-key** and a **secret key**. Put the *site* key into **all three** of `games/index.html`,
-`contact/index.html` and `support/index.html`, replacing `TURNSTILE_SITE_KEY` — it is public by
-design and belongs in the repo. The *secret* does not.
+**1. Turnstile** — DONE. One widget covers all three forms. Its **site key** is in the HTML of
+`games/`, `contact/` and `support/`, which is where it belongs: it is public by design. Turnstile
+lives at the **account** level of the dashboard, not under the domain — that is the usual place to
+get lost looking for it.
 
-⚠ Do NOT use Cloudflare's published test site keys to make the widget look right. They always
-pass, so shipping one is the same as having no spam protection at all.
+The **secret key** is the other half and never appears in this repo; it is the `TURNSTILE_SECRET`
+Pages variable below.
+
+⚠ Do NOT use Cloudflare's published test site keys to make the widget look right. They always pass,
+so shipping one is the same as having no spam protection at all.
+
+⚠ "Skip future security rule challenges for verified visitors" is deliberately OFF. It does nothing
+today (there are no WAF rules on this zone), and the plausible future rule here is rate limiting on
+`/api/*` — which this setting would let anyone who solved the form's widget bypass.
 
 **2. Resend** (resend.com) — verify `streetdog.life` as a sending domain, which means adding the DKIM
 and SPF records it gives you to Cloudflare DNS. Then create an API key.
