@@ -206,7 +206,7 @@ Planned but not written. When it happens: **hand-written, one entry per release,
 commits.** The game repo's commit messages name licensed asset packs and their terms, internal file
 paths, unreleased plans and debugging notes. A release is not a commit.
 
-## The three forms — BUILT, but need configuring before they work
+## The three forms — LIVE
 
 Three narrow forms rather than one broad one, because the question you ask shapes the answer you get:
 
@@ -220,7 +220,17 @@ not route files starting with `_`, so it stays a module rather than becoming a p
 
 One Turnstile widget and one set of environment variables covers all three. Until the steps below are done
 they **fail visibly** rather than silently accepting and discarding submissions — which is the right
-way round, but it does mean all three forms are broken until you finish.
+way round.
+
+⚠ **`NOTIFY_FROM` must be on the domain the Resend API key is scoped to, exactly.** The domain in
+Resend is the subdomain `notifications.streetdog.life` — the recommended setup, since it keeps
+transactional sending reputation off the apex. Sending as `forms@streetdog.life` therefore returned
+403 "API key not authorized for this domain", which reads like a key problem and is really a from-
+address problem. It is set to `streetdog.life <forms@notifications.streetdog.life>`; Resend honours
+the `Name <address>` form, so the inbox shows "streetdog.life" rather than the raw subdomain.
+
+⚠ **Pages binds variables at DEPLOY time.** Adding or changing one does nothing until a new
+deployment exists — dashboard → Deployments → ⋯ → Retry deployment, or push a commit.
 
 Until a real site key replaces the `TURNSTILE_SITE_KEY` placeholder, the widget renders Cloudflare's own error box with a **"Troubleshoot"** link. That is the widget correctly reporting an invalid key, not a bug in the markup.
 
