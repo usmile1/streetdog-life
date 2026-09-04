@@ -46,6 +46,7 @@ layout: default
 {%- assign latest = site.posts.first %}
 {%- if latest %}
 <p class="quiet latest">
-  Latest: <a href="{{ latest.url }}">{{ latest.title }}</a> · {{ latest.date | date: "%-d %B %Y" }}
+  Latest News From the Street: <a href="{{ latest.url }}">{{ latest.title }}</a>
+  · {{ latest.date | date: "%-d %B %Y" }}
 </p>
 {%- endif %}
