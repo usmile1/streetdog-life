@@ -28,7 +28,7 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
-OUT = os.path.join(ROOT, "data", "stories.json")
+OUT = os.path.join(ROOT, "_data", "stories.json")
 DEFAULT_SRC = os.path.expanduser("~/vss365-archive/clean/stories.json")
 
 SERIES = "arc9-and-sandy"

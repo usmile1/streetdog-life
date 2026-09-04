@@ -1,0 +1,29 @@
+---
+layout: default
+---
+{%- comment -%}
+  Deliberately NO "discuss on GitHub" link. That works for MCProspero because its readers are
+  developers who already have accounts and it has a public feedback repo to host the threads.
+  Here it would ask people who came for dog stories to sign up for a developer account to say
+  something — a route most readers cannot use. /contact/ is in the footer of every page and works
+  for anyone with an email address.
+{%- endcomment -%}
+<article class="post">
+
+  <header>
+    <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%-d %B %Y" }}</time>
+    {%- if page.author %}
+    <span class="by">{{ page.author }}</span>
+    {%- endif %}
+  </header>
+
+  <h1>{{ page.title }}</h1>
+  {%- if page.subtitle %}
+  <p class="tagline">{{ page.subtitle }}</p>
+  {%- endif %}
+
+  {{ content }}
+
+</article>
+
+<p class="quiet backlink"><a href="/news/">← All news</a></p>

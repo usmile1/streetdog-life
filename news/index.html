@@ -1,41 +1,30 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>News — streetdog.life</title>
-<meta name="description" content="Updates on Sandy and ARC9, and whatever else is happening at streetdog.life.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="News — streetdog.life">
-<meta property="og:url" content="https://streetdog.life/news/">
-<link rel="icon" href="/assets/sandy-arc9-180.png">
-<link rel="stylesheet" href="/assets/site.css?v=91fd2499">
-</head>
-<body>
-<div class="wrap">
+---
+layout: page
+title: News
+description: Release notes and occasional writing about Sandy and ARC9, and about streetdog.life.
+---
 
-  <div class="masthead"><a class="home" href="/">← streetdog.life</a></div>
+<p>
+  Release notes, and whatever else seems worth writing down. Do not expect a schedule.
+</p>
 
-  <h1>News</h1>
-  <p class="tagline">What has changed, and what I have been thinking about.</p>
-
-  <article class="post">
-  <header><time datetime="2026-09-03">3 September 2026</time></header>
-  <h2>The site is up</h2>
-  <p>streetdog.life now exists, which mostly means there is somewhere to put things.</p>
-  <p>Two sections so far. The [stories](/stories/) are 254 very short pieces written to the #vss365 daily prompt between 2021 and 2024, harvested off Twitter before I left it. The [game](/games/) is Sandy and ARC9, which has been in progress since early 2024 and is getting close to something you could reasonably call an alpha.</p>
-  <p>This page will carry release notes and whatever else seems worth writing down. Do not expect a schedule.</p>
+{% for post in site.posts %}
+<article class="entry postlink">
+  <div class="head">
+    <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%-d %B %Y" }}</time>
+    {%- if post.author %}<span class="by">{{ post.author }}</span>{% endif %}
+  </div>
+  <div>
+    <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
+    {%- if post.subtitle %}
+    <p class="quiet">{{ post.subtitle }}</p>
+    {%- else %}
+    <p class="quiet">{{ post.content | strip_html | normalize_whitespace | truncate: 180 }}</p>
+    {%- endif %}
+  </div>
 </article>
+{% endfor %}
 
-  <footer>
-    <a href="/">streetdog.life</a>
-    <a href="/stories/">Stories</a>
-    <a href="/games/">Games</a>
-    <a href="/news/">News</a>
-    <a href="/contact/">Contact</a>
-    <a href="/support/">Support</a>
-  </footer>
-
-</div>
-</body>
-</html>
+{% if site.posts.size == 0 %}
+<p class="quiet">Nothing here yet.</p>
+{% endif %}

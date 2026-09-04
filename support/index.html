@@ -1,23 +1,10 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Support — streetdog.life</title>
-<meta name="description" content="Report a problem with a Sandy and ARC9 build, or ask for your information to be removed.">
-<meta name="robots" content="noindex">
-<link rel="icon" href="/assets/sandy-arc9-180.png">
-<link rel="apple-touch-icon" href="/assets/sandy-arc9-180.png">
-<link rel="stylesheet" href="/assets/site.css?v=91fd2499">
-</head>
-<body>
-<div class="wrap">
-
-  <div class="masthead"><a class="home" href="/">← streetdog.life</a></div>
-
-  <h1>Support</h1>
-
-  <p>
+---
+layout: page
+title: "Support"
+description: "Report a problem with a Sandy and ARC9 build, or ask for your information to be removed."
+noindex: true
+---
+<p>
     Something wrong with a build, or want your information removed? Tell me here and I will sort it
     out.
   </p>
@@ -63,19 +50,7 @@
 
   <p id="form-status" role="status" aria-live="polite"></p>
 
-  <footer>
-    <a href="/">streetdog.life</a>
-    <a href="/stories/">Stories</a>
-    <a href="/games/">Games</a>
-    <a href="/news/">News</a>
-    <a href="/contact/">Contact</a>
-    <a href="/support/">Support</a>
-  </footer>
-
-</div>
-
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-<script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script><script>
 (function () {
   var form = document.getElementById('support-form');
   var status = document.getElementById('form-status');
@@ -133,5 +108,3 @@
   });
 })();
 </script>
-</body>
-</html>

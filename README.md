@@ -5,23 +5,28 @@ Greg Warden's site. Short stories, a game, and whatever else earns a section.
 **Sandy and ARC9** — the game — is *one section of this*, not the other way round. Its source lives in
 a separate private repo; only its public page is here.
 
-Static HTML, one stylesheet, no build step, no `package.json`. A handful of hand-written pages does
-not need a toolchain, and a toolchain is the part that rots between the times anyone looks at it.
+**Jekyll**, one stylesheet, no JavaScript framework. Cloudflare Pages runs the build — the same
+arrangement as the MCProspero site, so the deploy path is one Greg already knows.
+
+It was hand-written HTML until the news section needed to become a real blog. Reimplementing
+permalinks, an index, a feed and drafts in Python would have been rebuilding Jekyll badly, in a repo
+next door to one where Jekyll already works.
 
 ```
+_config.yml             Jekyll config — permalinks, what is excluded from the build
+_layouts/               default (chrome) -> page (adds an h1) -> post (adds the byline)
+_includes/footer.html   the one footer, on every page
+_posts/                 blog posts, YYYY-MM-DD-{author}-{slug}.md
+_data/stories.json      the Sandy & ARC9 archive  ← GENERATED from the vss365 archive
 index.html              the front door — Dan, the wordmark, two doors
 stories/index.html      254 #vss365 stories        ← GENERATED, do not hand-edit
 games/index.html        the game, the offer-of-help form, the CREDITS
 contact/index.html      the general contact form — anything at all
 support/index.html      report a build problem / ask for your info to be removed
-news/index.html         release notes and posts    ← GENERATED, do not hand-edit
-news/posts/*.md         write posts here
-data/stories.json       the Sandy & ARC9 archive   ← GENERATED from the vss365 archive
+news/index.html         the post index (Liquid; lists _posts)
 tools/import_stories.py  ~/vss365-archive   -> data/stories.json
 tools/build_stories.py   data/stories.json  -> stories/index.html
-tools/build_news.py      news/posts/*.md    -> news/index.html
 tools/build_wordmark.py  Optima             -> assets/wordmark.png (the kerb stone)
-tools/stamp_css.py       hashes site.css into every page's <link>  ← RUN LAST
 functions/api/_lib.js       shared form handling — honeypot, timing, Turnstile, Resend
 functions/api/interest.js   the offer-of-help form endpoint  (Pages Function)
 functions/api/support.js    the support form endpoint        (Pages Function)
@@ -34,11 +39,49 @@ _redirects              /sandy-and-arc9/ -> /games/
 
 ```sh
 tools/import_stories.py   # after the vss365 archive changes  (then build_stories)
-tools/build_stories.py    # after changing data/stories.json
-tools/build_news.py       # after adding a post to news/posts/
+tools/build_stories.py    # after changing _data/stories.json
 tools/build_wordmark.py   # only if the wordmark itself changes — needs Pillow, see the file
-tools/stamp_css.py        # ALWAYS LAST — after any CSS edit, and after the two generators
 ```
+
+`build_stories.py` emits `stories/index.html` as a **Jekyll page** — front matter, then the entries
+fenced in `{% raw %}`. The layout supplies the head, masthead, h1 and footer, and the fence stops
+Liquid trying to interpret 254 stories of arbitrary prose.
+
+## Writing a post
+
+```sh
+jekyll serve            # http://localhost:4000, live reload — preview before you publish
+```
+
+One file in `_posts/`, named `YYYY-MM-DD-{author}-{slug}.md`:
+
+```yaml
+---
+layout: post
+title: "Welcome to streetdog.life"
+date: 2026-09-03 09:00:00 -0400
+author: Greg          # or Claude
+---
+```
+
+**Two voices, and the shape says which.** Carried over from the MCProspero blog so the convention is
+the same in both places:
+
+| | Greg posts | Claude posts |
+|---|---|---|
+| voice | personal, conversational | technical, "I" = Claude |
+| `subtitle:` | none | a one-line teaser |
+| shape | flowing paragraphs | `##` sections |
+| ends with | `-greg` | no sign-off |
+
+⚠ **Posts written by Claude say so in the byline.** That is the same honesty as the game credits,
+which state outright that none of the artwork or music is AI-generated.
+
+⚠ **`date:` with a time is required when two posts share a day**, or their order is undefined.
+
+⚠ **A draft in `_drafts/` is hidden from the SITE but not from GITHUB.** This repo is public, so an
+uncommitted draft is private and a committed one is not — regardless of whether Jekyll publishes it.
+Draft on an unpushed branch.
 
 ## ⚠ The stylesheet must be cache-busted, and `_headers` cannot do it
 
@@ -67,8 +110,9 @@ the system one and has none. Run it with a pyenv interpreter. The other three ar
 entry, so the story itself does not repeat it as `#word` — `import_stories.py` explains why that is a
 curated field rather than a regex.
 
-The site itself still has **no build step** — Cloudflare serves the committed HTML. Generating locally
-and committing the artifact is the same trade the game makes with its offline emitters.
+The stories page is still generated locally and committed, rather than looped over in Liquid — the
+Python already handles the escaping correctly, including the apostrophe bug that once put a literal
+`&#x27;` into 73 of the 254 stories. Same trade the game makes with its offline emitters.
 
 ## ⚠ This repo is PUBLIC
 
@@ -89,11 +133,20 @@ export CLOUDFLARE_API_TOKEN=$(security find-generic-password -a "$USER" -s stree
 Connect this repo through the **Cloudflare dashboard**, which uses a GitHub App and needs **no API
 token**. A token is only required for `wrangler` CLI or GitHub Actions deploys.
 
+⚠ **These settings must change for the Jekyll build.** Until they do, Pages serves the repo root and
+the site is unbuilt Jekyll sources.
+
 | Setting | Value |
 |---|---|
 | Production branch | `main` |
-| Build command | *(empty)* |
-| Build output directory | `/` (repo root) |
+| Build command | `jekyll build` |
+| Build output directory | `_site` |
+
+`functions/` is still read from the **repo root**, not from `_site` — Pages compiles Functions
+separately from the build output, which is why `_config.yml` excludes that directory rather than
+letting Jekyll copy the endpoint source into the published site.
+
+A failed build is safe: Pages keeps serving the last successful deployment.
 
 Because this repo holds only the site, every push is meant to deploy — no build-watch-path filtering
 needed, which was the reason the site left the game's repo.

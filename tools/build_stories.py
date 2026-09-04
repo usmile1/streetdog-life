@@ -18,7 +18,7 @@ from html import escape
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
-DATA = os.path.join(ROOT, "data", "stories.json")
+DATA = os.path.join(ROOT, "_data", "stories.json")
 OUT = os.path.join(ROOT, "stories", "index.html")
 
 MONTHS = ("January", "February", "March", "April", "May", "June",
@@ -79,27 +79,20 @@ def main():
                 '</article>\n'
             )
 
-    html = f"""<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Street Dog Stories — streetdog.life</title>
-<meta name="description" content="Sandy the street dog and ARC9 his robot companion: {len(stories)} very short stories written to the #vss365 daily prompt, 2021–2024.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Street Dog Stories">
-<meta property="og:description" content="Sandy and ARC9 — {len(stories)} very short stories written to a daily one-word prompt.">
-<meta property="og:url" content="https://streetdog.life/stories/">
-<link rel="icon" href="/assets/sandy-arc9-180.png">
-<link rel="stylesheet" href="/assets/site.css">
-</head>
-<body>
-<div class="wrap wide">
-
-  <div class="masthead"><a class="home" href="/">← streetdog.life</a></div>
-
-  <h1>Street Dog Stories</h1>
-
+    # A JEKYLL PAGE, not a whole document: front matter, then the body. The layout owns the <head>,
+    # the masthead, the <h1> and the footer, so this file cannot drift from the rest of the site.
+    #
+    # ⚠ The body is wrapped in {{% raw %}}. 254 stories of arbitrary prose go through here, and Liquid
+    # would try to interpret any "{{{{" or "{{%" that ever appeared in one. Nothing on this page needs
+    # Liquid, so the whole thing is fenced off.
+    html = f"""---
+layout: page
+title: "Street Dog Stories"
+description: "Sandy the street dog and ARC9 his robot companion: {len(stories)} very short stories written to the #vss365 daily prompt, 2021–2024."
+og_description: "Sandy and ARC9 — {len(stories)} very short stories written to a daily one-word prompt."
+wide: true
+---
+{{% raw %}}
   <p>
     In 2021 — pre-Elon, and before my subsequent departure from Twitter — I kept noticing tweets from
     one of my favourite musicians, <a href="https://jiminfantino.com/" rel="noopener">Jim Infantino</a>,
@@ -126,19 +119,7 @@ def main():
   <nav class="years">{nav}</nav>
 
   {''.join(parts)}
-
-  <footer>
-    <a href="/">streetdog.life</a>
-    <a href="/stories/">Stories</a>
-    <a href="/games/">Games</a>
-    <a href="/news/">News</a>
-    <a href="/contact/">Contact</a>
-    <a href="/support/">Support</a>
-  </footer>
-
-</div>
-</body>
-</html>
+{{% endraw %}}
 """
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, "w", encoding="utf-8") as f:

@@ -1,0 +1,31 @@
+title: streetdog.life
+description: Projects inspired by my street dog, Dan — short stories, and a game about befriending street dogs.
+url: https://streetdog.life
+timezone: America/New_York
+
+# One post per page, at a readable address.
+permalink: /news/:year/:month/:day/:title/
+
+plugins:
+  - jekyll-feed        # /feed.xml — how people follow a blog without an algorithm deciding for them
+
+feed:
+  path: feed.xml
+
+# Jekyll ignores anything starting with "_", and _redirects is a Cloudflare config file that has to
+# reach the built site.
+include:
+  - _redirects
+
+# Kept OUT of the build output.
+#   functions/  Cloudflare reads Pages Functions from the REPO ROOT, not from _site. Copying them
+#               into the output would publish the source of the form endpoints as static files.
+#   tools/      local generators; they run on this machine and their output is what ships.
+exclude:
+  - functions
+  - tools
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - vendor
+  - .ruby-version

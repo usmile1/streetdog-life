@@ -1,73 +1,51 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>streetdog.life</title>
-<meta name="description" content="Projects inspired by my street dog, Dan — short stories, and a game about befriending stray dogs.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="streetdog.life">
-<meta property="og:description" content="Projects inspired by my street dog, Dan — short stories, and a game about befriending stray dogs.">
-<meta property="og:image" content="https://streetdog.life/assets/sandy-arc9-512.png">
-<meta property="og:url" content="https://streetdog.life/">
-<meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="/assets/sandy-arc9-180.png">
-<link rel="apple-touch-icon" href="/assets/sandy-arc9-180.png">
-<link rel="stylesheet" href="/assets/site.css?v=91fd2499">
-</head>
-<body>
+---
+layout: default
+---
+<!-- Masthead: the name-stone upper left, Dan upper right. One row, nothing else.
+     The stone is cut by tools/build_wordmark.py; its alt text IS the h1, so keep it exact.
+     The photo is the same round mark the games page uses (img.mark), and is decorative here —
+     empty alt, because the heading beside it already names the site. -->
+<header class="banner">
+  <h1 class="wordmark">
+    <img src="/assets/wordmark.png"
+         srcset="/assets/wordmark.png 1x, /assets/wordmark@2x.png 2x"
+         width="412" height="104" alt="streetdog.life">
+  </h1>
+  <img class="mark" src="/assets/sandy-arc9-512.png" alt="">
+</header>
 
-<div class="wrap">
+<!-- A byline, not a sentence. "Streetdog.life is maintained by Greg Warden" was the only
+     third-person sentence on the site, clashing with the first-person copy below it and on both
+     sub-pages. A "TITLE by AUTHOR" fragment has no grammatical person, so nothing collides. -->
+<p class="quiet">
+  A Greg Warden creation
+  (<a href="/contact/">get in touch</a>)
+</p>
 
-  <!-- Masthead: the name-stone upper left, Dan upper right. One row, nothing else.
-       The stone is cut by tools/build_wordmark.py; its alt text IS the h1, so keep it exact.
-       The photo is the same round mark the games page uses (img.mark), and is decorative here —
-       empty alt, because the heading beside it already names the site. -->
-  <header class="banner">
-    <h1 class="wordmark">
-      <img src="/assets/wordmark.png"
-           srcset="/assets/wordmark.png 1x, /assets/wordmark@2x.png 2x"
-           width="412" height="104" alt="streetdog.life">
-    </h1>
-    <img class="mark" src="/assets/sandy-arc9-512.png" alt="">
-  </header>
+<p>
+  Find here a collection of projects inspired by my street dog, Dan.
+</p>
 
-  <!-- A byline, not a sentence. "Streetdog.life is maintained by Greg Warden" was the only
-       third-person sentence on the site, clashing with the first-person copy below it and on both
-       sub-pages. A "TITLE by AUTHOR" fragment has no grammatical person, so nothing collides. -->
-  <p class="quiet">
-    A Greg Warden creation
-    (<a href="/games/#interest">get in touch</a>)
-  </p>
+<!-- Greg's, verbatim. Set as verse rather than a paragraph because the line breaks are the poem.
+     Sits above the two links and shares their left edge, so the column reads as one thing. -->
+<blockquote class="verse">
+  I have a dog named Dan<br>
+  His fur is the color of sand<br>
+  He’s afraid of the ceiling fan<br>
+  Sleeps on the bed whenever he can
+</blockquote>
 
-  <p>
-    Find here a collection of projects inspired by my street dog, Dan.
-  </p>
+<!-- The page headers of the two sub-pages, and nothing else. No descriptions, no counts. -->
+<ul class="doors">
+  <li><a href="/stories/"><span class="t">Street Dog Stories</span></a></li>
+  <li><a href="/games/"><span class="t">Street Dog Games</span></a></li>
+</ul>
 
-  <!-- Greg's, verbatim. Set as verse rather than a paragraph because the line breaks are the poem.
-       Sits above the two links and shares their left edge, so the column reads as one thing. -->
-  <blockquote class="verse">
-    I have a dog named Dan<br>
-    His fur is the color of sand<br>
-    He’s afraid of the ceiling fan<br>
-    Sleeps on the bed whenever he can
-  </blockquote>
-
-  <!-- The page headers of the two sub-pages, and nothing else. No descriptions, no counts. -->
-  <ul class="doors">
-    <li><a href="/stories/"><span class="t">Street Dog Stories</span></a></li>
-    <li><a href="/games/"><span class="t">Street Dog Games</span></a></li>
-  </ul>
-
-  <footer>
-    <a href="/">streetdog.life</a>
-    <a href="/stories/">Stories</a>
-    <a href="/games/">Games</a>
-    <a href="/news/">News</a>
-    <a href="/contact/">Contact</a>
-    <a href="/support/">Support</a>
-  </footer>
-
-</div>
-</body>
-</html>
+<!-- The most recent post, one quiet line. Deliberately not an excerpt block: this page is two doors
+     and a poem, and a "latest posts" panel would undo that. -->
+{%- assign latest = site.posts.first %}
+{%- if latest %}
+<p class="quiet latest">
+  Latest: <a href="{{ latest.url }}">{{ latest.title }}</a> · {{ latest.date | date: "%-d %B %Y" }}
+</p>
+{%- endif %}

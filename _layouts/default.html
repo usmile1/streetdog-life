@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+{%- comment -%}
+  The home page is titled just "streetdog.life"; everything else is "Thing — streetdog.life".
+{%- endcomment -%}
+{%- if page.url == "/" -%}
+  {%- assign full_title = site.title -%}
+{%- else -%}
+  {%- assign full_title = page.title | append: " — " | append: site.title -%}
+{%- endif -%}
+{%- assign desc = page.description | default: site.description -%}
+{%- assign image = page.image | default: "/assets/sandy-arc9-512.png" -%}
+
+<title>{{ full_title }}</title>
+<meta name="description" content="{{ desc | strip_html | normalize_whitespace }}">
+<meta property="og:type" content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
+<meta property="og:title" content="{{ page.og_title | default: full_title }}">
+<meta property="og:description" content="{{ page.og_description | default: desc | strip_html | normalize_whitespace }}">
+<meta property="og:image" content="{{ image | absolute_url }}">
+<meta property="og:url" content="{{ page.url | absolute_url }}">
+<meta name="twitter:card" content="summary_large_image">
+{%- if page.noindex %}
+<meta name="robots" content="noindex">
+{%- endif %}
+<link rel="icon" href="/assets/sandy-arc9-180.png">
+<link rel="apple-touch-icon" href="/assets/sandy-arc9-180.png">
+
+{%- comment -%}
+  ⚠ CACHE BUSTING, AND WHY IT IS NOT OPTIONAL. Cloudflare Pages serves /assets/* with
+  max-age=14400 (four hours) while HTML revalidates on every request, and it OVERRIDES any
+  Cache-Control set in _headers — that was measured, not assumed. So a deploy that renames a CSS
+  class hands new HTML to browsers still holding the old stylesheet, and the element renders
+  unstyled. It has happened once already: .hero became .portrait and the masthead photo vanished
+  for anyone who had visited earlier that day.
+
+  site.time is the build timestamp, so the URL changes on every deploy and never goes stale. It
+  re-fetches ~10 KB on deploys where the CSS did not change, which is a trade worth making.
+{%- endcomment -%}
+<link rel="stylesheet" href="/assets/site.css?v={{ site.time | date: '%s' }}">
+{%- feed_meta %}
+</head>
+<body>
+
+<div class="wrap{% if page.wide %} wide{% endif %}">
+
+  {%- unless page.url == "/" %}
+  <div class="masthead"><a class="home" href="/">← streetdog.life</a></div>
+  {%- endunless %}
+
+  {{ content }}
+
+  {% include footer.html %}
+
+</div>
+</body>
+</html>

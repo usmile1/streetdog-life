@@ -239,13 +239,40 @@ h2.year .count { font-family: var(--body); font-style: italic; font-size: .85rem
    quietly, rather than left as a blank that reads like a rendering bug. */
 .noprompt { color: var(--deck); font-style: italic; font-size: .9em; }
 
-/* ── news ──────────────────────────────────────────────────────────────────────────────────────── */
-.post { border-top: 1px solid var(--rule); padding: 2rem 0 .5rem; }
-.post > header { font-family: var(--display); font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--deck); }
-.post h2 { margin: .4rem 0 1rem; font-size: 1.45rem; }
+/* ── news ──────────────────────────────────────────────────────────────────────────────────────────
+ * A post now has its OWN page, so .post no longer needs the rule and padding that separated posts
+ * when they were all stacked on /news/. What it keeps is the meta line and the body element styles.
+ *
+ * The byline is the convention carried over from the MCProspero blog: who wrote a post is declared
+ * in front matter (`author: Greg` / `author: Claude`) and shown beside the date. Posts written by
+ * Claude say so — that is the same honesty as the game credits, which state outright that none of
+ * the artwork or music is AI-generated. */
+.post > header {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 .55rem;
+  font-family: var(--display); font-size: .78rem; letter-spacing: .04em;
+  text-transform: uppercase; color: var(--deck);
+}
+.post > header .by::before { content: "·"; margin-right: .55rem; color: var(--rule); }
+.post h1 { margin: .4rem 0 1.25rem; }   /* tight to its byline above, room for the body below */
+.post h2 { margin: 2.25rem 0 .8rem; font-size: 1.3rem; }
+.post h3 { margin: 1.8rem 0 .5rem; font-size: 1.08rem; }
 .post code { font: .88em/1 ui-monospace, SFMono-Regular, Menlo, monospace; background: color-mix(in srgb, var(--deck) 16%, transparent); padding: .12em .38em; border-radius: 4px; }
-.post ul { padding-left: 1.15rem; }
+.post ul, .post ol { padding-left: 1.15rem; }
 .post li { margin-bottom: .4rem; }
+.post blockquote { margin: 1.5rem 0; padding-left: 1.15rem; border-left: 2px solid var(--sand); color: var(--deck); }
+.post img { max-width: 100%; height: auto; }
+.post hr { margin: 2.5rem 0; }
+
+/* The index of posts. Reuses the lexicon grid from the stories page — citation in the left margin,
+   substance on the right — so the two archives on this site are read the same way. */
+.postlink h2 { margin: 0 0 .25rem; font-size: 1.3rem; }
+.postlink h2 a { text-decoration: none; }
+.postlink h2 a:hover { text-decoration: underline; text-decoration-color: var(--accent); }
+.postlink .head time { display: block; }
+.postlink .by { font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); }
+
+.latest { margin-top: 2.25rem; }
+.backlink { margin-top: 3rem; }
 
 /* ── a game's heading: icon, name, tagline as one unit ─────────────────────────────────────────────
  * The layout every store listing uses, because it works — the mark identifies the thing and the words

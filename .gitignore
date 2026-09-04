@@ -11,3 +11,9 @@
 
 node_modules/
 .DS_Store
+
+# Jekyll build output and cache — the SOURCE is committed, the build happens at Cloudflare.
+_site/
+.jekyll-cache/
+.sass-cache/
+vendor/
