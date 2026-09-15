@@ -14,7 +14,7 @@
  *   TURNSTILE_SECRET   secret key from the Turnstile widget (the SITE key is public and lives in the
  *                      HTML; this is its private half)
  *   RESEND_API_KEY     from resend.com — the thing that actually sends the mail
- *   NOTIFY_TO          where submissions go, e.g. wardeng@gmail.com
+ *   NOTIFY_TO          where submissions go, e.g. greg@streetdog.life
  *   NOTIFY_FROM        a verified sender on your Resend domain, e.g. forms@streetdog.life
  *
  * Mark TURNSTILE_SECRET and RESEND_API_KEY as ENCRYPTED. Once encrypted they cannot be read back out

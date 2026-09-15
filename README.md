@@ -261,7 +261,7 @@ point.
 |---|---|
 | `TURNSTILE_SECRET` | the secret half of the Turnstile widget — **encrypt** |
 | `RESEND_API_KEY` | from Resend — **encrypt** |
-| `NOTIFY_TO` | `wardeng@gmail.com` |
+| `NOTIFY_TO` | `greg@streetdog.life` |
 | `NOTIFY_FROM` | a verified sender, e.g. `forms@streetdog.life` |
 
 ⚠ **MailChannels is not an option** — it ended free Workers sending in 2024. Resend's free tier is
