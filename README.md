@@ -175,6 +175,68 @@ GoDaddy's DNS page open alongside and compare line by line — the scan is a sca
 Each record has a **Proxied** (orange cloud) / **DNS only** (grey cloud) toggle. Proxied is right for
 the site. **Any MX record must be DNS only** — mail cannot be proxied.
 
+### Email authentication — SPF, DKIM, DMARC — DONE
+
+Two different systems send mail as this domain, and they are deliberately kept apart:
+
+| | Sends as | Authenticated by |
+|---|---|---|
+| **Google Workspace** — Greg's own mail, and every reply to a form | `greg@streetdog.life` (apex) | apex SPF + `google._domainkey` |
+| **Resend** — the three forms' notifications | `forms@notifications.streetdog.life` | the `notifications` subdomain's own SPF + DKIM |
+
+Keeping transactional sending on a subdomain means a spam complaint against a form notification
+cannot damage the reputation of the address a human actually writes from.
+
+The live records, all in Cloudflare DNS:
+
+| Name | Type | Value |
+|---|---|---|
+| `@` | MX | `1 smtp.google.com` — Workspace receiving |
+| `@` | TXT | `v=spf1 include:_spf.google.com ~all` |
+| `@` | TXT | `google-site-verification=…` — ownership proof, unrelated to mail |
+| `google._domainkey` | TXT | `v=DKIM1; k=rsa; p=…` — 2048-bit, generated in Workspace admin |
+| `_dmarc` | TXT | `v=DMARC1; p=quarantine; adkim=r; aspf=r; rua=mailto:greg@streetdog.life;` |
+| `resend._domainkey.notifications` | TXT | Resend DKIM |
+| `send.notifications` | TXT | `v=spf1 include:amazonses.com ~all` |
+| `send.notifications` | MX | `10 feedback-smtp.us-east-1.amazonses.com` — bounce handling |
+
+⚠ **`adkim=r; aspf=r` in the DMARC record is load-bearing. Do not tighten it to `s`.** Those are
+*relaxed* alignment, and relaxed is the only reason form notifications pass DMARC: they are sent from
+the `notifications` subdomain while the policy lives on the apex, and only relaxed alignment treats
+those as the same organisation. Switching to strict would quarantine every form notification — and it
+would look like a Resend fault rather than a one-character DNS edit.
+
+⚠ **One SPF record per domain, forever.** Two `v=spf1` records is a permanent failure, not a merge —
+the receiver gives up rather than combining them. A new sender means adding an `include:` to the
+existing record, never adding a second record. For the same reason the apex SPF does **not** include
+`amazonses.com`: Resend sends from the subdomain, which carries its own.
+
+⚠ **The DMARC policy was inherited, not chosen.** It arrived from GoDaddy at `p=quarantine` with
+`rua=` pointing at `dmarc_rua@onsecureserver.net` — a GoDaddy address nobody here can read, so for as
+long as that stood the reports went into the void. The `rua=` now points at `greg@streetdog.life`.
+Aggregate reports are daily XML attachments; they are the only way to find out that something has
+been sending as this domain.
+
+⚠ **Adding Workspace DKIM is two steps and the second is easy to forget.** Workspace admin → Apps →
+Google Workspace → Gmail → **Authenticate email** generates the key, but Google signs nothing until
+you come back and click **Start authentication** after the TXT record resolves. A 2048-bit key is
+longer than the 255-character limit for a single DNS string, so Cloudflare stores it as two chunks —
+`dig` shows two quoted strings and that is correct. Resolvers concatenate them. Do not try to
+"fix" it by splitting the key by hand.
+
+To check the whole picture:
+
+```bash
+dig +short TXT streetdog.life                        # exactly one v=spf1 line
+dig +short TXT google._domainkey.streetdog.life      # v=DKIM1 …
+dig +short TXT _dmarc.streetdog.life                 # rua= must be an address we can read
+```
+
+DNS only proves the records exist. The real test is to send a message from `greg@streetdog.life` to
+any Gmail address and open **⋮ → Show original**: SPF, DKIM and DMARC must all say PASS, and DKIM
+must say `streetdog.life`. If DKIM passes but names `*.gappssmtp.com`, Google is still using its own
+default key and **Start authentication** never happened.
+
 ## Credits are a licence term, not a courtesy
 
 The credits block on `/games/` exists because two of its entries are **obligations**:
