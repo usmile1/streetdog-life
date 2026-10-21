@@ -259,6 +259,38 @@ Do not trim that block or let the links stop being links. The game clip is fine 
 a clip is a derivative work showing the game, which is what both art licences are for — but the
 **source art must never be committed to any repo**, public or private.
 
+## Publishing a video
+
+**Every clip goes on `/videos/`.** That page is the one address for footage, so a clip can always be
+linked as `streetdog.life/videos/#{game-slug}`. A game's own section on `/games/` may show it too.
+
+1. **Encode a web copy** from the source in `~/Movies` — never commit the source `.mov`. Cloudflare
+   Pages refuses any file over 25 MB; aim for well under.
+   ```sh
+   ffmpeg -i ~/Movies/Lucky.mov -vf "scale=1280:-2,fps=30" -c:v libx264 -preset slow -crf 25 \
+     -pix_fmt yuv420p -c:a aac -b:a 96k -movflags +faststart assets/lucky-clip.mp4
+   ```
+   Crop any letterbox first (`ffmpeg … -vf cropdetect`), and drop silent audio with `-an`.
+2. **Grab a poster** — a frame that shows the game, not an instruction card:
+   `ffmpeg -ss 1.5 -i assets/lucky-clip.mp4 -frames:v 1 -q:v 4 assets/lucky-clip-poster.jpg`.
+   Files are `assets/{game}-clip.mp4` and `assets/{game}-clip-poster.jpg`.
+3. **Add it to the top of `/videos/`** (newest first) with an `<h2 id="{game-slug}">`, a
+   `<figure class="shot">`, an `aria-label` describing what happens, and a caption that ends with:
+   - **About the game** → its section on `/games/`;
+   - **Watch on YouTube** → the YouTube copy, if there is one;
+   - **credits** → the game's credits, when the footage shows licensed data (Sandy and ARC9's town
+     is built from OpenStreetMap, and ODbL wants the credit reachable from wherever it appears).
+4. **On `/games/`, if it goes there too:** autoplay muted loop, plus the clip's id in the
+   reduced-motion script at the bottom of that page. On `/videos/` nothing autoplays —
+   `controls preload="none"`, poster only.
+
+**Link to YouTube; never embed it.** An embed loads Google's scripts and cookies for every visitor,
+and the self-hosted file looks better than YouTube's auto quality. The cost is that plays here are not
+YouTube views.
+
+**For the YouTube upload**, upload the source `.mov`, not the web copy. Clips with Epidemic Sound music
+need the channel cleared in the Epidemic account first, or Content ID claims them.
+
 ## Adding a section
 
 1. New folder with an `index.html`.
