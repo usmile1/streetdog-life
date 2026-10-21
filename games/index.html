@@ -5,8 +5,8 @@ description: "Lucky! — a spooky Western jam game about a robot dog and the las
 og_title: "Sandy and ARC9"
 og_description: "Love dogs? Tired of doomscrolling? Play Sandy and ARC9. Early access coming soon."
 ---
-<!-- The table of contents: one entry per game, in page order, then the AI Posture section at the
-     bottom (#ai). A new game gets an entry here and an id on its h2. -->
+<!-- The table of contents: one entry per game, in page order, then the AI Posture section (#ai)
+     and the help form (#interest) at the bottom. A new game gets an entry here and an id on its h2. -->
 <p class="quiet">The following games are the work of Greg Warden.</p>
 
   <nav class="toc" aria-label="On this page">
@@ -14,6 +14,7 @@ og_description: "Love dogs? Tired of doomscrolling? Play Sandy and ARC9. Early a
       <li><a href="#sandy-and-arc9">Sandy and ARC9</a> <span>early access coming soon</span></li>
       <li><a href="#lucky">Lucky!</a> <span>play now on itch.io</span></li>
       <li><a href="#ai">How I use AI</a></li>
+      <li><a href="#interest">Want to help?</a></li>
     </ul>
   </nav>
 
@@ -66,64 +67,6 @@ og_description: "Love dogs? Tired of doomscrolling? Play Sandy and ARC9. Early a
       <a href="#credits">full credits below</a>.
     </figcaption>
   </figure>
-
-  <hr>
-
-  <!-- Deliberately open-ended: testers are wanted, but so are artists, animators and help of kinds
-       not thought of yet. Naming only testing narrows who thinks the question is for them. -->
-  <h2 id="interest">Want to help?</h2>
-
-  <!-- class="formcard" is load-bearing, not decoration: the layout is grid+gap on this element, so
-       without it every label and input reflows onto one line. -->
-  <form id="interest-form" class="formcard" novalidate>
-    <!-- HONEYPOT. Not display:none — the better bots skip hidden fields, but they do not compute
-         layout, so an off-screen input still looks like a normal one to them.
-
-         The name is deliberately NON-SEMANTIC. "website", "company", "url" and friends are exactly
-         what password managers autofill, and an autofilled honeypot silently eats a real person's
-         message. Nothing matches "hp_field", so no manager will touch it, while a naive bot that
-         fills every input it finds trips it immediately.
-
-         aria-hidden + tabindex=-1 keep it away from screen readers and the tab order, so it is
-         invisible to assistive tech as well as to sighted users. -->
-    <div class="hp" aria-hidden="true">
-      <label for="f-hp">Leave this field empty</label>
-      <input id="f-hp" name="hp_field" type="text" tabindex="-1" autocomplete="off">
-    </div>
-
-    <!-- Each label+control is wrapped, so the form's grid gap separates FIELDS while the much smaller
-         label margin keeps each label tight to the control it names. Unwrapped, every label and input
-         is its own grid row and a label floats as far from its input as from the next field. -->
-    <div class="field">
-      <label for="f-name">Name</label>
-      <input id="f-name" name="name" type="text" autocomplete="name" required maxlength="120">
-    </div>
-
-    <div class="field">
-      <label for="f-email">Email</label>
-      <input id="f-email" name="email" type="email" autocomplete="email" required maxlength="200">
-    </div>
-
-    <div class="field">
-      <label for="f-why">How would you like to help?</label>
-      <textarea id="f-why" name="why" rows="4" required maxlength="2000"></textarea>
-    </div>
-
-    <!-- Turnstile renders here. Explicit rather than auto so the widget cannot appear before the
-         rest of the form has laid out. The site key is public by design; the secret is a Pages
-         environment variable and never appears in this repo. -->
-    <div class="cf-turnstile" data-sitekey="0x4AAAAAAEmnkgXCIVCu_CW2" data-theme="auto"></div>
-
-    <button type="submit">Send</button>
-
-    <p class="privacy">
-      Your name, email and message go to me and no one else. They will not be passed on, sold or
-      added to any external mailing list. If you desire to have your information removed, please
-      <a href="/support/">contact support</a>.
-    </p>
-  </form>
-
-  <p id="form-status" role="status" aria-live="polite"></p>
 
   <hr>
 
@@ -209,6 +152,64 @@ og_description: "Love dogs? Tired of doomscrolling? Play Sandy and ARC9. Early a
     generation. I design and art-direct every project. None of the games include anything from an AI
     image or music generator. Each game's credits, above, list the third-party assets it includes.
   </p>
+
+  <hr>
+
+  <!-- Deliberately open-ended: testers are wanted, but so are artists, animators and help of kinds
+       not thought of yet. Naming only testing narrows who thinks the question is for them. -->
+  <h2 id="interest">Want to help?</h2>
+
+  <!-- class="formcard" is load-bearing, not decoration: the layout is grid+gap on this element, so
+       without it every label and input reflows onto one line. -->
+  <form id="interest-form" class="formcard" novalidate>
+    <!-- HONEYPOT. Not display:none — the better bots skip hidden fields, but they do not compute
+         layout, so an off-screen input still looks like a normal one to them.
+
+         The name is deliberately NON-SEMANTIC. "website", "company", "url" and friends are exactly
+         what password managers autofill, and an autofilled honeypot silently eats a real person's
+         message. Nothing matches "hp_field", so no manager will touch it, while a naive bot that
+         fills every input it finds trips it immediately.
+
+         aria-hidden + tabindex=-1 keep it away from screen readers and the tab order, so it is
+         invisible to assistive tech as well as to sighted users. -->
+    <div class="hp" aria-hidden="true">
+      <label for="f-hp">Leave this field empty</label>
+      <input id="f-hp" name="hp_field" type="text" tabindex="-1" autocomplete="off">
+    </div>
+
+    <!-- Each label+control is wrapped, so the form's grid gap separates FIELDS while the much smaller
+         label margin keeps each label tight to the control it names. Unwrapped, every label and input
+         is its own grid row and a label floats as far from its input as from the next field. -->
+    <div class="field">
+      <label for="f-name">Name</label>
+      <input id="f-name" name="name" type="text" autocomplete="name" required maxlength="120">
+    </div>
+
+    <div class="field">
+      <label for="f-email">Email</label>
+      <input id="f-email" name="email" type="email" autocomplete="email" required maxlength="200">
+    </div>
+
+    <div class="field">
+      <label for="f-why">How would you like to help?</label>
+      <textarea id="f-why" name="why" rows="4" required maxlength="2000"></textarea>
+    </div>
+
+    <!-- Turnstile renders here. Explicit rather than auto so the widget cannot appear before the
+         rest of the form has laid out. The site key is public by design; the secret is a Pages
+         environment variable and never appears in this repo. -->
+    <div class="cf-turnstile" data-sitekey="0x4AAAAAAEmnkgXCIVCu_CW2" data-theme="auto"></div>
+
+    <button type="submit">Send</button>
+
+    <p class="privacy">
+      Your name, email and message go to me and no one else. They will not be passed on, sold or
+      added to any external mailing list. If you desire to have your information removed, please
+      <a href="/support/">contact support</a>.
+    </p>
+  </form>
+
+  <p id="form-status" role="status" aria-live="polite"></p>
 
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script><script>
 // The clip autoplays; anyone who has asked for reduced motion gets the still poster instead.
