@@ -1,6 +1,6 @@
 # Every game clip, newest first. /videos/ lists them all, and each one also gets a page of its own at
 # /videos/{slug}/ (a three-line stub in videos/), because link previews ignore anything after a "#":
-# only a page of its own can carry the clip's poster and file in its og: tags. See README,
+# only a page of its own can carry the clip's poster in its og: tags. See README,
 # "Publishing a video".
 #
 #   summary  the link-preview description, and the line under the title on the clip's page.

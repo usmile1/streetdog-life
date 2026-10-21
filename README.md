@@ -263,7 +263,8 @@ a clip is a derivative work showing the game, which is what both art licences ar
 
 **Every clip goes on `/videos/` and gets a page of its own, `/videos/{slug}/`.** Share the own page,
 not `/videos/#…`: link previews ignore anything after a `#`, so only a page of its own can show the
-clip's poster (and, in apps that play video inline, the clip) instead of the site's default image.
+clip's poster instead of the site's default image. (No `og:video` tag: apps that play it inline loop
+it forever in the chat.)
 A game's own section on `/games/` may show the clip too.
 
 1. **Encode a web copy** from the source in `~/Movies` — never commit the source `.mov`. Cloudflare
