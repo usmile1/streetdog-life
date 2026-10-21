@@ -124,6 +124,17 @@ og_description: "Love dogs? Tired of doomscrolling? Play Sandy and ARC9. Early A
 
   <p>Made in one week in October 2026 for the Synty Studios Spooky Game Jam.</p>
 
+  <!-- Trailer encoded from ~/Movies/Lucky.mov: 1280 wide, 30fps, audio kept (muted until the viewer
+       unmutes). Same autoplay and reduced-motion handling as the Sandy and ARC9 clip. -->
+  <figure class="shot">
+    <video id="lucky-clip" src="/assets/lucky-clip.mp4" poster="/assets/lucky-clip-poster.jpg"
+           width="1280" height="720" autoplay muted loop playsinline controls preload="metadata"
+           aria-label="Eighty seconds of Lucky!. The title screen, then Baby riding Lucky the robot dog
+                       through a desert Western town by day, asking for pie, and the same streets at
+                       night full of zombies."></video>
+    <figcaption>Baby wants pie by day; the zombies come out at night.</figcaption>
+  </figure>
+
   <!-- itch's embed is a fixed 552px wide; .itch caps it at the column so phones don't scroll sideways. -->
   <iframe class="itch" frameborder="0" src="https://itch.io/embed/5185987" width="552" height="167"
           title="Lucky! on itch.io"><a href="https://usmile1.itch.io/lucky">Lucky! by usmile1</a></iframe>
@@ -212,13 +223,13 @@ og_description: "Love dogs? Tired of doomscrolling? Play Sandy and ARC9. Early A
   <p id="form-status" role="status" aria-live="polite"></p>
 
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script><script>
-// The clip autoplays; anyone who has asked for reduced motion gets the still poster instead.
+// The clips autoplay; anyone who has asked for reduced motion gets the still poster instead.
 (function () {
-  var clip = document.getElementById('sa9-clip');
-  if (clip && window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    clip.removeAttribute('autoplay');
-    clip.pause();
-  }
+  if (!window.matchMedia || !matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  ['sa9-clip', 'lucky-clip'].forEach(function (id) {
+    var clip = document.getElementById(id);
+    if (clip) { clip.removeAttribute('autoplay'); clip.pause(); }
+  });
 })();
 (function () {
   var form = document.getElementById('interest-form');
