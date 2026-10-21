@@ -274,15 +274,15 @@ linked as `streetdog.life/videos/#{game-slug}`. A game's own section on `/games/
 2. **Grab a poster** — a frame that shows the game, not an instruction card:
    `ffmpeg -ss 1.5 -i assets/lucky-clip.mp4 -frames:v 1 -q:v 4 assets/lucky-clip-poster.jpg`.
    Files are `assets/{game}-clip.mp4` and `assets/{game}-clip-poster.jpg`.
-3. **Add it to the top of `/videos/`** (newest first) with an `<h2 id="{game-slug}">`, a
+3. **Add it to the top of `/videos/`** (newest first) with
+   `<h2 id="{game-slug}"><a class="permalink" href="#{game-slug}">Title</a></h2>` — the title is the
+   clip's shareable link, and the script at the bottom of the page copies it on click — a
    `<figure class="shot">`, an `aria-label` describing what happens, and a caption that ends with:
    - **About the game** → its section on `/games/`;
    - **Watch on YouTube** → the YouTube copy, if there is one;
    - **credits** → the game's credits section on `/games/` (`#credits`, `#lucky-credits`, …). Every
      game has one, and the footage shows the credited work — for Sandy and ARC9 that includes a town
      built from OpenStreetMap, and ODbL wants the credit reachable from wherever it appears.
-   - and on its own line, `<a class="permalink" href="#{game-slug}">Copy link to this video</a>`,
-     which copies the clip's full address (the script at the bottom of `/videos/` handles every one).
 4. **On `/games/`, if it goes there too:** autoplay muted loop, plus the clip's id in the
    reduced-motion script at the bottom of that page. On `/videos/` nothing autoplays —
    `controls preload="none"`, poster only.
