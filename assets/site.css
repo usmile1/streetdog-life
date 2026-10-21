@@ -308,6 +308,20 @@ h2.year .count { font-family: var(--body); font-style: italic; font-size: .85rem
 .gamehead h2 { margin: 0; }
 .gamehead .tagline { margin: .25rem 0 0; }
 
+/* ── a game's pitch ────────────────────────────────────────────────────────────────────────────────
+ * The lead is the sentence that sells the game, so it is a step up from body text. The promises are
+ * set in the display face, like the headings, because they are claims and not description. "Coming
+ * soon" wears the accent as a rule down its left edge: noticeable, and no badge. */
+.lead { font-size: 1.2rem; line-height: 1.55; }
+.promises {
+  font-family: var(--display); font-size: 1.05rem; letter-spacing: .02em;
+  margin: 0 0 1.15rem;
+}
+.soon {
+  font-family: var(--display); font-size: .95rem;
+  border-left: 3px solid var(--accent); padding-left: .75rem;
+}
+
 /* ── a screenshot ──────────────────────────────────────────────────────────────────────────────────
  * The one thing on the games page that argues for the game better than any sentence, so it is allowed
  * to break out of the reading measure — but only as far as the viewport actually has room for, so it
