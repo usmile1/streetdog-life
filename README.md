@@ -74,8 +74,8 @@ the same in both places:
 | shape | flowing paragraphs | `##` sections |
 | ends with | `-greg` | no sign-off |
 
-⚠ **Posts written by Claude say so in the byline.** That is the same honesty as the game credits,
-which state outright that none of the artwork or music is AI-generated.
+⚠ **Posts written by Claude say so in the byline.** That is the same honesty as the **AI Posture**
+section at the bottom of `/games/` (linked from the top), which says what AI does and does not do in the games.
 
 ⚠ **`date:` with a time is required when two posts share a day**, or their order is undefined.
 
@@ -239,18 +239,24 @@ default key and **Start authentication** never happened.
 
 ## Credits are a licence term, not a courtesy
 
-The credits block on `/games/` exists because two of its entries are **obligations**:
+The Sandy and ARC9 credits block on `/games/` is condensed from the game's own list,
+`~/UnityApps/StraysTiled/Assets/StreamingAssets/credits.json`, which records the licence basis for
+every entry. When that file changes, change this. Four entries are **obligations**:
 
 | | requires |
 |---|---|
-| **LimeZu — Modern Exteriors** | a credit **with a working link**. The game may not be distributed without it. |
-| **OpenStreetMap** | the street layout is OSM data under **ODbL 1.0** — "© OpenStreetMap contributors" plus a link to the licence. |
-| Synty — Simple Dogs | no credit required; the terms care that the work is never passed off as ours. Credited anyway. |
-| USGS | public domain. Credited anyway. |
+| **OpenStreetMap** | ODbL 1.0 — "© OpenStreetMap contributors" plus a link to the licence. |
+| **Microsoft US Building Footprints** | ODbL 1.0 — the section 4.3 notice plus a link to the licence. |
+| **Meta & WRI canopy height** | CC BY 4.0 — credit, a note of what was changed, and the licence link. |
+| **USGS 3DEP elevation** | public domain, but OpenTopography makes the DOI citation a condition of use. |
+| Synty Studios | no credit required; the terms care that the work is never passed off as ours. Credited anyway. |
 | Epidemic Sound | credit expected. |
 
-Do not trim that block or let the links stop being links. The game screenshot is fine to publish here —
-a screenshot is a derivative work showing the game, which is what both art licences are for — but the
+The Lucky! section credits Synty and Epidemic Sound in one line, condensed from that game's own
+in-game CREDITS screen.
+
+Do not trim that block or let the links stop being links. The game clip is fine to publish here —
+a clip is a derivative work showing the game, which is what both art licences are for — but the
 **source art must never be committed to any repo**, public or private.
 
 ## Adding a section

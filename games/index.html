@@ -1,11 +1,47 @@
 ---
 layout: page
 title: "Street Dog Games"
-description: "Sandy and ARC9 — an open-world game where you find street dogs and give them treats. No combat, no puzzles. Relax. Wander. Help dogs."
+description: "Lucky! — a spooky Western jam game about a robot dog and the last baby on earth — and Sandy and ARC9, an open-world game where you find street dogs and give them treats."
 og_title: "Sandy and ARC9"
-og_description: "Relax. Wander. Help dogs. No combat, no frustrating puzzles."
+og_description: "Love dogs? Tired of doomscrolling? Play Sandy and ARC9. Early access coming soon."
 ---
-<p>
+<!-- How AI is and isn't used in these games is at the bottom of the page (#ai); this line points there. -->
+<p class="quiet">The following games are the work of Greg Warden. <a href="#ai">How I use AI</a>.</p>
+
+  <hr>
+
+  <!-- LUCKY! — the newest game, and the one you can play today, so it goes first. Made for the Synty
+     Spooky Jam (October 2026); source is ~/UnityApps/LuckyRide. The credits here are the game's own
+     in-game CREDITS copy, condensed. -->
+<div class="gamehead">
+    <div>
+      <h2 id="lucky">Lucky!</h2>
+      <p class="tagline">Keep Baby happy. Keep Baby alive.</p>
+    </div>
+  </div>
+
+  <p>
+    You are Lucky, a robot dog and trusted steed of the last baby on earth. By day, Baby wants pie,
+    soda or ice cream — one thing at a time, and right now. By night, the zombies come out.
+  </p>
+
+  <p>
+    A spooky Western comedy, made in October 2026 for the Synty Spooky Jam. It plays in your browser
+    on itch.io.
+  </p>
+
+  <!-- itch's embed is a fixed 552px wide; .itch caps it at the column so phones don't scroll sideways. -->
+  <iframe class="itch" frameborder="0" src="https://itch.io/embed/5185987" width="552" height="167"
+          title="Lucky! on itch.io"><a href="https://usmile1.itch.io/lucky">Lucky! by usmile1</a></iframe>
+
+  <p class="quiet">
+    Visual assets from <a href="https://syntystore.com/" rel="noopener">Synty Studios</a>. Music and
+    most sound effects from <a href="https://www.epidemicsound.com/" rel="noopener">Epidemic Sound</a>.
+  </p>
+
+  <hr>
+
+  <p>
     In early 2024 I had an idea for a game. The <em>real world</em> is a challenging place, full of
     things that can get you down. I wanted a game where I could spend fifteen minutes a day doing
     something that lifted me up. I love dogs. Helping dogs lifts me up. So I started learning Unity,
@@ -19,12 +55,12 @@ og_description: "Relax. Wander. Help dogs. No combat, no frustrating puzzles."
     <img class="mark" src="/assets/sandy-arc9-512.png" alt="">
     <div>
       <h2>Sandy and ARC9</h2>
-      <p class="tagline">Relax. Wander. Help dogs.</p>
+      <p class="tagline">Love dogs? Tired of doomscrolling? Play Sandy and ARC9.</p>
     </div>
   </div>
 
   <p>
-    An open-world game where you find street dogs and give them treats.
+    An open-world 3D game where you find street dogs and give them treats.
   </p>
 
   <!-- One beat per line. Each is the same sentence with the situation swapped, and stacking them is
@@ -42,23 +78,24 @@ og_description: "Relax. Wander. Help dogs. No combat, no frustrating puzzles."
   </p>
 
   <p>
-    The game is nearing a proper alpha release, with an open beta hopefully ready by the end of 2026.
+    Early access is coming soon.
   </p>
 
-  <!-- The screenshot comes AFTER the description: the words say what the game is, then the picture
-       shows it. The caption credits the art in the frame; the full terms are under Credits below,
-       which is where LimeZu's required link lives. -->
-  <h2>Screen shot from pre-release build</h2>
+  <!-- The clip comes AFTER the description: the words say what the game is, then the picture shows
+       it. It has no sound (the source's audio track is silent), which is what lets it autoplay — browsers
+       only autoplay muted video. Under prefers-reduced-motion the script at the bottom stops it, and the
+       poster frame stands in. Encoded from ~/Movies/SA9.mov: letterbox cropped, 1280 wide, no audio. -->
+  <h2>From a pre-release build</h2>
 
   <figure class="shot">
-    <img src="/assets/screenshot-town.jpg" width="1434" height="660" loading="lazy"
-         alt="A town street seen from above. ARC9, a small white robot, stands on the grass beside a
-              road; a street dog trots along the kerb a little way off, keeping its distance. A large
-              green Victorian house with a mansard roof fills the left of the frame, and autumn trees
-              show at the bottom edge.">
+    <video id="sa9-clip" src="/assets/sandy-arc9-clip.mp4" poster="/assets/sandy-arc9-clip-poster.jpg"
+           width="1280" height="590" autoplay muted loop playsinline controls preload="metadata"
+           aria-label="Thirty seconds of play. ARC9, a small white robot, walks through a coastal
+                       town at night past lit shopfronts, then across a park at dusk under autumn trees,
+                       with street dogs trotting nearby."></video>
     <figcaption>
-      ARC9 on a residential street, with a street dog keeping its distance. Buildings and trees by LimeZu,
-      dog by Synty Studios — <a href="#credits">full credits below</a>.
+      ARC9 in town at night, then out by the water at dusk, with street dogs nearby —
+      <a href="#credits">full credits below</a>.
     </figcaption>
   </figure>
 
@@ -122,43 +159,105 @@ og_description: "Relax. Wander. Help dogs. No combat, no frustrating puzzles."
 
   <hr>
 
-  <!-- CREDITS. Two of these are obligations rather than courtesies, so do not quietly trim this block:
-         • LimeZu's licence REQUIRES a credit with a working link.
-         • The street layout is OpenStreetMap data under ODbL 1.0, which requires "© OpenStreetMap
-           contributors" and a link to the licence.
+  <!-- CREDITS. Condensed from the game's own list, ~/UnityApps/StraysTiled/Assets/StreamingAssets/
+       credits.json, which records the licence basis for every entry. When the game's list changes,
+       change this. Four of these are OBLIGATIONS rather than courtesies, so do not quietly trim them:
+         • OpenStreetMap and Microsoft US Building Footprints are ODbL 1.0: the credit, and a link to
+           the licence.
+         • The canopy height maps are CC BY 4.0: credit, a note of what was changed, and the licence link.
+         • The USGS elevation data is public domain, but OpenTopography's terms make the citation a
+           condition of use.
        The rest are here because Greg wanted them here. Synty does not require a credit; being clear
        about what is theirs is the thing their terms actually care about. -->
   <h2 id="credits">Credits</h2>
 
   <p>
-    Sandy and ARC9 is the work of Greg Warden, with help from Claude Code for Unity programming and
-    data processing. None of the artwork or music is AI-generated. The following external sources
-    provide assets and/or data used in the game:
+    The following external sources provide assets and/or data used in the game:
   </p>
 
   <dl class="credits">
-    <dt><a href="https://limezu.itch.io/modernexteriors" rel="noopener">LimeZu — Modern Exteriors</a></dt>
-    <dd>Buildings, trees and props.</dd>
-
-    <dt><a href="https://syntystore.com/" rel="noopener">Synty Studios — Simple Dogs</a></dt>
-    <dd>Dogs and dog animations.</dd>
-
     <dt><a href="https://www.openstreetmap.org/copyright" rel="noopener">OpenStreetMap contributors</a></dt>
     <dd>
-      The street layout is based on the streets of Camden, Maine (one of my favourite places to
-      vacation). Street data provided by OpenStreetMap — map data ©&nbsp;OpenStreetMap contributors,
-      available under the
-      <a href="https://opendatacommons.org/licenses/odbl/" rel="noopener">Open Database Licence</a>.
+      The town is based on Camden, Maine (one of my favourite places to vacation). Its streets and their
+      names, the coastline and rivers, and where every building stands — map data ©&nbsp;OpenStreetMap
+      contributors, available under the
+      <a href="https://opendatacommons.org/licenses/odbl/1-0/" rel="noopener">Open Database Licence</a>.
     </dd>
 
-    <dt><a href="https://www.usgs.gov/" rel="noopener">U.S. Geological Survey</a></dt>
-    <dd>Elevation data. I’m looking at you, Mt Battie.</dd>
+    <dt><a href="https://github.com/microsoft/USBuildingFootprints" rel="noopener">Microsoft US Building Footprints</a></dt>
+    <dd>
+      The outline of many buildings where OpenStreetMap has none. Contains information from Microsoft US
+      Building Footprints, which is made available here under the
+      <a href="https://opendatacommons.org/licenses/odbl/1-0/" rel="noopener">Open Database Licence</a>.
+    </dd>
+
+    <dt><a href="https://registry.opendata.aws/dataforgood-fb-forests/" rel="noopener">Meta &amp; World Resources Institute — High Resolution Canopy Height Maps</a></dt>
+    <dd>
+      Where every tree stands, and how tall it grows. Clipped to the town, resampled onto its grid, and
+      turned into tree cover and height. Licensed under
+      <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener">CC&nbsp;BY&nbsp;4.0</a>.
+    </dd>
+
+    <dt><a href="https://www.usgs.gov/3d-elevation-program" rel="noopener">U.S. Geological Survey — 3D Elevation Program</a></dt>
+    <dd>
+      The shape of the land, and the hills and islands beyond the edge of town. I’m looking at you,
+      Mt Battie. United States Geological Survey (2021), 3D Elevation Program
+      <a href="https://doi.org/10.5069/G98K778D" rel="noopener">1/3 arc-second</a> and
+      <a href="https://doi.org/10.5069/G9HX19WN" rel="noopener">1 arc-second</a> Digital Elevation
+      Models, distributed by OpenTopography. Accessed 2026-09-10.
+    </dd>
+
+    <dt><a href="https://opentopography.org" rel="noopener">OpenTopography</a></dt>
+    <dd>
+      This work is based on data services provided by the OpenTopography Facility with support from the
+      National Science Foundation under NSF Award Numbers 2410799, 2410800 &amp; 2410801.
+    </dd>
+
+    <dt><a href="https://www.loc.gov/collections/sanborn-maps/" rel="noopener">Library of Congress — Sanborn Maps Collection</a></dt>
+    <dd>The 1912 fire insurance maps, for a few old downtown buildings no modern source has.</dd>
+
+    <dt><a href="https://www.librarycamden.org/" rel="noopener">Camden Historic Resources Committee</a> and the <a href="https://www.nps.gov/subjects/nationalregister/index.htm" rel="noopener">National Register of Historic Places</a></dt>
+    <dd>When the houses were built, and their storeys, materials and styles.</dd>
+
+    <dt><a href="https://syntystore.com/" rel="noopener">Synty Studios</a></dt>
+    <dd>
+      Trees, dogs and animation: POLYGON Nature Biomes and Dog; Animation Base Locomotion; Animation
+      Emotes and Taunts.
+    </dd>
+
+    <dt><a href="https://staggart.xyz/unity/stylized-water-3/sw3-docs/" rel="noopener">Staggart Creations — Stylized Water 3</a></dt>
+    <dd>The water.</dd>
 
     <dt><a href="https://www.epidemicsound.com/" rel="noopener">Epidemic Sound</a></dt>
-    <dd>The music.</dd>
+    <dd>
+      The music: Mandala Dreams — <em>Breath of the Ocean</em> and <em>Transition in Mood</em>; Ingrid
+      Witt — <em>If I Had A Tail (Instrumental Version)</em>.
+    </dd>
   </dl>
 
+  <hr>
+
+  <!-- THE AI STANCE, once, for every game on the page. Each game's own credits then list only the
+     third-party assets and data it uses. Worded so it stays true: AI helps with code, data and the
+     tools that generate the world; Greg designs and art-directs; no generator output ships. If a game
+     ever breaks that, this paragraph changes before the game ships, not after. -->
+  <h2 id="ai">AI Posture</h2>
+
+  <p>
+    I use Claude Code and Codex to help write game code, process data, and create tools for world
+    generation. I design and art-direct every project. None of the games include anything from an AI
+    image or music generator. Each game's credits, above, list the third-party assets it includes.
+  </p>
+
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script><script>
+// The clip autoplays; anyone who has asked for reduced motion gets the still poster instead.
+(function () {
+  var clip = document.getElementById('sa9-clip');
+  if (clip && window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    clip.removeAttribute('autoplay');
+    clip.pause();
+  }
+})();
 (function () {
   var form = document.getElementById('interest-form');
   var status = document.getElementById('form-status');

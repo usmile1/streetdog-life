@@ -314,11 +314,16 @@ h2.year .count { font-family: var(--body); font-style: italic; font-size: .85rem
  * can never push the body into a sideways scroll. At narrow widths the clamp lands on 0 and the figure
  * simply sits in the column. */
 .shot { margin: 2rem calc(-1 * clamp(0rem, (100vw - var(--measure)) / 2 - 1.25rem, 6rem)); }
-.shot img { display: block; width: 100%; height: auto; border: 1px solid var(--rule); }
+.shot img, .shot video { display: block; width: 100%; height: auto; border: 1px solid var(--rule); }
 .shot figcaption {
   margin: .65rem .25rem 0;
   font-size: .85rem; color: var(--deck); line-height: 1.55;
 }
+
+/* ── an itch.io embed ──────────────────────────────────────────────────────────────────────────────
+ * itch hands out a fixed-width iframe (552px). Capped at the column so it never forces a sideways
+ * scroll on a phone; the widget itself reflows inside a narrower frame. */
+.itch { display: block; max-width: 100%; margin: 1.6rem 0; border: 0; }
 
 /* ── credits ───────────────────────────────────────────────────────────────────────────────────────
  * Set as a description list because that is what it is: a thing, and what it did. LimeZu's licence
