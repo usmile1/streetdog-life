@@ -1,0 +1,14 @@
+---
+layout: page
+title: "Sandy and ARC9"
+video: sandy-and-arc9
+permalink: /videos/sandy-and-arc9/
+---
+<!-- The whole page comes from this clip's entry in _data/videos.yml (video: above); the head picks
+     up its poster and file for the link preview. -->
+{% assign v = site.data.videos | where: "slug", page.video | first %}
+<p class="quiet">{{ v.summary }}</p>
+
+{% include video.html v=v %}
+
+<p class="quiet"><a href="/videos/">All videos</a></p>

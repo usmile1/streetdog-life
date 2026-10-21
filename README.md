@@ -261,8 +261,10 @@ a clip is a derivative work showing the game, which is what both art licences ar
 
 ## Publishing a video
 
-**Every clip goes on `/videos/`.** That page is the one address for footage, so a clip can always be
-linked as `streetdog.life/videos/#{game-slug}`. A game's own section on `/games/` may show it too.
+**Every clip goes on `/videos/` and gets a page of its own, `/videos/{slug}/`.** Share the own page,
+not `/videos/#…`: link previews ignore anything after a `#`, so only a page of its own can show the
+clip's poster (and, in apps that play video inline, the clip) instead of the site's default image.
+A game's own section on `/games/` may show the clip too.
 
 1. **Encode a web copy** from the source in `~/Movies` — never commit the source `.mov`. Cloudflare
    Pages refuses any file over 25 MB; aim for well under.
@@ -274,17 +276,15 @@ linked as `streetdog.life/videos/#{game-slug}`. A game's own section on `/games/
 2. **Grab a poster** — a frame that shows the game, not an instruction card:
    `ffmpeg -ss 1.5 -i assets/lucky-clip.mp4 -frames:v 1 -q:v 4 assets/lucky-clip-poster.jpg`.
    Files are `assets/{game}-clip.mp4` and `assets/{game}-clip-poster.jpg`.
-3. **Add it to the top of `/videos/`** (newest first) with
-   `<h2 id="{game-slug}"><a class="permalink" href="#{game-slug}">Title</a></h2>` — the title is the
-   clip's shareable link, and the script at the bottom of the page copies it on click — a
-   `<figure class="shot">`, an `aria-label` describing what happens, and a caption that ends with:
-   - **About the game** → its section on `/games/`;
-   - **Watch on YouTube** → the YouTube copy, if there is one;
-   - **credits** → the game's credits section on `/games/` (`#credits`, `#lucky-credits`, …). Every
-     game has one, and the footage shows the credited work — for Sandy and ARC9 that includes a town
-     built from OpenStreetMap, and ODbL wants the credit reachable from wherever it appears.
+3. **Add an entry at the top of `_data/videos.yml`** (newest first): slug, title, file, poster, size,
+   a `summary` (the link-preview text), a `label` saying what happens on screen, a `caption`, and
+   links to the game, its **credits** and **YouTube** if there is one. Every clip links its game's
+   credits — the footage shows the credited work, and for Sandy and ARC9 that includes a town built
+   from OpenStreetMap, whose ODbL wants the credit reachable from wherever it appears.
+   Then copy `videos/lucky.html` to `videos/{slug}.html` and change its `title`, `video` and
+   `permalink`. `/videos/`, the clip's page and its preview tags all come from the entry.
 4. **On `/games/`, if it goes there too:** autoplay muted loop, plus the clip's id in the
-   reduced-motion script at the bottom of that page. On `/videos/` nothing autoplays —
+   reduced-motion script at the bottom of that page. Under `/videos/` nothing autoplays —
    `controls preload="none"`, poster only.
 
 **Link to YouTube; never embed it.** An embed loads Google's scripts and cookies for every visitor,

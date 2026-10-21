@@ -343,12 +343,9 @@ h2.year .count { font-family: var(--body); font-style: italic; font-size: .85rem
   margin: .65rem .25rem 0;
   font-size: .85rem; color: var(--deck); line-height: 1.55;
 }
-/* /videos/: each clip's title links to itself. A faint # on hover says it is a link; "link copied"
- * shows for a moment after the click copies the address. */
+/* /videos/: each clip's title links to the clip's own page. Heading-coloured, underlined on hover. */
 h2 a.permalink { color: inherit; text-decoration: none; }
-h2 a.permalink::after { content: "#"; margin-left: .4rem; color: var(--deck); opacity: 0; }
-h2 a.permalink:hover::after, h2 a.permalink:focus-visible::after { opacity: .6; }
-h2 a.permalink.copied::after { content: "link copied"; font-size: .8rem; font-weight: normal; opacity: 1; }
+h2 a.permalink:hover, h2 a.permalink:focus-visible { text-decoration: underline; }
 
 /* ── an itch.io embed ──────────────────────────────────────────────────────────────────────────────
  * itch hands out a fixed-width iframe (552px). Capped at the column so it never forces a sideways

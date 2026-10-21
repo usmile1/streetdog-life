@@ -1,0 +1,14 @@
+<!-- One clip from _data/videos.yml, passed as include.v. Click-to-play: nothing autoplays outside
+     /games/, and preload="none" means the poster is all that loads until someone presses play. -->
+<figure class="shot">
+  <video src="{{ include.v.file }}" poster="{{ include.v.poster }}"
+         width="{{ include.v.width }}" height="{{ include.v.height }}" controls playsinline preload="none"
+         aria-label="{{ include.v.label | escape }}"></video>
+  <figcaption>
+    {{ include.v.caption }}
+    <a href="{{ include.v.game }}">About the game</a>, and its <a href="{{ include.v.credits }}">credits</a>.
+    {%- if include.v.youtube %}
+    <a href="{{ include.v.youtube }}" rel="noopener">Watch on YouTube</a>.
+    {%- endif %}
+  </figcaption>
+</figure>

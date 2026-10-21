@@ -3,60 +3,15 @@ layout: page
 title: "Videos"
 description: "Clips from Greg Warden's games: Sandy and ARC9 and Lucky!"
 ---
-<!-- Every game clip in one place, newest first. Each clip has an id so it can be linked on its own
-     (streetdog.life/videos/#lucky). Unlike /games/, nothing autoplays here: a page of several videos
-     playing at once is noisy and downloads all of them, so these are click-to-play with
-     preload="none" and the poster frame standing in. The files are the same ones /games/ uses.
-     A new clip goes at the top, with its own id and a Watch on YouTube link if there is one. -->
-<p class="quiet">Clips from the games. Each one links to its game, its credits and YouTube, and its title is a link of its own to share.</p>
+<!-- Every game clip in one place, newest first, from _data/videos.yml. Each title links to the clip's
+     own page, /videos/{slug}/ — that is the address to share, since it is the one whose link preview
+     shows the clip. The ids stay so the brief /videos/#{slug} links still land. -->
+<p class="quiet">Clips from the games. Click a title for that clip's own page, to share.</p>
 
+{% for v in site.data.videos %}
 <hr>
 
-<h2 id="lucky"><a class="permalink" href="#lucky" title="Link to this video">Lucky!</a></h2>
+<h2 id="{{ v.slug }}"><a class="permalink" href="/videos/{{ v.slug }}/">{{ v.title }}</a></h2>
 
-<figure class="shot">
-  <video src="/assets/lucky-clip.mp4" poster="/assets/lucky-clip-poster.jpg"
-         width="1280" height="720" controls playsinline preload="none"
-         aria-label="Eighty seconds of Lucky!. The title screen, then Baby riding Lucky the robot dog
-                     through a desert Western town by day, asking for pie, and the same streets at
-                     night full of zombies."></video>
-  <figcaption>
-    Baby wants pie by day; the zombies come out at night.
-    <a href="/games/#lucky">About the game</a>, and its <a href="/games/#lucky-credits">credits</a>.
-    <a href="https://youtu.be/dAwAyMnCJig" rel="noopener">Watch on YouTube</a>.
-  </figcaption>
-</figure>
-
-<hr>
-
-<h2 id="sandy-and-arc9"><a class="permalink" href="#sandy-and-arc9" title="Link to this video">Sandy and ARC9</a></h2>
-
-<figure class="shot">
-  <video src="/assets/sandy-arc9-clip.mp4" poster="/assets/sandy-arc9-clip-poster.jpg"
-         width="1280" height="590" controls playsinline preload="none"
-         aria-label="Thirty seconds of play. ARC9, a small white robot, walks through a coastal
-                     town at night past lit shopfronts, then across a park at dusk under autumn trees,
-                     with street dogs trotting nearby."></video>
-  <figcaption>
-    ARC9 in town at night, then out by the water at dusk, with street dogs nearby.
-    <a href="/games/#sandy-and-arc9">About the game</a>, and its <a href="/games/#credits">credits</a>.
-    <a href="https://youtu.be/j2d2H9zVD_o" rel="noopener">Watch on YouTube</a>.
-  </figcaption>
-</figure>
-
-<!-- Each title links to its own clip; clicking it also puts the full address on the clipboard. Without JavaScript (or clipboard
-     permission) the link still goes to the clip's anchor, so the address bar shows the same URL. -->
-<script>
-document.querySelectorAll('a.permalink').forEach(function (a) {
-  a.addEventListener('click', function (e) {
-    if (!navigator.clipboard) return;
-    e.preventDefault();
-    var url = location.origin + location.pathname + a.getAttribute('href');
-    history.replaceState(null, '', a.getAttribute('href'));
-    navigator.clipboard.writeText(url).then(function () {
-      a.classList.add('copied');
-      setTimeout(function () { a.classList.remove('copied'); }, 2000);
-    }, function () { location.hash = a.getAttribute('href'); });
-  });
-});
-</script>
+{% include video.html v=v %}
+{% endfor %}

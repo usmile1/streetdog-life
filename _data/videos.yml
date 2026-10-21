@@ -1,0 +1,39 @@
+# Every game clip, newest first. /videos/ lists them all, and each one also gets a page of its own at
+# /videos/{slug}/ (a three-line stub in videos/), because link previews ignore anything after a "#":
+# only a page of its own can carry the clip's poster and file in its og: tags. See README,
+# "Publishing a video".
+#
+#   summary  the link-preview description, and the line under the title on the clip's page.
+#   label    the video's aria-label: what actually happens on screen.
+#   credits  the game's credits on /games/. Every clip links them.
+#   youtube  optional; a link, never an embed.
+
+- slug: lucky
+  title: "Lucky!"
+  file: /assets/lucky-clip.mp4
+  poster: /assets/lucky-clip-poster.jpg
+  width: 1280
+  height: 720
+  summary: "You are Lucky the robot dog, the last baby on earth's trusted steed. Keep Baby happy. Keep Baby alive."
+  label: >-
+    Eighty seconds of Lucky!. The title screen, then Baby riding Lucky the robot dog through a desert
+    Western town by day, asking for pie, and the same streets at night full of zombies.
+  caption: "Baby wants pie by day; the zombies come out at night."
+  game: /games/#lucky
+  credits: /games/#lucky-credits
+  youtube: https://youtu.be/dAwAyMnCJig
+
+- slug: sandy-and-arc9
+  title: "Sandy and ARC9"
+  file: /assets/sandy-arc9-clip.mp4
+  poster: /assets/sandy-arc9-clip-poster.jpg
+  width: 1280
+  height: 590
+  summary: "Love dogs? Tired of doomscrolling? Play Sandy and ARC9. Early Access coming soon."
+  label: >-
+    Thirty seconds of play. ARC9, a small white robot, walks through a coastal town at night past lit
+    shopfronts, then across a park at dusk under autumn trees, with street dogs trotting nearby.
+  caption: "ARC9 in town at night, then out by the water at dusk, with street dogs nearby."
+  game: /games/#sandy-and-arc9
+  credits: /games/#credits
+  youtube: https://youtu.be/j2d2H9zVD_o

@@ -14,15 +14,33 @@
 {%- endif -%}
 {%- assign desc = page.description | default: site.description -%}
 {%- assign image = page.image | default: "/assets/sandy-arc9-512.png" -%}
+{%- comment -%}
+  A clip's own page (/videos/{slug}/, video: in its front matter) previews as the clip: its poster as
+  the image, its summary as the description, and og:video so apps that play video inline can.
+{%- endcomment -%}
+{%- if page.video -%}
+  {%- assign clip = site.data.videos | where: "slug", page.video | first -%}
+  {%- assign image = clip.poster -%}
+  {%- assign desc = clip.summary -%}
+{%- endif -%}
 
 <title>{{ full_title }}</title>
 <meta name="description" content="{{ desc | strip_html | normalize_whitespace }}">
-<meta property="og:type" content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
+<meta property="og:type" content="{% if page.layout == 'post' %}article{% elsif clip %}video.other{% else %}website{% endif %}">
 <meta property="og:title" content="{{ page.og_title | default: full_title }}">
 <meta property="og:description" content="{{ page.og_description | default: desc | strip_html | normalize_whitespace }}">
 <meta property="og:image" content="{{ image | absolute_url }}">
 <meta property="og:url" content="{{ page.url | absolute_url }}">
 <meta name="twitter:card" content="summary_large_image">
+{%- if clip %}
+<meta property="og:image:width" content="{{ clip.width }}">
+<meta property="og:image:height" content="{{ clip.height }}">
+<meta property="og:video" content="{{ clip.file | absolute_url }}">
+<meta property="og:video:secure_url" content="{{ clip.file | absolute_url }}">
+<meta property="og:video:type" content="video/mp4">
+<meta property="og:video:width" content="{{ clip.width }}">
+<meta property="og:video:height" content="{{ clip.height }}">
+{%- endif %}
 {%- if page.noindex %}
 <meta name="robots" content="noindex">
 {%- endif %}
