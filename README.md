@@ -281,6 +281,8 @@ linked as `streetdog.life/videos/#{game-slug}`. A game's own section on `/games/
    - **credits** → the game's credits section on `/games/` (`#credits`, `#lucky-credits`, …). Every
      game has one, and the footage shows the credited work — for Sandy and ARC9 that includes a town
      built from OpenStreetMap, and ODbL wants the credit reachable from wherever it appears.
+   - and on its own line, `<a class="permalink" href="#{game-slug}">Copy link to this video</a>`,
+     which copies the clip's full address (the script at the bottom of `/videos/` handles every one).
 4. **On `/games/`, if it goes there too:** autoplay muted loop, plus the clip's id in the
    reduced-motion script at the bottom of that page. On `/videos/` nothing autoplays —
    `controls preload="none"`, poster only.

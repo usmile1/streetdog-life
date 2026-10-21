@@ -343,6 +343,8 @@ h2.year .count { font-family: var(--body); font-style: italic; font-size: .85rem
   margin: .65rem .25rem 0;
   font-size: .85rem; color: var(--deck); line-height: 1.55;
 }
+/* /videos/: each clip's shareable address, on its own line under the caption. */
+.shot .permalink { display: block; margin-top: .3rem; }
 
 /* ── an itch.io embed ──────────────────────────────────────────────────────────────────────────────
  * itch hands out a fixed-width iframe (552px). Capped at the column so it never forces a sideways

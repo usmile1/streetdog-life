@@ -8,7 +8,7 @@ description: "Clips from Greg Warden's games: Sandy and ARC9 and Lucky!"
      playing at once is noisy and downloads all of them, so these are click-to-play with
      preload="none" and the poster frame standing in. The files are the same ones /games/ uses.
      A new clip goes at the top, with its own id and a Watch on YouTube link if there is one. -->
-<p class="quiet">Clips from the games. Each one links to its game and to YouTube.</p>
+<p class="quiet">Clips from the games. Each one links to its game, its credits and YouTube, and has a link of its own to share.</p>
 
 <hr>
 
@@ -24,6 +24,7 @@ description: "Clips from Greg Warden's games: Sandy and ARC9 and Lucky!"
     Baby wants pie by day; the zombies come out at night.
     <a href="/games/#lucky">About the game</a>, and its <a href="/games/#lucky-credits">credits</a>.
     <a href="https://youtu.be/dAwAyMnCJig" rel="noopener">Watch on YouTube</a>.
+    <a class="permalink" href="#lucky">Copy link to this video</a>
   </figcaption>
 </figure>
 
@@ -41,5 +42,24 @@ description: "Clips from Greg Warden's games: Sandy and ARC9 and Lucky!"
     ARC9 in town at night, then out by the water at dusk, with street dogs nearby.
     <a href="/games/#sandy-and-arc9">About the game</a>, and its <a href="/games/#credits">credits</a>.
     <a href="https://youtu.be/j2d2H9zVD_o" rel="noopener">Watch on YouTube</a>.
+    <a class="permalink" href="#sandy-and-arc9">Copy link to this video</a>
   </figcaption>
 </figure>
+
+<!-- "Copy link" puts the clip's full address on the clipboard. Without JavaScript (or clipboard
+     permission) the link still goes to the clip's anchor, so the address bar shows the same URL. -->
+<script>
+document.querySelectorAll('a.permalink').forEach(function (a) {
+  a.addEventListener('click', function (e) {
+    if (!navigator.clipboard) return;
+    e.preventDefault();
+    var url = location.origin + location.pathname + a.getAttribute('href');
+    history.replaceState(null, '', a.getAttribute('href'));
+    navigator.clipboard.writeText(url).then(function () {
+      var text = a.textContent;
+      a.textContent = 'Copied: ' + url.replace(/^https?:\/\//, '');
+      setTimeout(function () { a.textContent = text; }, 2500);
+    }, function () { location.hash = a.getAttribute('href'); });
+  });
+});
+</script>
