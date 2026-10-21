@@ -5,8 +5,17 @@ description: "Lucky! — a spooky Western jam game about a robot dog and the las
 og_title: "Sandy and ARC9"
 og_description: "Love dogs? Tired of doomscrolling? Play Sandy and ARC9. Early access coming soon."
 ---
-<!-- How AI is and isn't used in these games is at the bottom of the page (#ai); this line points there. -->
-<p class="quiet">The following games are the work of Greg Warden. <a href="#ai">How I use AI</a>.</p>
+<!-- The table of contents: one entry per game, in page order, then the AI Posture section at the
+     bottom (#ai). A new game gets an entry here and an id on its h2. -->
+<p class="quiet">The following games are the work of Greg Warden.</p>
+
+  <nav class="toc" aria-label="On this page">
+    <ul>
+      <li><a href="#sandy-and-arc9">Sandy and ARC9</a> <span>early access coming soon</span></li>
+      <li><a href="#lucky">Lucky!</a> <span>play now on itch.io</span></li>
+      <li><a href="#ai">How I use AI</a></li>
+    </ul>
+  </nav>
 
   <hr>
 
@@ -23,7 +32,7 @@ og_description: "Love dogs? Tired of doomscrolling? Play Sandy and ARC9. Early a
   <div class="gamehead">
     <img class="mark" src="/assets/sandy-arc9-512.png" alt="">
     <div>
-      <h2>Sandy and ARC9</h2>
+      <h2 id="sandy-and-arc9">Sandy and ARC9</h2>
       <p class="tagline">Love dogs? Tired of doomscrolling? Play Sandy and ARC9.</p>
     </div>
   </div>
@@ -118,81 +127,43 @@ og_description: "Love dogs? Tired of doomscrolling? Play Sandy and ARC9. Early a
 
   <hr>
 
-  <!-- CREDITS. Condensed from the game's own list, ~/UnityApps/StraysTiled/Assets/StreamingAssets/
-       credits.json, which records the licence basis for every entry. When the game's list changes,
-       change this. Four of these are OBLIGATIONS rather than courtesies, so do not quietly trim them:
+  <!-- CREDITS. Deliberately SHORT: the full list, with the licence basis for every entry, is the
+       game's own ~/UnityApps/StraysTiled/Assets/StreamingAssets/credits.json and its in-game Credits
+       screen. This is the summary, but four phrases in it are OBLIGATIONS, so trim around them, not
+       through them:
          • OpenStreetMap and Microsoft US Building Footprints are ODbL 1.0: the credit, and a link to
-           the licence.
-         • The canopy height maps are CC BY 4.0: credit, a note of what was changed, and the licence link.
-         • The USGS elevation data is public domain, but OpenTopography's terms make the citation a
-           condition of use.
-       The rest are here because Greg wanted them here. Synty does not require a credit; being clear
-       about what is theirs is the thing their terms actually care about. -->
+           the licence ("contains information from…" is ODbL 4.3's own wording for Microsoft).
+         • The canopy height maps are CC BY 4.0: credit, a note that they were adapted, the licence link.
+         • The USGS elevation data is public domain, but OpenTopography's terms make the citation (the
+           two DOIs) a condition of use.
+       Synty, Staggart and Epidemic Sound are here because Greg wanted them here. -->
   <h2 id="credits">Credits</h2>
 
-  <p>
-    The following external sources provide assets and/or data used in the game:
+  <p class="credits">
+    The world is based on Camden, Maine (one of my favourite places to vacation). Map data
+    ©&nbsp;<a href="https://www.openstreetmap.org/copyright" rel="noopener">OpenStreetMap contributors</a>,
+    and contains information from
+    <a href="https://github.com/microsoft/USBuildingFootprints" rel="noopener">Microsoft US Building Footprints</a>,
+    both made available under the
+    <a href="https://opendatacommons.org/licenses/odbl/1-0/" rel="noopener">Open Database Licence</a>.
+    Tree placement adapted from Meta &amp; WRI’s
+    <a href="https://registry.opendata.aws/dataforgood-fb-forests/" rel="noopener">High Resolution Canopy Height Maps</a>
+    (<a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener">CC&nbsp;BY&nbsp;4.0</a>).
+    Elevation from the USGS 3D Elevation Program
+    (<a href="https://doi.org/10.5069/G98K778D" rel="noopener">1/3</a> and
+    <a href="https://doi.org/10.5069/G9HX19WN" rel="noopener">1 arc-second</a> DEMs, 2021), distributed by
+    <a href="https://opentopography.org" rel="noopener">OpenTopography</a>. I’m looking at you, Mt Battie.
+    Historic buildings from the Library of Congress Sanborn Maps, the Camden Historic Resources
+    Committee and the National Register of Historic Places.
   </p>
 
-  <dl class="credits">
-    <dt><a href="https://www.openstreetmap.org/copyright" rel="noopener">OpenStreetMap contributors</a></dt>
-    <dd>
-      The town is based on Camden, Maine (one of my favourite places to vacation). Its streets and their
-      names, the coastline and rivers, and where every building stands — map data ©&nbsp;OpenStreetMap
-      contributors, available under the
-      <a href="https://opendatacommons.org/licenses/odbl/1-0/" rel="noopener">Open Database Licence</a>.
-    </dd>
-
-    <dt><a href="https://github.com/microsoft/USBuildingFootprints" rel="noopener">Microsoft US Building Footprints</a></dt>
-    <dd>
-      The outline of many buildings where OpenStreetMap has none. Contains information from Microsoft US
-      Building Footprints, which is made available here under the
-      <a href="https://opendatacommons.org/licenses/odbl/1-0/" rel="noopener">Open Database Licence</a>.
-    </dd>
-
-    <dt><a href="https://registry.opendata.aws/dataforgood-fb-forests/" rel="noopener">Meta &amp; World Resources Institute — High Resolution Canopy Height Maps</a></dt>
-    <dd>
-      Where every tree stands, and how tall it grows. Clipped to the town, resampled onto its grid, and
-      turned into tree cover and height. Licensed under
-      <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener">CC&nbsp;BY&nbsp;4.0</a>.
-    </dd>
-
-    <dt><a href="https://www.usgs.gov/3d-elevation-program" rel="noopener">U.S. Geological Survey — 3D Elevation Program</a></dt>
-    <dd>
-      The shape of the land, and the hills and islands beyond the edge of town. I’m looking at you,
-      Mt Battie. United States Geological Survey (2021), 3D Elevation Program
-      <a href="https://doi.org/10.5069/G98K778D" rel="noopener">1/3 arc-second</a> and
-      <a href="https://doi.org/10.5069/G9HX19WN" rel="noopener">1 arc-second</a> Digital Elevation
-      Models, distributed by OpenTopography. Accessed 2026-09-10.
-    </dd>
-
-    <dt><a href="https://opentopography.org" rel="noopener">OpenTopography</a></dt>
-    <dd>
-      This work is based on data services provided by the OpenTopography Facility with support from the
-      National Science Foundation under NSF Award Numbers 2410799, 2410800 &amp; 2410801.
-    </dd>
-
-    <dt><a href="https://www.loc.gov/collections/sanborn-maps/" rel="noopener">Library of Congress — Sanborn Maps Collection</a></dt>
-    <dd>The 1912 fire insurance maps, for a few old downtown buildings no modern source has.</dd>
-
-    <dt><a href="https://www.librarycamden.org/" rel="noopener">Camden Historic Resources Committee</a> and the <a href="https://www.nps.gov/subjects/nationalregister/index.htm" rel="noopener">National Register of Historic Places</a></dt>
-    <dd>When the houses were built, and their storeys, materials and styles.</dd>
-
-    <dt><a href="https://syntystore.com/" rel="noopener">Synty Studios</a></dt>
-    <dd>
-      Trees, dogs and animation: POLYGON Nature Biomes and Dog; Animation Base Locomotion; Animation
-      Emotes and Taunts.
-    </dd>
-
-    <dt><a href="https://staggart.xyz/unity/stylized-water-3/sw3-docs/" rel="noopener">Staggart Creations — Stylized Water 3</a></dt>
-    <dd>The water.</dd>
-
-    <dt><a href="https://www.epidemicsound.com/" rel="noopener">Epidemic Sound</a></dt>
-    <dd>
-      The music: Mandala Dreams — <em>Breath of the Ocean</em> and <em>Transition in Mood</em>; Ingrid
-      Witt — <em>If I Had A Tail (Instrumental Version)</em>.
-    </dd>
-  </dl>
+  <p class="credits">
+    Dogs, trees and animation by <a href="https://syntystore.com/" rel="noopener">Synty Studios</a>.
+    Water by <a href="https://staggart.xyz/unity/stylized-water-3/sw3-docs/" rel="noopener">Staggart Creations</a>.
+    Music by Mandala Dreams and Ingrid Witt, via
+    <a href="https://www.epidemicsound.com/" rel="noopener">Epidemic Sound</a>.
+    Full credits are in the game.
+  </p>
 
   <hr>
 

@@ -239,7 +239,7 @@ default key and **Start authentication** never happened.
 
 ## Credits are a licence term, not a courtesy
 
-The Sandy and ARC9 credits block on `/games/` is condensed from the game's own list,
+The Sandy and ARC9 credits on `/games/` are two short paragraphs summarising the game's own list,
 `~/UnityApps/StraysTiled/Assets/StreamingAssets/credits.json`, which records the licence basis for
 every entry. When that file changes, change this. Four entries are **obligations**:
 

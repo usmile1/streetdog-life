@@ -297,6 +297,12 @@ h2.year .count { font-family: var(--body); font-style: italic; font-size: .85rem
 .latest { margin-top: 2.25rem; }
 .backlink { margin-top: 3rem; }
 
+/* ── the games page's table of contents ───────────────────────────────────────────────────────────
+ * Names in the display face, like the headings they jump to, each with a quiet note of its status. */
+.toc ul { list-style: none; margin: 1.25rem 0 0; padding: 0; display: grid; gap: .45rem; }
+.toc a { font-family: var(--display); font-size: 1.05rem; }
+.toc span { color: var(--deck); font-size: .9rem; font-style: italic; margin-left: .35rem; }
+
 /* ── a game's heading: icon, name, tagline as one unit ─────────────────────────────────────────────
  * The layout every store listing uses, because it works — the mark identifies the thing and the words
  * sit with it rather than under it. Wraps on narrow screens so the tagline never gets squeezed into a
@@ -340,18 +346,10 @@ h2.year .count { font-family: var(--body); font-style: italic; font-size: .85rem
 .itch { display: block; max-width: 100%; margin: 1.6rem 0; border: 0; }
 
 /* ── credits ───────────────────────────────────────────────────────────────────────────────────────
- * Set as a description list because that is what it is: a thing, and what it did. LimeZu's licence
- * REQUIRES credit with a working link, so the anchors here are a licence term, not decoration — if you
- * restyle this block, do not let the links stop looking like links. */
-dl.credits { margin: 1.5rem 0; display: grid; gap: 0 1.5rem; }
-dl.credits dt { font-family: var(--display); font-size: 1rem; }
-dl.credits dd { margin: .15rem 0 1rem; color: var(--deck); font-size: .95rem; }
-
-@media (min-width: 40rem) {
-  dl.credits { grid-template-columns: 14rem 1fr; align-items: baseline; }
-  dl.credits dt { text-align: right; }
-  dl.credits dd { margin: 0 0 1rem; }
-}
+ * Two short paragraphs, a step down from body text: the full list lives in the game. Several of these
+ * links are LICENCE TERMS (ODbL and CC BY require them), so if you restyle this block, do not let the
+ * links stop looking like links. */
+p.credits { color: var(--deck); font-size: .95rem; }
 
 /* ── the form ──────────────────────────────────────────────────────────────────────────────────── */
 .formcard {
