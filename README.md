@@ -278,8 +278,9 @@ linked as `streetdog.life/videos/#{game-slug}`. A game's own section on `/games/
    `<figure class="shot">`, an `aria-label` describing what happens, and a caption that ends with:
    - **About the game** → its section on `/games/`;
    - **Watch on YouTube** → the YouTube copy, if there is one;
-   - **credits** → the game's credits, when the footage shows licensed data (Sandy and ARC9's town
-     is built from OpenStreetMap, and ODbL wants the credit reachable from wherever it appears).
+   - **credits** → the game's credits section on `/games/` (`#credits`, `#lucky-credits`, …). Every
+     game has one, and the footage shows the credited work — for Sandy and ARC9 that includes a town
+     built from OpenStreetMap, and ODbL wants the credit reachable from wherever it appears.
 4. **On `/games/`, if it goes there too:** autoplay muted loop, plus the clip's id in the
    reduced-motion script at the bottom of that page. On `/videos/` nothing autoplays —
    `controls preload="none"`, poster only.
